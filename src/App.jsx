@@ -725,17 +725,27 @@ Return ONLY valid JSON, no markdown:
             <p style={c.title}>CySA+ Study Tracker</p>
             <p style={c.sub}>CS0-003 · All Exam Objectives</p>
           </div>
-          {authChecked && (
-            isLoggedIn ? (
-              <button onClick={handleLogout} style={{ fontSize: "9px", letterSpacing: "0.08em", textTransform: "uppercase", color: "#8a2846", background: "none", border: "1px solid #ffc2d4", borderRadius: "20px", padding: "6px 14px", cursor: "pointer", fontFamily: "'Poppins', sans-serif" }}>
-                Sign out
-              </button>
-            ) : (
-              <button onClick={() => setShowLogin(!showLogin)} style={{ fontSize: "9px", letterSpacing: "0.08em", textTransform: "uppercase", color: "#b9375e", background: "#ffe0e9", border: "1px solid #ffc2d4", borderRadius: "20px", padding: "6px 14px", cursor: "pointer", fontFamily: "'Poppins', sans-serif", fontWeight: "700" }}>
-                Sign in
-              </button>
-            )
-          )}
+          <div style={{ display: "flex", gap: "8px", alignItems: "center" }}>
+            <a href="https://claude.ai/public/artifacts/07df7d93-cd68-4311-936d-8caf8a189817" target="_blank" rel="noopener noreferrer"
+              style={{ fontSize: "9px", letterSpacing: "0.08em", textTransform: "uppercase", color: "#8a2846", background: "#fff", border: "1px solid #ffc2d4", borderRadius: "20px", padding: "6px 14px", textDecoration: "none", fontFamily: "'Poppins', sans-serif", fontWeight: "600", whiteSpace: "nowrap" }}>
+              Practice on Claude.ai ↗
+            </a>
+            {authChecked && (
+              isLoggedIn ? (
+                <button onClick={handleLogout} style={{ fontSize: "9px", letterSpacing: "0.08em", textTransform: "uppercase", color: "#8a2846", background: "none", border: "1px solid #ffc2d4", borderRadius: "20px", padding: "6px 14px", cursor: "pointer", fontFamily: "'Poppins', sans-serif" }}>
+                  Sign out
+                </button>
+              ) : (
+                <button onClick={() => setShowLogin(!showLogin)} style={{ fontSize: "9px", letterSpacing: "0.08em", textTransform: "uppercase", color: "#b9375e", background: "#ffe0e9", border: "1px solid #ffc2d4", borderRadius: "20px", padding: "6px 14px", cursor: "pointer", fontFamily: "'Poppins', sans-serif", fontWeight: "700" }}>
+                  Sign in
+                </button>
+              )
+            )}
+          </div>
+        </div>
+
+        <div style={{ fontSize: "8px", color: "#ff9ebb", marginTop: "4px", marginBottom: "4px" }}>
+          Practicing on Claude.ai uses your normal Claude usage, not your API credits. Export from there, then Import here to bring your results in.
         </div>
 
         {showLogin && !isLoggedIn && (
