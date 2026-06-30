@@ -398,6 +398,49 @@ export default function CySATracker() {
   const [importStatus, setImportStatus] = useState(null); // null | "ok" | "err"
   const [showImport, setShowImport] = useState(false);
 
+  // Auth state
+  const [session, setSession] = useState(null);
+  const [authChecked, setAuthChecked] = useState(false);
+  const [loginEmail, setLoginEmail] = useState("");
+  const [loginPassword, setLoginPassword] = useState("");
+  const [loginError, setLoginError] = useState(null);
+  const [loginLoading, setLoginLoading] = useState(false);
+  const [showLogin, setShowLogin] = useState(false);
+
+  useEffect(() => {
+    supabase.auth.getSession().then(({ data }) => {
+      setSession(data.session);
+      setAuthChecked(true);
+    });
+    const { data: listener } = supabase.auth.onAuthStateChange((_event, newSession) => {
+      setSession(newSession);
+    });
+    return () => listener.subscription.unsubscribe();
+  }, []);
+
+  const handleLogin = async (e) => {
+    e.preventDefault();
+    setLoginError(null);
+    setLoginLoading(true);
+    const { error } = await supabase.auth.signInWithPassword({
+      email: loginEmail,
+      password: loginPassword,
+    });
+    setLoginLoading(false);
+    if (error) {
+      setLoginError(error.message);
+    } else {
+      setShowLogin(false);
+      setLoginEmail(""); setLoginPassword("");
+    }
+  };
+
+  const handleLogout = async () => {
+    await supabase.auth.signOut();
+  };
+
+  const isLoggedIn = !!session;
+
   useEffect(() => {
     loadData().then((d) => { setHistory(d.history || []); setSeenIds(d.seenIds || []); setLoaded(true); });
   }, []);
@@ -677,8 +720,37 @@ Return ONLY valid JSON, no markdown:
     <div style={c.app}>
       <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet" />
       <div style={c.hdr}>
-        <p style={c.title}>CySA+ Study Tracker</p>
-        <p style={c.sub}>CS0-003 · All Exam Objectives</p>
+        <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start" }}>
+          <div>
+            <p style={c.title}>CySA+ Study Tracker</p>
+            <p style={c.sub}>CS0-003 · All Exam Objectives</p>
+          </div>
+          {authChecked && (
+            isLoggedIn ? (
+              <button onClick={handleLogout} style={{ fontSize: "9px", letterSpacing: "0.08em", textTransform: "uppercase", color: "#8a2846", background: "none", border: "1px solid #ffc2d4", borderRadius: "20px", padding: "6px 14px", cursor: "pointer", fontFamily: "'Poppins', sans-serif" }}>
+                Sign out
+              </button>
+            ) : (
+              <button onClick={() => setShowLogin(!showLogin)} style={{ fontSize: "9px", letterSpacing: "0.08em", textTransform: "uppercase", color: "#b9375e", background: "#ffe0e9", border: "1px solid #ffc2d4", borderRadius: "20px", padding: "6px 14px", cursor: "pointer", fontFamily: "'Poppins', sans-serif", fontWeight: "700" }}>
+                Sign in
+              </button>
+            )
+          )}
+        </div>
+
+        {showLogin && !isLoggedIn && (
+          <form onSubmit={handleLogin} style={{ background: "#fff", border: "1px solid #ffc2d4", borderRadius: "10px", padding: "16px", marginBottom: "16px", maxWidth: "320px" }}>
+            <input type="email" placeholder="Email" value={loginEmail} onChange={(e) => setLoginEmail(e.target.value)} required
+              style={{ width: "100%", padding: "9px 11px", marginBottom: "8px", border: "1px solid #ffc2d4", borderRadius: "7px", fontSize: "11px", fontFamily: "'Poppins', sans-serif", boxSizing: "border-box" }} />
+            <input type="password" placeholder="Password" value={loginPassword} onChange={(e) => setLoginPassword(e.target.value)} required
+              style={{ width: "100%", padding: "9px 11px", marginBottom: "8px", border: "1px solid #ffc2d4", borderRadius: "7px", fontSize: "11px", fontFamily: "'Poppins', sans-serif", boxSizing: "border-box" }} />
+            {loginError && <div style={{ color: "#C24444", fontSize: "9px", marginBottom: "8px" }}>{loginError}</div>}
+            <button type="submit" disabled={loginLoading} style={{ width: "100%", padding: "10px", background: "#b9375e", color: "#fff", border: "none", borderRadius: "7px", fontSize: "10px", letterSpacing: "0.08em", textTransform: "uppercase", fontWeight: "700", cursor: "pointer", fontFamily: "'Poppins', sans-serif" }}>
+              {loginLoading ? "Signing in..." : "Sign in"}
+            </button>
+          </form>
+        )}
+
         <div style={c.tabs}>
           {["dashboard", "practice", "log", "history"].map((t) => (
             <button key={t} style={c.tab(tab === t)} onClick={() => setTab(t)}>{t}</button>
@@ -762,7 +834,7 @@ Return ONLY valid JSON, no markdown:
               ))}
             </div>
 
-            {totalAnswered > 0 && (
+            {isLoggedIn && totalAnswered > 0 && (
               <button onClick={clearHistory} style={{ ...c.btn("rgba(255,68,102,0.5)"), background: "transparent" }}>Clear All History</button>
             )}
             {totalAnswered === 0 && <div style={{ textAlign: "center", color: "#ff9ebb", fontSize: "10px", padding: "16px 0" }}>No data yet — head to Practice</div>}
@@ -770,10 +842,12 @@ Return ONLY valid JSON, no markdown:
             {/* Export / Import */}
             <div style={{ display: "flex", gap: "8px", marginTop: "8px" }}>
               <button onClick={exportData} style={{ ...c.btn("#3F8F5F"), flex: 1, marginTop: 0 }}>↓ Export Data</button>
-              <button onClick={() => { setShowImport(!showImport); setImportStatus(null); }} style={{ ...c.btn("#8a2846"), flex: 1, marginTop: 0 }}>↑ Import Data</button>
+              {isLoggedIn && (
+                <button onClick={() => { setShowImport(!showImport); setImportStatus(null); }} style={{ ...c.btn("#8a2846"), flex: 1, marginTop: 0 }}>↑ Import Data</button>
+              )}
             </div>
 
-            {showImport && (
+            {showImport && isLoggedIn && (
               <div style={{ ...c.card, marginTop: "10px" }}>
                 <label style={c.label}>Paste exported JSON backup</label>
                 <textarea
@@ -792,7 +866,13 @@ Return ONLY valid JSON, no markdown:
         )}
 
         {/* ── PRACTICE ── */}
-        {tab === "practice" && (
+        {tab === "practice" && !isLoggedIn && (
+          <div style={{ ...c.card, textAlign: "center", padding: "40px 20px" }}>
+            <div style={{ fontSize: "12px", color: "#522e38", marginBottom: "6px", fontWeight: "600" }}>Sign in required</div>
+            <div style={{ fontSize: "10px", color: "#8a2846" }}>Practice mode logs new answers, so it's locked to your account. Use the Sign in button above.</div>
+          </div>
+        )}
+        {tab === "practice" && isLoggedIn && (
           <>
             <select style={c.sel} value={filterDomain} onChange={(e) => { setFilterDomain(e.target.value); setFilterObjective("Any Objective"); setCurrentQ(null); setSelected(null); setRevealed(false); }}>
               <option>Any Domain</option>
@@ -847,7 +927,13 @@ Return ONLY valid JSON, no markdown:
         )}
 
         {/* ── LOG ── */}
-        {tab === "log" && (
+        {tab === "log" && !isLoggedIn && (
+          <div style={{ ...c.card, textAlign: "center", padding: "40px 20px" }}>
+            <div style={{ fontSize: "12px", color: "#522e38", marginBottom: "6px", fontWeight: "600" }}>Sign in required</div>
+            <div style={{ fontSize: "10px", color: "#8a2846" }}>Logging questions writes to your tracker, so it's locked to your account. Use the Sign in button above.</div>
+          </div>
+        )}
+        {tab === "log" && isLoggedIn && (
           <>
             <div style={{ fontSize: "9px", color: "#8a2846", marginBottom: "14px", lineHeight: "1.6" }}>
               Got a question from a screenshot, practice exam, or study session? Log it here to fold it into your stats.
