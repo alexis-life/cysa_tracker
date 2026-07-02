@@ -686,7 +686,7 @@ Return ONLY valid JSON, no markdown:
             <p style={c.sub}>CS0-003 · All Exam Objectives</p>
           </div>
           <div style={{ display: "flex", gap: "8px", alignItems: "center" }}>
-            <a href="https://claude.ai/public/artifacts/07df7d93-cd68-4311-936d-8caf8a189817" target="_blank" rel="noopener noreferrer"
+            <a href="https://claude.ai/public/artifacts/ccbb856b-df12-4de6-a100-f1accccef3c4" target="_blank" rel="noopener noreferrer"
               style={{ fontSize: "9px", letterSpacing: "0.08em", textTransform: "uppercase", color: "#8a2846", background: "#fff", border: "1px solid #ffc2d4", borderRadius: "20px", padding: "6px 14px", textDecoration: "none", fontFamily: "'Poppins', sans-serif", fontWeight: "600", whiteSpace: "nowrap" }}>
               Practice on Claude.ai ↗
             </a>
