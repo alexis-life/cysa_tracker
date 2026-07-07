@@ -3,23 +3,32 @@
 // touching any of the app logic in App.jsx.
 
 // ── Color palette ──────────────────────────────────────────────────────
-// Pulled from data.alexischao.com's existing dashboard styling.
+// Sourced from the shared design system at https://alexischao.com/theme.css
+// (linked in index.html) via CSS custom properties, so this app's rose scale
+// stays in sync with the other alexischao.com subdomains. Each value falls
+// back to a hardcoded hex (identical to what this file used before) in case
+// that stylesheet hasn't loaded yet — same look either way, never blank.
+function cssVar(name, fallback) {
+  const value = getComputedStyle(document.documentElement).getPropertyValue(name).trim();
+  return value || fallback;
+}
+
 export const palette = {
-  c1: "#ffe0e9", // lightest pink — tints, hover backgrounds
-  c2: "#ffc2d4", // light pink — borders
-  c3: "#ff9ebb", // mid-light pink — muted text, placeholders
-  c4: "#ff7aa2", // mid pink — Reporting & Communication domain
-  c5: "#e05780", // rose — Incident Response domain
-  c6: "#b9375e", // primary rose — buttons, links, accents
-  c7: "#8a2846", // dark rose — secondary text, labels
-  c8: "#602437", // deep plum-rose — Vulnerability Management domain
-  c9: "#522e38", // darkest — primary body text
-  bg: "#fdf6f8", // page background
-  white: "#fff",
-  success: "#3F8F5F",
-  successText: "#2D6B45",
-  danger: "#C24444",
-  dangerText: "#A23333",
+  c1: cssVar("--c1", "#ffe0e9"), // lightest pink — tints, hover backgrounds
+  c2: cssVar("--c2", "#ffc2d4"), // light pink — borders
+  c3: cssVar("--c3", "#ff9ebb"), // mid-light pink — muted text, placeholders
+  c4: cssVar("--c4", "#ff7aa2"), // mid pink — Reporting & Communication domain
+  c5: cssVar("--c5", "#e05780"), // rose — Incident Response domain
+  c6: cssVar("--c6", "#b9375e"), // primary rose — buttons, links, accents
+  c7: cssVar("--c7", "#8a2846"), // dark rose — secondary text, labels
+  c8: cssVar("--c8", "#602437"), // deep plum-rose — Vulnerability Management domain
+  c9: cssVar("--c9", "#522e38"), // darkest — primary body text
+  bg: cssVar("--bg-page", "#f9f4f5"), // page background
+  white: cssVar("--bg-surface", "#fff"),
+  success: cssVar("--success", "#3F8F5F"),
+  successText: "#2D6B45", // no theme.css equivalent — CySA-specific darker variant
+  danger: cssVar("--error", "#C24444"),
+  dangerText: "#A23333", // no theme.css equivalent — CySA-specific darker variant
 };
 
 // ── Domains ────────────────────────────────────────────────────────────
