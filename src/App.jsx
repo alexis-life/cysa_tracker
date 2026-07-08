@@ -691,7 +691,7 @@ Return ONLY valid JSON, no markdown:
   return (
     <div style={c.app}>
       <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet" />
-      <div style={c.hdr}>
+      <div className="topbar" style={c.hdr}>
         <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start" }}>
           <div>
             <p style={c.title}>CySA+ Study Tracker</p>
@@ -733,11 +733,11 @@ Return ONLY valid JSON, no markdown:
           </form>
         )}
 
-        <div style={c.tabs}>
+        <nav className="nav-tabs">
           {["dashboard", "practice", "log", "history"].map((t) => (
-            <button key={t} style={c.tab(tab === t)} onClick={() => setTab(t)}>{t}</button>
+            <button key={t} className={`nav-tab ${tab === t ? 'is-active' : ''}`} onClick={() => setTab(t)}>{t}</button>
           ))}
-        </div>
+        </nav>
       </div>
 
       <div style={c.body}>

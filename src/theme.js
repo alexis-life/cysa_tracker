@@ -49,11 +49,13 @@ export const fontFamily = "'Poppins', sans-serif";
 // component and stay a plain, static export.
 export const c = {
   app: { minHeight: "100vh", background: palette.bg, color: palette.c9, fontFamily },
-  hdr: { padding: "24px 24px 0", borderBottom: `1px solid ${palette.c2}`, background: palette.white },
+  // .topbar (sticky white bar + border) and .nav-tabs/.nav-tab (underlined
+  // tab row) now come from the shared theme.css, not inline styles here —
+  // see the className on the header div and tab buttons in App.jsx. hdr
+  // keeps only the padding specific to this app's taller, multi-row header.
+  hdr: { padding: "24px 24px 0" },
   title: { fontSize: "19px", fontWeight: "700", color: palette.c9, letterSpacing: "-0.01em", margin: "0 0 2px", fontFamily },
   sub: { fontSize: "10px", color: palette.c7, letterSpacing: "0.1em", textTransform: "uppercase", margin: "0 0 16px", fontWeight: "600" },
-  tabs: { display: "flex" },
-  tab: (a) => ({ padding: "10px 18px", fontSize: "10px", letterSpacing: "0.08em", textTransform: "uppercase", cursor: "pointer", background: "none", border: "none", color: a ? palette.c6 : palette.c7, borderBottom: a ? `2px solid ${palette.c6}` : "2px solid transparent", fontFamily, fontWeight: a ? "700" : "500", transition: "all 0.2s" }),
   body: { padding: "20px" },
   card: { background: palette.white, border: `1px solid ${palette.c1}`, borderRadius: "10px", padding: "18px", marginBottom: "14px", boxShadow: "0 1px 2px rgba(122,35,72,0.04)" },
   statRow: { display: "flex", gap: "10px", marginBottom: "16px" },
