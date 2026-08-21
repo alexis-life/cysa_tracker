@@ -438,6 +438,49 @@ const VIDEOS = [
   { n: 58, id: "omlz8iqMUk4", title: "CompTIA CySA+ Full Course Part 58: Incident Response Phases & Communication", duration: "27:51", objectives: ["3.2", "4.2"] },
 ];
 
+function durationToSeconds(d) {
+  const parts = d.split(":").map(Number);
+  return parts.length === 3 ? parts[0] * 3600 + parts[1] * 60 + parts[2] : parts[0] * 60 + parts[1];
+}
+
+const TOTAL_VIDEO_SECONDS = VIDEOS.reduce((a, v) => a + durationToSeconds(v.duration), 0);
+
+// Video runtime per objective, so thin/missing coverage (this course predates
+// CS0-003 and doesn't cover every current objective proportionally) can be
+// flagged instead of silently under-representing e.g. Incident Response.
+const THIN_COVERAGE_SECONDS = 15 * 60;
+const OBJECTIVE_VIDEO_STATS = Object.fromEntries(
+  ALL_OBJECTIVES_FLAT.map((o) => {
+    const vids = VIDEOS.filter((v) => v.objectives?.includes(o.id));
+    const totalSec = vids.reduce((a, v) => a + durationToSeconds(v.duration), 0);
+    return [o.id, { videoCount: vids.length, totalSec, gap: vids.length === 0, thin: vids.length > 0 && totalSec < THIN_COVERAGE_SECONDS }];
+  })
+);
+
+function formatWeekRange(startISO) {
+  const start = new Date(startISO + "T00:00:00");
+  const end = new Date(start);
+  end.setDate(end.getDate() + 6);
+  const fmt = (d) => d.toLocaleDateString("en-US", { month: "short", day: "numeric" });
+  return `${fmt(start)} – ${fmt(end)}`;
+}
+
+// 8-week compressed plan (chosen over the original ~16-week schedule to
+// reduce forgetting — review is spread across every week instead of being
+// crammed into a final cram phase). Dates are fixed to this specific run at
+// the exam so "current week" can be computed against real time.
+const EXAM_DATE = "2026-10-16";
+const STUDY_PLAN = [
+  { week: 1, start: "2026-08-21", focus: "Orientation + 1.1, 1.2, 1.3", objectiveIds: ["1.1", "1.2", "1.3"], review: "Practice each objective right after watching it — don't wait." },
+  { week: 2, start: "2026-08-28", focus: "1.4, 1.5 — finishes Security Operations", objectiveIds: ["1.4", "1.5"], review: "Redo any Week 1 missed questions before moving on." },
+  { week: 3, start: "2026-09-04", focus: "2.1, 2.2, 2.3", objectiveIds: ["2.1", "2.2", "2.3"], review: "15 min/day quick-practice on Domain 1 so it doesn't go cold." },
+  { week: 4, start: "2026-09-11", focus: "2.4 — the single biggest chunk (~7h of video)", objectiveIds: ["2.4"], review: "15–20 min/day mixed review across Domains 1–2." },
+  { week: 5, start: "2026-09-18", focus: "2.5 — finishes Vulnerability Management", objectiveIds: ["2.5"], review: "Heavy VulnMgmt practice + a Domain 1 spot-check." },
+  { week: 6, start: "2026-09-25", focus: "All of Domain 3 & 4 — light on video here, so supplement 4.1 (zero video coverage) with outside reading", objectiveIds: ["3.1", "3.2", "3.3", "4.1", "4.2"], review: "Keep touching Domains 1–2 daily so they don't go cold." },
+  { week: 7, start: "2026-10-02", focus: "No new content — full practice sweep across all 15 objectives", objectiveIds: [], review: "Driven entirely by the Dashboard's weakest-objective flags." },
+  { week: 8, start: "2026-10-09", focus: "No new content — timed full practice exam, then gap-fill only your 2–3 weakest objectives", objectiveIds: [], review: "Light review only — rest before test day." },
+];
+
 const STORAGE_KEY = "cysa-tracker-v2";
 
 async function loadData() {
@@ -488,6 +531,34 @@ async function saveWatchedVideos(watched) {
     const { error } = await supabase
       .from("tracker_data")
       .upsert({ id: VIDEO_STORAGE_KEY, value: { watched }, updated_at: new Date().toISOString() });
+    if (error) throw error;
+  } catch (err) {
+    console.error("Save failed:", err);
+  }
+}
+
+const PLAN_STORAGE_KEY = "cysa-tracker-plan-v1";
+
+async function loadPlanProgress() {
+  try {
+    const { data, error } = await supabase
+      .from("tracker_data")
+      .select("value")
+      .eq("id", PLAN_STORAGE_KEY)
+      .maybeSingle();
+    if (error) throw error;
+    if (data && data.value) return data.value;
+  } catch (err) {
+    console.error("Load failed:", err);
+  }
+  return { completedWeeks: [] };
+}
+
+async function savePlanProgress(completedWeeks) {
+  try {
+    const { error } = await supabase
+      .from("tracker_data")
+      .upsert({ id: PLAN_STORAGE_KEY, value: { completedWeeks }, updated_at: new Date().toISOString() });
     if (error) throw error;
   } catch (err) {
     console.error("Save failed:", err);
@@ -578,6 +649,8 @@ export default function CySATracker() {
   const [seenIds, setSeenIds] = useState([]);
   const [loaded, setLoaded] = useState(false);
   const [watchedVideos, setWatchedVideos] = useState([]);
+  const [planCompletedWeeks, setPlanCompletedWeeks] = useState([]);
+  const [highlightTarget, setHighlightTarget] = useState(null); // objective id (e.g. "1.2") or `domain:<name>`
 
   const [currentQ, setCurrentQ] = useState(null);
   const [selected, setSelected] = useState(null);
@@ -653,7 +726,24 @@ export default function CySATracker() {
   useEffect(() => {
     loadData().then((d) => { setHistory(d.history || []); setSeenIds(d.seenIds || []); setLoaded(true); });
     loadWatchedVideos().then((d) => setWatchedVideos(d.watched || []));
+    loadPlanProgress().then((d) => setPlanCompletedWeeks(d.completedWeeks || []));
   }, []);
+
+  // Scroll to and briefly highlight an objective/domain in the Videos tab
+  // when jumped to from Dashboard's Focus Areas or Coverage Gaps.
+  useEffect(() => {
+    if (tab !== "videos" || !highlightTarget) return;
+    const id = highlightTarget.startsWith("domain:")
+      ? `domain-${highlightTarget.slice(7).replace(/\s+/g, "-")}`
+      : `obj-${highlightTarget}`;
+    const el = document.getElementById(id);
+    if (el) el.scrollIntoView({ behavior: "smooth", block: "center" });
+    const t = setTimeout(() => setHighlightTarget(null), 2500);
+    return () => clearTimeout(t);
+  }, [tab, highlightTarget]);
+
+  const jumpToObjective = (objectiveId) => { setHighlightTarget(objectiveId); setTab("videos"); };
+  const jumpToDomain = (domain) => { setHighlightTarget(`domain:${domain}`); setTab("videos"); };
 
   const persist = (h, s) => saveData({ history: h, seenIds: s });
 
@@ -662,6 +752,15 @@ export default function CySATracker() {
     setWatchedVideos((prev) => {
       const next = prev.includes(videoId) ? prev.filter((v) => v !== videoId) : [...prev, videoId];
       saveWatchedVideos(next);
+      return next;
+    });
+  };
+
+  const togglePlanWeek = (week) => {
+    if (!isLoggedIn) return;
+    setPlanCompletedWeeks((prev) => {
+      const next = prev.includes(week) ? prev.filter((w) => w !== week) : [...prev, week];
+      savePlanProgress(next);
       return next;
     });
   };
@@ -702,6 +801,18 @@ export default function CySATracker() {
 
   const weakestObjective = Object.entries(objectiveStats).filter(([, s]) => s.total >= 2)
     .sort(([, a], [, b]) => a.correct / a.total - b.correct / b.total)[0]?.[0];
+  const weakestObjectiveId = ALL_OBJECTIVES_FLAT.find((o) => o.label === weakestObjective)?.id;
+
+  const coverageGaps = ALL_OBJECTIVES_FLAT.filter((o) => OBJECTIVE_VIDEO_STATS[o.id]?.gap || OBJECTIVE_VIDEO_STATS[o.id]?.thin);
+
+  const now = new Date();
+  const daysUntilExam = Math.ceil((new Date(EXAM_DATE + "T00:00:00") - now) / 86400000);
+  let currentWeekIndex = STUDY_PLAN.findIndex((w) => {
+    const start = new Date(w.start + "T00:00:00");
+    const end = new Date(start); end.setDate(end.getDate() + 7);
+    return now >= start && now < end;
+  });
+  if (currentWeekIndex === -1) currentWeekIndex = now < new Date(STUDY_PLAN[0].start + "T00:00:00") ? 0 : STUDY_PLAN.length;
 
   const availableObjectives = filterDomain === "Any Domain"
     ? [{ id: "any", label: "Any Objective" }, ...ALL_OBJECTIVES_FLAT.map((o) => ({ id: o.id, label: o.label }))]
@@ -977,7 +1088,7 @@ Return ONLY valid JSON, no markdown:
         )}
 
         <nav className="nav-tabs">
-          {["dashboard", "practice", "log", "videos", "history"].map((t) => (
+          {["dashboard", "plan", "practice", "log", "videos", "history"].map((t) => (
             <button key={t} className={`nav-tab ${tab === t ? 'is-active' : ''}`} onClick={() => setTab(t)}>{t}</button>
           ))}
         </nav>
@@ -998,19 +1109,52 @@ Return ONLY valid JSON, no markdown:
               <div style={{ ...c.card, borderColor: "#ff9ebb", background: "#ffe0e9", marginBottom: "14px" }}>
                 <div style={{ fontSize: "8px", color: "#b9375e", letterSpacing: "0.14em", textTransform: "uppercase", marginBottom: "6px", fontWeight: "700" }}>⚠ Focus Areas</div>
                 {weakestDomain && (
-                  <div style={{ marginBottom: weakestObjective ? "8px" : "0" }}>
-                    <div style={{ fontSize: "9px", color: "#8a2846", marginBottom: "2px" }}>Domain</div>
-                    <div style={{ fontSize: "12px", color: "#522e38", fontWeight: "600" }}>{weakestDomain}</div>
-                    <div style={{ fontSize: "9px", color: "#8a2846" }}>{domainStats[weakestDomain].correct}/{domainStats[weakestDomain].total} correct</div>
+                  <div style={{ marginBottom: weakestObjective ? "8px" : "0", display: "flex", justifyContent: "space-between", alignItems: "flex-end" }}>
+                    <div>
+                      <div style={{ fontSize: "9px", color: "#8a2846", marginBottom: "2px" }}>Domain</div>
+                      <div style={{ fontSize: "12px", color: "#522e38", fontWeight: "600" }}>{weakestDomain}</div>
+                      <div style={{ fontSize: "9px", color: "#8a2846" }}>{domainStats[weakestDomain].correct}/{domainStats[weakestDomain].total} correct</div>
+                    </div>
+                    <button onClick={() => jumpToDomain(weakestDomain)} style={{ fontSize: "8px", letterSpacing: "0.06em", textTransform: "uppercase", color: "#b9375e", background: "#fff", border: "1px solid #ffc2d4", borderRadius: "20px", padding: "5px 10px", cursor: "pointer", fontFamily: "'Poppins', sans-serif", fontWeight: "700", whiteSpace: "nowrap" }}>
+                      ▶ Watch videos
+                    </button>
                   </div>
                 )}
                 {weakestObjective && (
-                  <div>
-                    <div style={{ fontSize: "9px", color: "#8a2846", marginBottom: "2px" }}>Objective</div>
-                    <div style={{ fontSize: "11px", color: "#522e38", fontWeight: "600" }}>{weakestObjective}</div>
-                    <div style={{ fontSize: "9px", color: "#8a2846" }}>{objectiveStats[weakestObjective].correct}/{objectiveStats[weakestObjective].total} correct</div>
+                  <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-end" }}>
+                    <div>
+                      <div style={{ fontSize: "9px", color: "#8a2846", marginBottom: "2px" }}>Objective</div>
+                      <div style={{ fontSize: "11px", color: "#522e38", fontWeight: "600" }}>{weakestObjective}</div>
+                      <div style={{ fontSize: "9px", color: "#8a2846" }}>{objectiveStats[weakestObjective].correct}/{objectiveStats[weakestObjective].total} correct</div>
+                    </div>
+                    {weakestObjectiveId && (
+                      <button onClick={() => jumpToObjective(weakestObjectiveId)} style={{ fontSize: "8px", letterSpacing: "0.06em", textTransform: "uppercase", color: "#b9375e", background: "#fff", border: "1px solid #ffc2d4", borderRadius: "20px", padding: "5px 10px", cursor: "pointer", fontFamily: "'Poppins', sans-serif", fontWeight: "700", whiteSpace: "nowrap" }}>
+                        ▶ Watch videos
+                      </button>
+                    )}
                   </div>
                 )}
+              </div>
+            )}
+
+            {coverageGaps.length > 0 && (
+              <div style={{ ...c.card, marginBottom: "14px" }}>
+                <div style={{ fontSize: "8px", color: "#9a6a1a", letterSpacing: "0.14em", textTransform: "uppercase", marginBottom: "8px", fontWeight: "700" }}>⚠ Video Coverage Gaps</div>
+                <div style={{ fontSize: "9px", color: "#8a2846", marginBottom: "8px" }}>
+                  This free course predates CS0-003 and doesn't cover every objective proportionally — these need outside material:
+                </div>
+                <div style={{ display: "flex", flexWrap: "wrap", gap: "6px" }}>
+                  {coverageGaps.map((o) => (
+                    <button key={o.id} onClick={() => jumpToObjective(o.id)} style={{
+                      fontSize: "9px", padding: "4px 10px", borderRadius: "20px", cursor: "pointer", fontFamily: "'Poppins', sans-serif", fontWeight: "700",
+                      background: OBJECTIVE_VIDEO_STATS[o.id].gap ? "rgba(194,68,68,0.08)" : "rgba(154,106,26,0.08)",
+                      border: `1px solid ${OBJECTIVE_VIDEO_STATS[o.id].gap ? "rgba(194,68,68,0.3)" : "rgba(154,106,26,0.3)"}`,
+                      color: OBJECTIVE_VIDEO_STATS[o.id].gap ? "#A23333" : "#9a6a1a",
+                    }}>
+                      {o.id}
+                    </button>
+                  ))}
+                </div>
               </div>
             )}
 
@@ -1087,6 +1231,66 @@ Return ONLY valid JSON, no markdown:
                 <button style={c.btn("#b9375e")} onClick={importData} disabled={!importText.trim()}>Merge into Current Data</button>
               </div>
             )}
+          </>
+        )}
+
+        {/* ── PLAN ── */}
+        {tab === "plan" && (
+          <>
+            <div style={c.statRow}>
+              <div style={c.sBox(daysUntilExam <= 14 ? "#C24444" : "#b9375e")}><span style={c.sNum()}>{daysUntilExam}</span><span style={c.sLbl}>Days To Exam</span></div>
+              <div style={c.sBox("#8a2846")}><span style={c.sNum()}>{Math.min(currentWeekIndex + 1, STUDY_PLAN.length)}/{STUDY_PLAN.length}</span><span style={c.sLbl}>Current Week</span></div>
+              <div style={c.sBox("#3F8F5F")}><span style={c.sNum()}>{planCompletedWeeks.length}/{STUDY_PLAN.length}</span><span style={c.sLbl}>Weeks Done</span></div>
+            </div>
+
+            <div style={{ fontSize: "8px", color: "#ff9ebb", marginTop: "-8px", marginBottom: "14px" }}>
+              8-week compressed plan targeting exam day {new Date(EXAM_DATE + "T00:00:00").toLocaleDateString("en-US", { month: "long", day: "numeric", year: "numeric" })} — chosen over a longer schedule so review stays spread across every week instead of crammed at the end. CS0-003 retires Dec 22, 2026, so this still leaves buffer for a retake if needed.
+              {!isLoggedIn && " Sign in to save which weeks you've completed."}
+            </div>
+
+            {STUDY_PLAN.map((w, i) => {
+              const isComplete = planCompletedWeeks.includes(w.week);
+              const isCurrent = i === currentWeekIndex;
+              const isPast = i < currentWeekIndex;
+              return (
+                <div key={w.week} style={{
+                  ...c.card,
+                  border: `1px solid ${isComplete ? "#3F8F5F" : isCurrent ? "#b9375e" : "#ffc2d4"}`,
+                  background: isComplete ? "rgba(63,143,95,0.05)" : isCurrent ? "#fff7fa" : "#fff",
+                  opacity: isPast && !isComplete ? 0.7 : 1,
+                }}>
+                  <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "6px" }}>
+                    <div style={{ fontSize: "10px", color: "#b9375e", letterSpacing: "0.08em", textTransform: "uppercase", fontWeight: "700" }}>
+                      Week {w.week} · {formatWeekRange(w.start)}
+                      {isCurrent && <span style={{ marginLeft: "8px", fontSize: "8px", background: "#b9375e", color: "#fff", padding: "2px 8px", borderRadius: "20px" }}>CURRENT</span>}
+                    </div>
+                    <label style={{ display: "flex", alignItems: "center", gap: "5px", cursor: isLoggedIn ? "pointer" : "default" }}>
+                      <input type="checkbox" checked={isComplete} disabled={!isLoggedIn} onChange={() => togglePlanWeek(w.week)} title={!isLoggedIn ? "Sign in to track progress" : undefined}
+                        style={{ accentColor: "#3F8F5F", cursor: isLoggedIn ? "pointer" : "default" }} />
+                      <span style={{ fontSize: "8px", color: "#8a2846", textTransform: "uppercase", letterSpacing: "0.06em", fontWeight: "700" }}>Done</span>
+                    </label>
+                  </div>
+                  <div style={{ fontSize: "11px", color: "#522e38", marginBottom: "6px", lineHeight: "1.5" }}>{w.focus}</div>
+                  <div style={{ fontSize: "9px", color: "#8a2846", marginBottom: w.objectiveIds.length ? "8px" : "0", lineHeight: "1.5" }}>
+                    <strong style={{ color: "#b9375e" }}>Review: </strong>{w.review}
+                  </div>
+                  {w.objectiveIds.length > 0 && (
+                    <div style={{ display: "flex", flexWrap: "wrap", gap: "6px" }}>
+                      {w.objectiveIds.map((id) => (
+                        <button key={id} onClick={() => jumpToObjective(id)} style={{ fontSize: "9px", padding: "3px 9px", borderRadius: "20px", background: "#ffe0e9", border: "1px solid #ffc2d4", color: "#8a2846", cursor: "pointer", fontFamily: "'Poppins', sans-serif", fontWeight: "600" }}>
+                          {id}
+                        </button>
+                      ))}
+                    </div>
+                  )}
+                </div>
+              );
+            })}
+
+            <div style={{ ...c.card, textAlign: "center", borderColor: "#b9375e", background: "#fff7fa" }}>
+              <div style={{ fontSize: "10px", color: "#b9375e", letterSpacing: "0.1em", textTransform: "uppercase", fontWeight: "700", marginBottom: "4px" }}>🎯 Exam Day</div>
+              <div style={{ fontSize: "12px", color: "#522e38", fontWeight: "600" }}>{new Date(EXAM_DATE + "T00:00:00").toLocaleDateString("en-US", { weekday: "long", month: "long", day: "numeric", year: "numeric" })}</div>
+            </div>
           </>
         )}
 
@@ -1327,11 +1531,18 @@ Return ONLY valid JSON, no markdown:
             </div>
 
             {Object.entries(OBJECTIVES).map(([domain, objs]) => {
-              const domainVideoIds = new Set(VIDEOS.filter((v) => v.objectives?.some((o) => objs.some((obj) => obj.id === o))).map((v) => v.id));
+              const domainVideos = VIDEOS.filter((v) => v.objectives?.some((o) => objs.some((obj) => obj.id === o)));
+              const domainVideoIds = new Set(domainVideos.map((v) => v.id));
               const domainWatched = [...domainVideoIds].filter((id) => watchedVideos.includes(id)).length;
+              const domainTotalSec = domainVideos.reduce((a, v) => a + durationToSeconds(v.duration), 0);
+              const courseSharePct = TOTAL_VIDEO_SECONDS > 0 ? Math.round((domainTotalSec / TOTAL_VIDEO_SECONDS) * 100) : 0;
+              const weightPct = parseInt(DOMAINS[domain]?.weight, 10) || 0;
+              const underCovered = courseSharePct < weightPct - 5;
+              const domainHighlighted = highlightTarget === `domain:${domain}`;
               return (
-                <div key={domain} style={c.card}>
-                  <div style={{ display: "flex", justifyContent: "space-between", alignItems: "baseline", marginBottom: "10px" }}>
+                <div key={domain} id={`domain-${domain.replace(/\s+/g, "-")}`}
+                  style={{ ...c.card, ...(domainHighlighted ? { boxShadow: "0 0 0 3px rgba(185,55,94,0.35)", background: "#fff7fa" } : {}) }}>
+                  <div style={{ display: "flex", justifyContent: "space-between", alignItems: "baseline", marginBottom: "4px" }}>
                     <div style={{ fontSize: "10px", color: DOMAINS[domain]?.color, letterSpacing: "0.06em", fontWeight: "700" }}>
                       {domain.toUpperCase()} ({DOMAINS[domain]?.weight})
                     </div>
@@ -1339,22 +1550,36 @@ Return ONLY valid JSON, no markdown:
                       {domainVideoIds.size > 0 ? `${domainWatched}/${domainVideoIds.size} watched` : "—"}
                     </div>
                   </div>
+                  <div style={{ fontSize: "8px", color: underCovered ? "#9a6a1a" : "#ff9ebb", marginBottom: "10px" }}>
+                    {weightPct}% of exam · {courseSharePct}% of this course's runtime{underCovered ? " — under-represented here, plan extra outside review" : ""}
+                  </div>
                   {objs.map((obj) => {
                     const vids = VIDEOS.filter((v) => v.objectives?.includes(obj.id));
                     const objWatched = vids.filter((v) => watchedVideos.includes(v.id)).length;
+                    const stat = OBJECTIVE_VIDEO_STATS[obj.id];
+                    const objHighlighted = highlightTarget === obj.id;
                     return (
-                      <div key={obj.id} style={{ marginBottom: "14px" }}>
+                      <div key={obj.id} id={`obj-${obj.id}`}
+                        style={{ marginBottom: "14px", ...(objHighlighted ? { boxShadow: "0 0 0 3px rgba(185,55,94,0.35)", borderRadius: "8px", background: "#fff7fa", padding: "8px", margin: "-8px -8px 6px" } : {}) }}>
                         <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "6px" }}>
                           <span style={{ fontSize: "10.5px", color: "#522e38", fontWeight: "600" }}>{obj.label}</span>
                           <span style={{ fontSize: "9px", fontWeight: "700", color: vids.length === 0 ? "#ff9ebb" : objWatched === vids.length ? "#3F8F5F" : "#b9375e", whiteSpace: "nowrap", marginLeft: "8px" }}>
                             {vids.length > 0 ? `${objWatched}/${vids.length}` : "—"}
                           </span>
                         </div>
-                        {vids.length === 0
-                          ? <div style={{ fontSize: "9px", color: "#ff9ebb", paddingBottom: "4px" }}>No video in this playlist maps directly to this objective — supplement with outside material.</div>
-                          : vids.map((v) => (
-                            <VideoRow key={`${obj.id}-${v.id}`} video={v} checked={watchedVideos.includes(v.id)} onToggle={toggleWatched} disabled={!isLoggedIn} />
-                          ))}
+                        {stat?.gap && (
+                          <div style={{ fontSize: "9px", color: "#A23333", background: "rgba(194,68,68,0.08)", border: "1px solid rgba(194,68,68,0.25)", borderRadius: "6px", padding: "5px 8px", marginBottom: "6px" }}>
+                            ⚠ No video in this playlist covers this objective — supplement with outside material.
+                          </div>
+                        )}
+                        {stat?.thin && (
+                          <div style={{ fontSize: "9px", color: "#9a6a1a", background: "rgba(154,106,26,0.08)", border: "1px solid rgba(154,106,26,0.25)", borderRadius: "6px", padding: "5px 8px", marginBottom: "6px" }}>
+                            ⚠ Thin coverage ({Math.round(stat.totalSec / 60)} min) — consider supplementing.
+                          </div>
+                        )}
+                        {vids.map((v) => (
+                          <VideoRow key={`${obj.id}-${v.id}`} video={v} checked={watchedVideos.includes(v.id)} onToggle={toggleWatched} disabled={!isLoggedIn} />
+                        ))}
                       </div>
                     );
                   })}
