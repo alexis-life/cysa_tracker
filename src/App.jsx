@@ -753,6 +753,11 @@ export default function CySATracker() {
 
   const jumpToObjective = (objectiveId) => { setHighlightTarget(objectiveId); setTab("videos"); };
   const jumpToDomain = (domain) => { setHighlightTarget(`domain:${domain}`); setTab("videos"); };
+  const jumpToPractice = (domain) => {
+    setFilterDomain(domain); setFilterObjective("Any Objective");
+    setCurrentQ(null); setSelected(null); setRevealed(false);
+    setTab("practice");
+  };
 
   const persist = (h, s) => saveData({ history: h, seenIds: s });
 
@@ -827,6 +832,31 @@ export default function CySATracker() {
     return now >= start && now < end;
   });
   if (currentWeekIndex === -1) currentWeekIndex = now < new Date(STUDY_PLAN[0].start + "T00:00:00") ? 0 : STUDY_PLAN.length;
+  const currentPlanWeek = STUDY_PLAN[currentWeekIndex];
+
+  // Weighted by exam domain percentages (33/30/20/17, summing to 100) rather
+  // than a flat average, so an untouched heavy domain drags the score down
+  // instead of being invisible next to a well-practiced light one.
+  const examReadiness = totalAnswered > 0
+    ? Math.round(Object.entries(DOMAINS).reduce((sum, [d, meta]) => {
+        const s = domainStats[d];
+        const acc = s && s.total > 0 ? s.correct / s.total : 0;
+        return sum + acc * (parseInt(meta.weight, 10) || 0);
+      }, 0))
+    : null;
+
+  const RETENTION_STALE_DAYS = 7;
+  const domainLastPracticed = {};
+  history.forEach((h) => {
+    const t = new Date(h.timestamp);
+    if (!domainLastPracticed[h.domain] || t > domainLastPracticed[h.domain]) domainLastPracticed[h.domain] = t;
+  });
+  const staleDomains = Object.keys(DOMAINS)
+    .filter((d) => domainLastPracticed[d])
+    .map((d) => ({ domain: d, daysSince: Math.floor((now - domainLastPracticed[d]) / 86400000) }))
+    .filter((s) => s.daysSince >= RETENTION_STALE_DAYS)
+    .sort((a, b) => b.daysSince - a.daysSince);
+  const stalestDomain = staleDomains[0];
 
   const availableObjectives = filterDomain === "Any Domain"
     ? [{ id: "any", label: "Any Objective" }, ...ALL_OBJECTIVES_FLAT.map((o) => ({ id: o.id, label: o.label }))]
@@ -1119,13 +1149,54 @@ Return ONLY valid JSON, no markdown:
               <div style={c.sBox(overallPct >= 70 ? "#3F8F5F" : "#b9375e")}><span style={c.sNum(overallPct >= 70 ? "#3F8F5F" : "#b9375e")}>{overallPct !== null ? `${overallPct}%` : "—"}</span><span style={c.sLbl}>Overall</span></div>
             </div>
 
-            {(weakestDomain || weakestObjective) && (
+            {examReadiness !== null && (
+              <div style={{ ...c.card, textAlign: "center" }}>
+                <div style={c.sec}>🎯 Weighted Exam Readiness</div>
+                <div style={{ fontSize: "36px", fontWeight: "800", lineHeight: "1", fontFamily: "'Poppins', sans-serif", color: examReadiness >= 70 ? "#3F8F5F" : examReadiness >= 40 ? "#e05780" : "#b9375e" }}>
+                  {examReadiness}%
+                </div>
+                <div style={{ fontSize: "8px", color: "#8a2846", margin: "4px 0 12px" }}>Weighted by exam domain % (33/30/20/17) — not a flat average, so an untouched heavy domain drags this down</div>
+                <div style={{ textAlign: "left" }}>
+                  {Object.entries(DOMAINS).map(([d, meta]) => {
+                    const s = domainStats[d];
+                    const acc = s && s.total > 0 ? Math.round((s.correct / s.total) * 100) : null;
+                    return (
+                      <div key={d} style={{ display: "flex", justifyContent: "space-between", alignItems: "center", padding: "4px 0", borderBottom: "1px solid #ffe0e9" }}>
+                        <span style={{ fontSize: "9.5px", color: "#522e38" }}>{meta.short} <span style={{ color: "#8a2846" }}>({meta.weight})</span></span>
+                        <span style={{ fontSize: "9px", fontWeight: "700", color: acc === null ? "#ff9ebb" : acc >= 70 ? "#3F8F5F" : acc >= 40 ? "#e05780" : "#b9375e" }}>
+                          {acc === null ? "not started" : `${acc}%`}
+                        </span>
+                      </div>
+                    );
+                  })}
+                </div>
+              </div>
+            )}
+
+            {(currentPlanWeek || weakestDomain || weakestObjective || stalestDomain) && (
               <div style={{ ...c.card, borderColor: "#ff9ebb", background: "#ffe0e9", marginBottom: "14px" }}>
-                <div style={{ fontSize: "8px", color: "#b9375e", letterSpacing: "0.14em", textTransform: "uppercase", marginBottom: "6px", fontWeight: "700" }}>⚠ Focus Areas</div>
+                <div style={{ fontSize: "8px", color: "#b9375e", letterSpacing: "0.14em", textTransform: "uppercase", marginBottom: "8px", fontWeight: "700" }}>📋 Today's Focus</div>
+
+                {currentPlanWeek && (
+                  <div style={{ marginBottom: "10px" }}>
+                    <div style={{ fontSize: "9px", color: "#8a2846", marginBottom: "2px" }}>This week (Week {currentPlanWeek.week})</div>
+                    <div style={{ fontSize: "11px", color: "#522e38", fontWeight: "600", marginBottom: currentPlanWeek.objectiveIds.length ? "6px" : "0" }}>{currentPlanWeek.focus}</div>
+                    {currentPlanWeek.objectiveIds.length > 0 && (
+                      <div style={{ display: "flex", flexWrap: "wrap", gap: "6px" }}>
+                        {currentPlanWeek.objectiveIds.map((id) => (
+                          <button key={id} onClick={() => jumpToObjective(id)} style={{ fontSize: "9px", padding: "3px 9px", borderRadius: "20px", background: "#fff", border: "1px solid #ffc2d4", color: "#8a2846", cursor: "pointer", fontFamily: "'Poppins', sans-serif", fontWeight: "600" }}>
+                            {id}
+                          </button>
+                        ))}
+                      </div>
+                    )}
+                  </div>
+                )}
+
                 {weakestDomain && (
-                  <div style={{ marginBottom: weakestObjective ? "8px" : "0", display: "flex", justifyContent: "space-between", alignItems: "flex-end" }}>
+                  <div style={{ marginBottom: "10px", paddingTop: currentPlanWeek ? "10px" : "0", borderTop: currentPlanWeek ? "1px solid rgba(185,55,94,0.15)" : "none", display: "flex", justifyContent: "space-between", alignItems: "flex-end" }}>
                     <div>
-                      <div style={{ fontSize: "9px", color: "#8a2846", marginBottom: "2px" }}>Domain</div>
+                      <div style={{ fontSize: "9px", color: "#8a2846", marginBottom: "2px" }}>Weakest domain</div>
                       <div style={{ fontSize: "12px", color: "#522e38", fontWeight: "600" }}>{weakestDomain}</div>
                       <div style={{ fontSize: "9px", color: "#8a2846" }}>{domainStats[weakestDomain].correct}/{domainStats[weakestDomain].total} correct</div>
                     </div>
@@ -1134,18 +1205,26 @@ Return ONLY valid JSON, no markdown:
                     </button>
                   </div>
                 )}
-                {weakestObjective && (
-                  <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-end" }}>
+
+                {weakestObjective && weakestObjectiveId && (
+                  <div style={{ marginBottom: "10px", paddingTop: (currentPlanWeek || weakestDomain) ? "10px" : "0", borderTop: (currentPlanWeek || weakestDomain) ? "1px solid rgba(185,55,94,0.15)" : "none", display: "flex", justifyContent: "space-between", alignItems: "flex-end" }}>
                     <div>
-                      <div style={{ fontSize: "9px", color: "#8a2846", marginBottom: "2px" }}>Objective</div>
+                      <div style={{ fontSize: "9px", color: "#8a2846", marginBottom: "2px" }}>Weakest objective</div>
                       <div style={{ fontSize: "11px", color: "#522e38", fontWeight: "600" }}>{weakestObjective}</div>
                       <div style={{ fontSize: "9px", color: "#8a2846" }}>{objectiveStats[weakestObjective].correct}/{objectiveStats[weakestObjective].total} correct</div>
                     </div>
-                    {weakestObjectiveId && (
-                      <button onClick={() => jumpToObjective(weakestObjectiveId)} style={{ fontSize: "8px", letterSpacing: "0.06em", textTransform: "uppercase", color: "#b9375e", background: "#fff", border: "1px solid #ffc2d4", borderRadius: "20px", padding: "5px 10px", cursor: "pointer", fontFamily: "'Poppins', sans-serif", fontWeight: "700", whiteSpace: "nowrap" }}>
-                        ▶ Watch videos
-                      </button>
-                    )}
+                    <button onClick={() => jumpToObjective(weakestObjectiveId)} style={{ fontSize: "8px", letterSpacing: "0.06em", textTransform: "uppercase", color: "#b9375e", background: "#fff", border: "1px solid #ffc2d4", borderRadius: "20px", padding: "5px 10px", cursor: "pointer", fontFamily: "'Poppins', sans-serif", fontWeight: "700", whiteSpace: "nowrap" }}>
+                      ▶ Watch videos
+                    </button>
+                  </div>
+                )}
+
+                {stalestDomain && (
+                  <div style={{ paddingTop: (currentPlanWeek || weakestDomain || weakestObjective) ? "10px" : "0", borderTop: (currentPlanWeek || weakestDomain || weakestObjective) ? "1px solid rgba(185,55,94,0.15)" : "none", display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+                    <div style={{ fontSize: "9.5px", color: "#9a6a1a" }}>⏰ {stalestDomain.daysSince} days since you last practiced <strong>{stalestDomain.domain}</strong> — retention risk</div>
+                    <button onClick={() => jumpToPractice(stalestDomain.domain)} style={{ fontSize: "8px", letterSpacing: "0.06em", textTransform: "uppercase", color: "#9a6a1a", background: "#fff", border: "1px solid rgba(154,106,26,0.35)", borderRadius: "20px", padding: "5px 10px", cursor: "pointer", fontFamily: "'Poppins', sans-serif", fontWeight: "700", whiteSpace: "nowrap" }}>
+                      ▶ Practice now
+                    </button>
                   </div>
                 )}
               </div>
