@@ -368,6 +368,76 @@ const SEED_QUESTIONS = [
   { id: "quizlet-83", domain: "Vulnerability Management", objectiveId: "2.1", topic: "Vulnerability Scanning Methods & Concepts", question: "A company has discovered that sensitive data leaked to the public and needs to assess potential vulnerabilities and identify the attack vectors that could have led to this incident. Which methodology framework can the team use to guide their testing process?", options: ["Open Source Security Testing Methodology Manual (OSSTMM)", "Open Web Application Security Project (OWASP) Testing Guide", "Penetration Testing Execution Standard (PTES)", "NIST Special Publication 800-53"], answer: 0, explanation: "OSSTMM provides a comprehensive framework covering asset identification, threat modeling, and vulnerability analysis suited to this broad data-leak investigation. OWASP's guide is web-app specific, PTES fits general penetration testing engagements more than this exact scenario, and NIST SP 800-53 is a security/privacy controls catalog, not a testing methodology.", source: "Quizlet - A.4 CompTIA CySA+ Practice Exam by Rina_Ge", confidence: "low" },
 ];
 
+// "CompTIA CySA+ Full Course (CS0-003)" by Certify Breakfast on YouTube.
+// The course itself predates CS0-003 and follows the old CS0-002 5-domain
+// outline, so `objectives` below is a manual re-mapping to today's 4-domain/
+// 15-objective structure based on what each video actually covers, not its
+// title. A video with no clean match to one objective covers more than one
+// (see 2.2/2.3 and 3.2/4.2 below); videos that are pure course intro or
+// don't fit the CS0-003 outline at all (AI/ML) are flagged with `section`
+// instead of being forced into an objective.
+const VIDEO_PLAYLIST_ID = "PLMYSjEaGLw_vGxGsAIUgmkbEm52QR02tx";
+const VIDEOS = [
+  { n: 1, id: "IGihuL5clDs", title: "CompTIA CySA+ Full Course Part 01: What is the CompTIA CySA+ Exam?", duration: "10:36", section: "orientation" },
+  { n: 2, id: "eVbmvGCpJHI", title: "CompTIA CySA+ Full Course Part 02: How Difficult Is the CySA+ Exam?", duration: "8:17", section: "orientation" },
+  { n: 3, id: "6OEqp2YyxYo", title: "CompTIA CySA+ Full Course Part 03: One Day in the Life of a Cybersecurity Analyst", duration: "6:54", section: "orientation" },
+  { n: 4, id: "Y95I2v5-GcI", title: "CompTIA CySA+ Full Course Part 04: Threat Intelligence Cycle", duration: "9:26", objectives: ["1.4"] },
+  { n: 5, id: "YLPDppHdzho", title: "CompTIA CySA+ Full Course Part 05: Intelligence Sources", duration: "16:55", objectives: ["1.4"] },
+  { n: 6, id: "6zOA3zJgWss", title: "CompTIA CySA+ Full Course Part 06: Security Intelligence Sharing", duration: "11:59", objectives: ["1.4"] },
+  { n: 7, id: "kXdOAUEO8yQ", title: "CompTIA CySA+ Full Course Part 07: Threat Classification and Threat Actors", duration: "17:53", objectives: ["1.4"] },
+  { n: 8, id: "rbKH1NiUiwY", title: "CompTIA CySA+ Full Course Part 08: Threat Research and Indicators of Compromise", duration: "22:36", objectives: ["1.4"] },
+  { n: 9, id: "mdr0i9uoDzo", title: "CompTIA CySA+ Full Course Part 09: Attack Frameworks and The Cyber Kill Chain", duration: "19:57", objectives: ["3.1"] },
+  { n: 10, id: "lmoaVlKE79g", title: "CompTIA CySA+ Full Course Part 10: Defining Threat Modeling & Threat Hunting", duration: "22:20", objectives: ["1.4"] },
+  { n: 11, id: "FPvqlDodLTg", title: "CompTIA CySA+ Full Course Part 11: Vulnerability Identification and Validation", duration: "27:29", objectives: ["2.1"] },
+  { n: 12, id: "WToRPXfg1eo", title: "CompTIA CySA+ Full Course Part 12: Vulnerability Scan Results and CVSS Scores", duration: "34:01", objectives: ["2.2", "2.3"] },
+  { n: 13, id: "aaCy_-HuOuI", title: "CompTIA CySA+ Full Course Part 13: Nmap and Enumeration Tools", duration: "31:31", objectives: ["2.1"] },
+  { n: 14, id: "I48FuwUKmYc", title: "CompTIA CySA+ Full Course Part 14: Security Controls", duration: "20:21", objectives: ["2.4"] },
+  { n: 15, id: "NaXBU2a_UaU", title: "CompTIA CySA+ Full Course Part 15: Defense in Depth and Security Baselines", duration: "17:55", objectives: ["2.4"] },
+  { n: 16, id: "QYPJckUdEwg", title: "CompTIA CySA+ Full Course Part 16: Security Trend Analysis", duration: "11:15", objectives: ["2.3"] },
+  { n: 17, id: "ZKKNHPzE8BU", title: "CompTIA CySA+ Full Course Part 17: Remediation Issues", duration: "15:07", objectives: ["2.5"] },
+  { n: 18, id: "sPGCwkXWM7o", title: "CompTIA CySA+ Full Course Part 18: Asset, Change and Configuration Management", duration: "19:13", objectives: ["2.5"] },
+  { n: 19, id: "6wtV7lFM2Kc", title: "CompTIA CySA+ Full Course Part 19: Software Development Lifecycle / Development Methodologies", duration: "34:55", objectives: ["2.4"] },
+  { n: 20, id: "JP3D3Kz3F3g", title: "CompTIA CySA+ Full Course Part 20: Secure Coding", duration: "57:05", objectives: ["2.4"] },
+  { n: 21, id: "cjNs8kqWH5A", title: "CompTIA CySA+ Full Course Part 21: Software Assessment and Code Review", duration: "42:54", objectives: ["2.4"] },
+  { n: 22, id: "AyHFhegGMDc", title: "CompTIA CySA+ Full Course Part 22: Mitigating Attacks: Buffer Overflows, Race Conditions & more", duration: "41:01", objectives: ["2.4"] },
+  { n: 23, id: "krEtUQoeSuY", title: "CompTIA CySA+ Full Course Part 23: Mitigating Attacks: Integer Overflow, XSS, SQL & XML Injection", duration: "39:12", objectives: ["2.4"] },
+  { n: 24, id: "khuERSYNNq4", title: "CompTIA CySA+ Full Course Part 24: Mitigating CSRF/XSRF, securing web sessions & cookies", duration: "34:05", objectives: ["2.4"] },
+  { n: 25, id: "iU7zTueohoc", title: "CompTIA CySA+ Full Course Part 25: Passwords & Hashing", duration: "39:36", objectives: ["2.4"] },
+  { n: 26, id: "ybs3iqyzDnw", title: "CompTIA CySA+ Full Course Part 26: Privilege Escalation & Man-in-the-Middle", duration: "32:24", objectives: ["2.4"] },
+  { n: 27, id: "Gj0kKdi4bnY", title: "CompTIA CySA+ Full Course Part 27: Network-Based IoCs (1/2)", duration: "37:50", objectives: ["1.2"] },
+  { n: 28, id: "WLygNRfg-5s", title: "CompTIA CySA+ Full Course Part 28: Host-Based IoCs (2/2)", duration: "28:06", objectives: ["1.2"] },
+  { n: 29, id: "ExcQ25WRCH0", title: "CompTIA CySA+ Full Course Part 29: Network Architecture and Segmentation", duration: "41:23", objectives: ["1.1"] },
+  { n: 30, id: "PD6UGP_N1jI", title: "CompTIA CySA+ Full Course Part 30: Network Traffic and Protocol Analysis", duration: "36:37", objectives: ["1.3"] },
+  { n: 31, id: "brA6oiGJljc", title: "CompTIA CySA+ Full Course Part 31: Pentesting and Active Defense", duration: "38:25", objectives: ["1.3"] },
+  { n: 32, id: "2_vGUyTyHTY", title: "CompTIA CySA+ Full Course Part 32: Configuring Firewalls", duration: "42:46", objectives: ["1.1"] },
+  { n: 33, id: "2hdBzFXv2Y0", title: "CompTIA CySA+ Full Course Part 33: URL Analysis & DNS in Malware", duration: "30:33", objectives: ["1.3"] },
+  { n: 34, id: "W8b2vEBt8BE", title: "CompTIA CySA+ Full Course Part 34: Port Security & Network Access Control (NAC)", duration: "24:10", objectives: ["1.1"] },
+  { n: 35, id: "QKCG_gnLaSA", title: "CompTIA CySA+ Full Course Part 35: Identity & Access Management", duration: "41:03", objectives: ["1.1"] },
+  { n: 36, id: "61bvu_8JMss", title: "CompTIA CySA+ Full Course Part 36: Web Application Scanners", duration: "19:46", objectives: ["2.1"] },
+  { n: 37, id: "i6XsAngZ3_c", title: "CompTIA CySA+ Full Course Part 37: SSL/TLS Certificate Management", duration: "24:39", objectives: ["1.1"] },
+  { n: 38, id: "7pFqpH3qT4U", title: "CompTIA CySA+ Full Course Part 38: Mobile Threats", duration: "15:44", objectives: ["2.4"] },
+  { n: 39, id: "g-hCKndXG6Y", title: "CompTIA CySA+ Full Course Part 39: Email Threats and Mitigation", duration: "21:51", objectives: ["1.2"] },
+  { n: 40, id: "80FMLYeAV80", title: "CompTIA CySA+ Full Course Part 40: Data Loss Prevention (DLP)", duration: "11:51", objectives: ["1.1"] },
+  { n: 41, id: "DpkpohAuLhE", title: "CompTIA CySA+ Full Course Part 41: Endpoint Security & Behaviour Analysis", duration: "20:11", objectives: ["1.3"] },
+  { n: 42, id: "5Zj2seJ9nJQ", title: "CompTIA CySA+ Full Course Part 42: Hardware Assurance", duration: "21:00", objectives: ["2.4"] },
+  { n: 43, id: "R8pS5qz-NOA", title: "CompTIA CySA+ Full Course Part 43: Traffic Blackholes and Sinkholes", duration: "11:31", objectives: ["2.4"] },
+  { n: 44, id: "Hm1yfd1YumI", title: "CompTIA CySA+ Full Course Part 44: IoT, Embedded Systems & ICS/SCADA Threats", duration: "21:06", objectives: ["2.4"] },
+  { n: 45, id: "IJc_MQnPpRQ", title: "CompTIA CySA+ Full Course Part 45: Log Analysis & Continuous Security Monitoring", duration: "20:31", objectives: ["1.3", "1.5"] },
+  { n: 46, id: "MLYtrSNwU84", title: "CompTIA CySA+ Full Course Part 46: SIEM and Event Correlation", duration: "28:32", objectives: ["1.3"] },
+  { n: 47, id: "wAbD7EPq_tc", title: "CompTIA CySA+ Full Course Part 47: Malware Analysis", duration: "24:03", objectives: ["1.3"] },
+  { n: 48, id: "nw8AyIiSMgc", title: "CompTIA CySA+ Full Course Part 48: Cloud Models and Service Threats", duration: "24:41", objectives: ["1.1"] },
+  { n: 49, id: "DFtA4kJWc2E", title: "CompTIA CySA+ Full Course Part 49: Cloud Automation and Other Cloud Threats", duration: "20:19", objectives: ["1.1"] },
+  { n: 50, id: "ACix1NCOiZ4", title: "CompTIA CySA+ Full Course Part 50: VDI, Containers, Microservices", duration: "20:40", objectives: ["1.1"] },
+  { n: 51, id: "jl68qcQqo38", title: "CompTIA CySA+ Full Course Part 51: CI/CD, IaC, DevOps", duration: "12:05", objectives: ["1.5"] },
+  { n: 52, id: "9-yG9dWBSFs", title: "CompTIA CySA+ Full Course Part 52: Artificial Intelligence and Machine Learning", duration: "5:42", section: "supplemental" },
+  { n: 53, id: "oPsmZArxhJw", title: "CompTIA CySA+ Full Course Part 53: Digital Forensics", duration: "31:11", objectives: ["3.2"] },
+  { n: 54, id: "7ebjDlgxrwM", title: "CompTIA CySA+ Full Course Part 54: Technical Controls for Securing Data", duration: "23:57", objectives: ["1.1"] },
+  { n: 55, id: "wuFKlx533q0", title: "CompTIA CySA+ Full Course Part 55: Non-Technical Controls for Securing Data", duration: "20:32", objectives: ["1.1"] },
+  { n: 56, id: "nkYkucNp9Vw", title: "CompTIA CySA+ Full Course Part 56: Security Policies and Procedures", duration: "22:15", objectives: ["3.3"] },
+  { n: 57, id: "p1_pLigW1sc", title: "CompTIA CySA+ Full Course Part 57: Continuity Planning & Risk Assessment", duration: "28:34", objectives: ["3.3"] },
+  { n: 58, id: "omlz8iqMUk4", title: "CompTIA CySA+ Full Course Part 58: Incident Response Phases & Communication", duration: "27:51", objectives: ["3.2", "4.2"] },
+];
+
 const STORAGE_KEY = "cysa-tracker-v2";
 
 async function loadData() {
@@ -390,6 +460,34 @@ async function saveData(data) {
     const { error } = await supabase
       .from("tracker_data")
       .upsert({ id: STORAGE_KEY, value: data, updated_at: new Date().toISOString() });
+    if (error) throw error;
+  } catch (err) {
+    console.error("Save failed:", err);
+  }
+}
+
+const VIDEO_STORAGE_KEY = "cysa-tracker-videos-v1";
+
+async function loadWatchedVideos() {
+  try {
+    const { data, error } = await supabase
+      .from("tracker_data")
+      .select("value")
+      .eq("id", VIDEO_STORAGE_KEY)
+      .maybeSingle();
+    if (error) throw error;
+    if (data && data.value) return data.value;
+  } catch (err) {
+    console.error("Load failed:", err);
+  }
+  return { watched: [] };
+}
+
+async function saveWatchedVideos(watched) {
+  try {
+    const { error } = await supabase
+      .from("tracker_data")
+      .upsert({ id: VIDEO_STORAGE_KEY, value: { watched }, updated_at: new Date().toISOString() });
     if (error) throw error;
   } catch (err) {
     console.error("Save failed:", err);
@@ -453,11 +551,33 @@ function RadarChart({ domainStats }) {
   );
 }
 
+function VideoRow({ video, checked, onToggle, disabled }) {
+  const url = `https://www.youtube.com/watch?v=${video.id}&list=${VIDEO_PLAYLIST_ID}&index=${video.n}`;
+  return (
+    <div style={{ display: "flex", alignItems: "center", gap: "9px", padding: "7px 0", borderBottom: "1px solid #ffe0e9" }}>
+      <input
+        type="checkbox"
+        checked={checked}
+        disabled={disabled}
+        onChange={() => onToggle(video.id)}
+        title={disabled ? "Sign in to track progress" : undefined}
+        style={{ flexShrink: 0, width: "13px", height: "13px", accentColor: "#b9375e", cursor: disabled ? "default" : "pointer" }}
+      />
+      <a href={url} target="_blank" rel="noopener noreferrer"
+        style={{ flex: 1, fontSize: "10.5px", lineHeight: "1.45", color: checked ? "#ff9ebb" : "#522e38", textDecoration: checked ? "line-through" : "none" }}>
+        {video.title}
+      </a>
+      <span style={{ fontSize: "9px", color: "#8a2846", whiteSpace: "nowrap", flexShrink: 0 }}>{video.duration}</span>
+    </div>
+  );
+}
+
 export default function CySATracker() {
   const [tab, setTab] = useState("dashboard");
   const [history, setHistory] = useState([]);
   const [seenIds, setSeenIds] = useState([]);
   const [loaded, setLoaded] = useState(false);
+  const [watchedVideos, setWatchedVideos] = useState([]);
 
   const [currentQ, setCurrentQ] = useState(null);
   const [selected, setSelected] = useState(null);
@@ -532,9 +652,19 @@ export default function CySATracker() {
 
   useEffect(() => {
     loadData().then((d) => { setHistory(d.history || []); setSeenIds(d.seenIds || []); setLoaded(true); });
+    loadWatchedVideos().then((d) => setWatchedVideos(d.watched || []));
   }, []);
 
   const persist = (h, s) => saveData({ history: h, seenIds: s });
+
+  const toggleWatched = (videoId) => {
+    if (!isLoggedIn) return;
+    setWatchedVideos((prev) => {
+      const next = prev.includes(videoId) ? prev.filter((v) => v !== videoId) : [...prev, videoId];
+      saveWatchedVideos(next);
+      return next;
+    });
+  };
 
   // Stats by domain
   const domainStats = history.reduce((acc, item) => {
@@ -562,6 +692,10 @@ export default function CySATracker() {
   const totalCorrect = history.filter((h) => h.correct).length;
   const totalAnswered = history.length;
   const overallPct = totalAnswered > 0 ? Math.round((totalCorrect / totalAnswered) * 100) : null;
+
+  const totalVideos = VIDEOS.length;
+  const watchedVideoCount = watchedVideos.length;
+  const watchedVideoPct = totalVideos > 0 ? Math.round((watchedVideoCount / totalVideos) * 100) : 0;
 
   const weakestDomain = Object.entries(domainStats).filter(([, s]) => s.total >= 2)
     .sort(([, a], [, b]) => a.correct / a.total - b.correct / b.total)[0]?.[0];
@@ -843,7 +977,7 @@ Return ONLY valid JSON, no markdown:
         )}
 
         <nav className="nav-tabs">
-          {["dashboard", "practice", "log", "history"].map((t) => (
+          {["dashboard", "practice", "log", "videos", "history"].map((t) => (
             <button key={t} className={`nav-tab ${tab === t ? 'is-active' : ''}`} onClick={() => setTab(t)}>{t}</button>
           ))}
         </nav>
@@ -1167,6 +1301,73 @@ Return ONLY valid JSON, no markdown:
               <button style={c.btn("#b9375e")} onClick={logManualQuestion} disabled={!logQuestion.trim()}>
                 {logSaved ? "✓ Saved to tracker" : "Save to Tracker"}
               </button>
+            </div>
+          </>
+        )}
+
+        {/* ── VIDEOS ── */}
+        {tab === "videos" && (
+          <>
+            <div style={c.statRow}>
+              <div style={c.sBox("#b9375e")}><span style={c.sNum()}>{totalVideos}</span><span style={c.sLbl}>Total Videos</span></div>
+              <div style={c.sBox("#3F8F5F")}><span style={c.sNum()}>{watchedVideoCount}</span><span style={c.sLbl}>Watched</span></div>
+              <div style={c.sBox(watchedVideoPct >= 70 ? "#3F8F5F" : "#b9375e")}><span style={c.sNum()}>{watchedVideoPct}%</span><span style={c.sLbl}>Complete</span></div>
+            </div>
+
+            <div style={{ fontSize: "8px", color: "#ff9ebb", marginTop: "-8px", marginBottom: "14px" }}>
+              CompTIA CySA+ Full Course (CS0-003) by Certify Breakfast — 58 videos, re-mapped from the course's original 5-domain outline to the current objectives below.
+              {!isLoggedIn && " Sign in to save your watched checkmarks."}
+            </div>
+
+            <div style={c.card}>
+              <div style={c.sec}>Orientation</div>
+              {VIDEOS.filter((v) => v.section === "orientation").map((v) => (
+                <VideoRow key={v.id} video={v} checked={watchedVideos.includes(v.id)} onToggle={toggleWatched} disabled={!isLoggedIn} />
+              ))}
+            </div>
+
+            {Object.entries(OBJECTIVES).map(([domain, objs]) => {
+              const domainVideoIds = new Set(VIDEOS.filter((v) => v.objectives?.some((o) => objs.some((obj) => obj.id === o))).map((v) => v.id));
+              const domainWatched = [...domainVideoIds].filter((id) => watchedVideos.includes(id)).length;
+              return (
+                <div key={domain} style={c.card}>
+                  <div style={{ display: "flex", justifyContent: "space-between", alignItems: "baseline", marginBottom: "10px" }}>
+                    <div style={{ fontSize: "10px", color: DOMAINS[domain]?.color, letterSpacing: "0.06em", fontWeight: "700" }}>
+                      {domain.toUpperCase()} ({DOMAINS[domain]?.weight})
+                    </div>
+                    <div style={{ fontSize: "9px", color: "#8a2846", fontWeight: "700", whiteSpace: "nowrap" }}>
+                      {domainVideoIds.size > 0 ? `${domainWatched}/${domainVideoIds.size} watched` : "—"}
+                    </div>
+                  </div>
+                  {objs.map((obj) => {
+                    const vids = VIDEOS.filter((v) => v.objectives?.includes(obj.id));
+                    const objWatched = vids.filter((v) => watchedVideos.includes(v.id)).length;
+                    return (
+                      <div key={obj.id} style={{ marginBottom: "14px" }}>
+                        <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "6px" }}>
+                          <span style={{ fontSize: "10.5px", color: "#522e38", fontWeight: "600" }}>{obj.label}</span>
+                          <span style={{ fontSize: "9px", fontWeight: "700", color: vids.length === 0 ? "#ff9ebb" : objWatched === vids.length ? "#3F8F5F" : "#b9375e", whiteSpace: "nowrap", marginLeft: "8px" }}>
+                            {vids.length > 0 ? `${objWatched}/${vids.length}` : "—"}
+                          </span>
+                        </div>
+                        {vids.length === 0
+                          ? <div style={{ fontSize: "9px", color: "#ff9ebb", paddingBottom: "4px" }}>No video in this playlist maps directly to this objective — supplement with outside material.</div>
+                          : vids.map((v) => (
+                            <VideoRow key={`${obj.id}-${v.id}`} video={v} checked={watchedVideos.includes(v.id)} onToggle={toggleWatched} disabled={!isLoggedIn} />
+                          ))}
+                      </div>
+                    );
+                  })}
+                </div>
+              );
+            })}
+
+            <div style={c.card}>
+              <div style={c.sec}>Supplemental</div>
+              <div style={{ fontSize: "9px", color: "#8a2846", marginBottom: "8px" }}>Doesn't map to a CS0-003 objective, but worth watching.</div>
+              {VIDEOS.filter((v) => v.section === "supplemental").map((v) => (
+                <VideoRow key={v.id} video={v} checked={watchedVideos.includes(v.id)} onToggle={toggleWatched} disabled={!isLoggedIn} />
+              ))}
             </div>
           </>
         )}
