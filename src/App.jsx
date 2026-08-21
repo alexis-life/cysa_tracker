@@ -685,6 +685,7 @@ export default function CySATracker() {
   const [logObjSearch, setLogObjSearch] = useState("");
   const [logObjOpen, setLogObjOpen] = useState(false);
   const [expandedHistId, setExpandedHistId] = useState(null);
+  const [historyFilter, setHistoryFilter] = useState("all"); // "all" | "missed"
   const [importText, setImportText] = useState("");
   const [importStatus, setImportStatus] = useState(null); // null | "ok" | "err"
   const [showImport, setShowImport] = useState(false);
@@ -858,6 +859,15 @@ export default function CySATracker() {
     .sort((a, b) => b.daysSince - a.daysSince);
   const stalestDomain = staleDomains[0];
 
+  // Drives "Recommended" practice: prefer the weakest objective (most
+  // specific, most actionable), fall back to the stalest domain, so this
+  // mode always points at whatever Today's Focus is already flagging.
+  const recommendedTarget = weakestObjectiveId
+    ? { domain: ALL_OBJECTIVES_FLAT.find((o) => o.id === weakestObjectiveId)?.domain, objectiveId: weakestObjectiveId, reason: `weakest objective — ${objectiveStats[weakestObjective]?.correct}/${objectiveStats[weakestObjective]?.total} correct` }
+    : stalestDomain
+    ? { domain: stalestDomain.domain, objectiveId: null, reason: `${stalestDomain.daysSince} days since last practiced` }
+    : null;
+
   const availableObjectives = filterDomain === "Any Domain"
     ? [{ id: "any", label: "Any Objective" }, ...ALL_OBJECTIVES_FLAT.map((o) => ({ id: o.id, label: o.label }))]
     : [{ id: "any", label: "Any Objective" }, ...(OBJECTIVES[filterDomain] || [])];
@@ -866,6 +876,11 @@ export default function CySATracker() {
     const pool = SEED_QUESTIONS.filter((q) => {
       if (seenIds.includes(q.id)) return false;
       if (q.confidence === "low" && !includeLowConfidence) return false;
+      if (questionSource === "recommended") {
+        if (!recommendedTarget) return true;
+        if (recommendedTarget.objectiveId) return q.objectiveId === recommendedTarget.objectiveId;
+        return q.domain === recommendedTarget.domain;
+      }
       if (filterDomain !== "Any Domain" && q.domain !== filterDomain) return false;
       if (filterObjective !== "Any Objective") {
         const obj = ALL_OBJECTIVES_FLAT.find((o) => o.label === filterObjective || o.id === filterObjective);
@@ -878,12 +893,17 @@ export default function CySATracker() {
 
   const fetchAIQuestion = async () => {
     setLoadingQ(true); setApiError(null);
-    let targetDomain = filterDomain === "Any Domain"
+    const usingRecommended = questionSource === "recommended" && recommendedTarget;
+    let targetDomain = usingRecommended
+      ? recommendedTarget.domain
+      : filterDomain === "Any Domain"
       ? Object.keys(DOMAINS)[Math.floor(Math.random() * 4)]
       : filterDomain;
 
     let targetObjective = null;
-    if (filterObjective !== "Any Objective") {
+    if (usingRecommended && recommendedTarget.objectiveId) {
+      targetObjective = ALL_OBJECTIVES_FLAT.find((o) => o.id === recommendedTarget.objectiveId);
+    } else if (!usingRecommended && filterObjective !== "Any Objective") {
       targetObjective = ALL_OBJECTIVES_FLAT.find((o) => o.label === filterObjective);
     } else {
       const domainObjs = OBJECTIVES[targetDomain] || [];
@@ -1396,14 +1416,30 @@ Return ONLY valid JSON, no markdown:
         )}
         {tab === "practice" && isLoggedIn && (
           <>
-            <select style={c.sel} value={filterDomain} onChange={(e) => { setFilterDomain(e.target.value); setFilterObjective("Any Objective"); setCurrentQ(null); setSelected(null); setRevealed(false); }}>
-              <option>Any Domain</option>
-              {Object.keys(DOMAINS).map((d) => <option key={d}>{d}</option>)}
-            </select>
+            {questionSource === "recommended" ? (
+              <div style={{ ...c.card, marginBottom: "10px" }}>
+                <div style={{ fontSize: "8px", color: "#b9375e", letterSpacing: "0.1em", textTransform: "uppercase", fontWeight: "700", marginBottom: "4px" }}>🎯 Auto-targeting</div>
+                {recommendedTarget ? (
+                  <>
+                    <div style={{ fontSize: "12px", color: "#522e38", fontWeight: "600" }}>{recommendedTarget.objectiveId ? ALL_OBJECTIVES_FLAT.find((o) => o.id === recommendedTarget.objectiveId)?.label : recommendedTarget.domain}</div>
+                    <div style={{ fontSize: "9px", color: "#8a2846" }}>{recommendedTarget.reason}</div>
+                  </>
+                ) : (
+                  <div style={{ fontSize: "10px", color: "#ff9ebb" }}>No weak spots or stale domains detected yet — answer a few questions first. Pulling from all domains for now.</div>
+                )}
+              </div>
+            ) : (
+              <>
+                <select style={c.sel} value={filterDomain} onChange={(e) => { setFilterDomain(e.target.value); setFilterObjective("Any Objective"); setCurrentQ(null); setSelected(null); setRevealed(false); }}>
+                  <option>Any Domain</option>
+                  {Object.keys(DOMAINS).map((d) => <option key={d}>{d}</option>)}
+                </select>
 
-            <select style={c.sel} value={filterObjective} onChange={(e) => { setFilterObjective(e.target.value); setCurrentQ(null); setSelected(null); setRevealed(false); }}>
-              {availableObjectives.map((o) => <option key={o.id} value={o.id === "any" ? "Any Objective" : o.label}>{o.label}</option>)}
-            </select>
+                <select style={c.sel} value={filterObjective} onChange={(e) => { setFilterObjective(e.target.value); setCurrentQ(null); setSelected(null); setRevealed(false); }}>
+                  {availableObjectives.map((o) => <option key={o.id} value={o.id === "any" ? "Any Objective" : o.label}>{o.label}</option>)}
+                </select>
+              </>
+            )}
 
             <label style={{ display: "flex", alignItems: "center", gap: "6px", fontSize: "9px", color: "#8a2846", marginTop: "8px", cursor: "pointer" }}>
               <input
@@ -1416,6 +1452,7 @@ Return ONLY valid JSON, no markdown:
 
             <div style={{ display: "flex", gap: "6px", marginTop: "8px", marginBottom: "4px" }}>
               {[
+                { key: "recommended", label: "🎯 Recommended" },
                 { key: "any", label: "Either" },
                 { key: "book", label: "📚 Question Bank" },
                 { key: "ai", label: "✦ AI" },
@@ -1444,7 +1481,9 @@ Return ONLY valid JSON, no markdown:
             {!currentQ && !loadingQ && (
               <div style={{ textAlign: "center", paddingTop: "30px" }}>
                 <div style={{ color: "#ff9ebb", fontSize: "10px", marginBottom: "16px" }}>
-                  {filterObjective !== "Any Objective" ? filterObjective : filterDomain !== "Any Domain" ? filterDomain : "All domains & objectives"}
+                  {questionSource === "recommended"
+                    ? (recommendedTarget ? (recommendedTarget.objectiveId ? ALL_OBJECTIVES_FLAT.find((o) => o.id === recommendedTarget.objectiveId)?.label : recommendedTarget.domain) : "All domains & objectives")
+                    : filterObjective !== "Any Objective" ? filterObjective : filterDomain !== "Any Domain" ? filterDomain : "All domains & objectives"}
                 </div>
                 <button style={c.btn("#b9375e")} onClick={loadQuestion}>Start Question →</button>
               </div>
@@ -1496,6 +1535,11 @@ Return ONLY valid JSON, no markdown:
                   ? <button style={{ ...c.btn("#b9375e"), opacity: (isMultiSelect ? !selected?.length : selected === null) ? 0.35 : 1 }} onClick={submitAnswer} disabled={isMultiSelect ? !selected?.length : selected === null}>Submit Answer</button>
                   : <>
                     <div style={c.expl}><strong style={{ color: "#b9375e" }}>Explanation: </strong>{currentQ.explanation}</div>
+                    {currentQ.objectiveId && (
+                      <button onClick={() => jumpToObjective(currentQ.objectiveId)} style={{ width: "100%", padding: "9px", background: "#fff", border: "1px solid #ffc2d4", borderRadius: "8px", color: "#b9375e", fontSize: "9px", letterSpacing: "0.06em", textTransform: "uppercase", cursor: "pointer", fontFamily: "'Poppins', sans-serif", fontWeight: "700", marginTop: "8px" }}>
+                        ▶ Watch video for {currentQ.objectiveId}
+                      </button>
+                    )}
                     <button style={c.btn("#8a2846")} onClick={loadQuestion}>Next Question →</button>
                   </>
                 }
@@ -1706,9 +1750,21 @@ Return ONLY valid JSON, no markdown:
         {/* ── HISTORY ── */}
         {tab === "history" && (
           <>
-            <div style={c.sec}>Recent Questions ({history.length} total)</div>
+            {(() => {
+              const missedCount = history.filter((h) => h.correct === false).length;
+              return (
+                <div style={c.togRow}>
+                  <button style={c.tog(historyFilter === "all")} onClick={() => setHistoryFilter("all")}>All ({history.length})</button>
+                  <button style={c.tog(historyFilter === "missed")} onClick={() => setHistoryFilter("missed")}>🔁 Missed Only ({missedCount})</button>
+                </div>
+              );
+            })()}
+            <div style={c.sec}>{historyFilter === "missed" ? "Missed Questions — Review These" : `Recent Questions (${history.length} total)`}</div>
             {history.length === 0 && <div style={{ color: "#ff9ebb", fontSize: "10px", textAlign: "center", padding: "36px 0" }}>No history yet</div>}
-            {history.slice(0, 60).map((h, i) => {
+            {history.length > 0 && historyFilter === "missed" && history.filter((h) => h.correct === false).length === 0 && (
+              <div style={{ color: "#3F8F5F", fontSize: "10px", textAlign: "center", padding: "36px 0" }}>Nothing missed — you've gotten everything right so far.</div>
+            )}
+            {(historyFilter === "missed" ? history.filter((h) => h.correct === false) : history).slice(0, 60).map((h, i) => {
               const key = h.id ? `${h.id}-${h.timestamp}` : i;
               const isOpen = expandedHistId === key;
               // Backfill missing detail (older entries saved before full question/options/explanation were stored)
@@ -1767,6 +1823,11 @@ Return ONLY valid JSON, no markdown:
                       )}
                       {hh.explanation && (
                         <div style={c.expl}><strong style={{ color: "#b9375e" }}>Explanation: </strong>{hh.explanation}</div>
+                      )}
+                      {hh.objectiveId && (
+                        <button onClick={() => jumpToObjective(hh.objectiveId)} style={{ width: "100%", padding: "9px", background: "#fff", border: "1px solid #ffc2d4", borderRadius: "8px", color: "#b9375e", fontSize: "9px", letterSpacing: "0.06em", textTransform: "uppercase", cursor: "pointer", fontFamily: "'Poppins', sans-serif", fontWeight: "700", marginTop: "8px" }}>
+                          ▶ Watch video for {hh.objectiveId}
+                        </button>
                       )}
                       <div style={{ fontSize: "8px", color: "#ff9ebb", marginTop: "8px" }}>{new Date(hh.timestamp).toLocaleString()}</div>
                     </div>
