@@ -487,7 +487,7 @@ const STUDY_PLAN = [
   { week: 5, start: "2026-09-18", focus: "2.5 — finishes Vulnerability Management", objectiveIds: ["2.5"], review: "Heavy VulnMgmt practice + a Domain 1 spot-check." },
   { week: 6, start: "2026-09-25", focus: "All of Domain 3 & 4 — light on video here, so supplement 4.1 (zero video coverage) with outside reading", objectiveIds: ["3.1", "3.2", "3.3", "4.1", "4.2"], review: "Keep touching Domains 1–2 daily so they don't go cold." },
   { week: 7, start: "2026-10-02", focus: "No new content — full practice sweep across all 15 objectives", objectiveIds: [], review: "Driven entirely by the Dashboard's weakest-objective flags." },
-  { week: 8, start: "2026-10-09", focus: "No new content — timed full practice exam, then gap-fill only your 2–3 weakest objectives", objectiveIds: [], review: "Light review only — rest before test day." },
+  { week: 8, start: "2026-10-09", focus: "No new content — a timed full practice exam (use the Dion Udemy course's Exam mode, 90 questions/2h45m — this app's question bank isn't deep enough per-objective for a realistic mock yet), then gap-fill only your 2–3 weakest objectives", objectiveIds: [], review: "Light review only — rest before test day." },
 ];
 
 const STORAGE_KEY = "cysa-tracker-v2";
@@ -1182,7 +1182,7 @@ Return ONLY valid JSON, no markdown:
                     const acc = s && s.total > 0 ? Math.round((s.correct / s.total) * 100) : null;
                     return (
                       <div key={d} style={{ display: "flex", justifyContent: "space-between", alignItems: "center", padding: "4px 0", borderBottom: "1px solid #ffe0e9" }}>
-                        <span style={{ fontSize: "9.5px", color: "#522e38" }}>{meta.short} <span style={{ color: "#8a2846" }}>({meta.weight})</span></span>
+                        <span style={{ fontSize: "9.5px", color: "#522e38" }}>{d} <span style={{ color: "#8a2846" }}>({meta.weight})</span></span>
                         <span style={{ fontSize: "9px", fontWeight: "700", color: acc === null ? "#ff9ebb" : acc >= 70 ? "#3F8F5F" : acc >= 40 ? "#e05780" : "#b9375e" }}>
                           {acc === null ? "not started" : `${acc}%`}
                         </span>
@@ -1254,7 +1254,7 @@ Return ONLY valid JSON, no markdown:
               <div style={{ ...c.card, marginBottom: "14px" }}>
                 <div style={{ fontSize: "8px", color: "#9a6a1a", letterSpacing: "0.14em", textTransform: "uppercase", marginBottom: "8px", fontWeight: "700" }}>⚠ Coverage Gaps</div>
                 <div style={{ fontSize: "9px", color: "#8a2846", marginBottom: "8px" }}>
-                  Thin on both video and practice questions — these genuinely need outside material (an objective thin on just one source isn't listed here, since the other one covers it):
+                  Thin on both video and practice questions — pull these up in the Dion Udemy CySA+ course instead (an objective thin on just one source isn't listed here, since the other one covers it):
                 </div>
                 <div style={{ display: "flex", flexWrap: "wrap", gap: "6px" }}>
                   {coverageGaps.map((o) => (
@@ -1710,7 +1710,7 @@ Return ONLY valid JSON, no markdown:
                           if (stat?.gap) {
                             return questionThin
                               ? <div style={{ fontSize: "9px", color: "#A23333", background: "rgba(194,68,68,0.08)", border: "1px solid rgba(194,68,68,0.25)", borderRadius: "6px", padding: "5px 8px", marginBottom: "6px" }}>
-                                  ⚠ No video AND only {qCount} practice question{qCount === 1 ? "" : "s"} — this objective needs outside material.
+                                  ⚠ No video AND only {qCount} practice question{qCount === 1 ? "" : "s"} — cover this in the Dion Udemy course instead.
                                 </div>
                               : <div style={{ fontSize: "9px", color: "#8a2846", background: "#ffe0e9", border: "1px solid #ffc2d4", borderRadius: "6px", padding: "5px 8px", marginBottom: "6px" }}>
                                   No video in this playlist, but {qCount} practice questions are available — drill it in Practice instead.
