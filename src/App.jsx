@@ -457,6 +457,15 @@ const OBJECTIVE_VIDEO_STATS = Object.fromEntries(
   })
 );
 
+// A thin video count alone isn't a real gap if the question bank covers the
+// slack (e.g. 4.1 has zero video but 16+ questions) — only flag an objective
+// as needing outside material when BOTH sources are thin (e.g. 1.5).
+const QUESTION_THIN_THRESHOLD = 10;
+const QUESTION_COUNTS_BY_OBJECTIVE = SEED_QUESTIONS.reduce((acc, q) => {
+  acc[q.objectiveId] = (acc[q.objectiveId] || 0) + 1;
+  return acc;
+}, {});
+
 function formatWeekRange(startISO) {
   const start = new Date(startISO + "T00:00:00");
   const end = new Date(start);
@@ -469,7 +478,7 @@ function formatWeekRange(startISO) {
 // reduce forgetting — review is spread across every week instead of being
 // crammed into a final cram phase). Dates are fixed to this specific run at
 // the exam so "current week" can be computed against real time.
-const EXAM_DATE = "2026-10-16";
+const EXAM_DATE = "2026-10-18"; // booked: Sunday Oct 18, 2026, 1:30 PM PDT check-in
 const STUDY_PLAN = [
   { week: 1, start: "2026-08-21", focus: "Orientation + 1.1, 1.2, 1.3", objectiveIds: ["1.1", "1.2", "1.3"], review: "Practice each objective right after watching it — don't wait." },
   { week: 2, start: "2026-08-28", focus: "1.4, 1.5 — finishes Security Operations", objectiveIds: ["1.4", "1.5"], review: "Redo any Week 1 missed questions before moving on." },
@@ -803,7 +812,12 @@ export default function CySATracker() {
     .sort(([, a], [, b]) => a.correct / a.total - b.correct / b.total)[0]?.[0];
   const weakestObjectiveId = ALL_OBJECTIVES_FLAT.find((o) => o.label === weakestObjective)?.id;
 
-  const coverageGaps = ALL_OBJECTIVES_FLAT.filter((o) => OBJECTIVE_VIDEO_STATS[o.id]?.gap || OBJECTIVE_VIDEO_STATS[o.id]?.thin);
+  const coverageGaps = ALL_OBJECTIVES_FLAT.filter((o) => {
+    const v = OBJECTIVE_VIDEO_STATS[o.id];
+    const videoThin = v?.gap || v?.thin;
+    const questionThin = (QUESTION_COUNTS_BY_OBJECTIVE[o.id] || 0) < QUESTION_THIN_THRESHOLD;
+    return videoThin && questionThin;
+  });
 
   const now = new Date();
   const daysUntilExam = Math.ceil((new Date(EXAM_DATE + "T00:00:00") - now) / 86400000);
@@ -1139,9 +1153,9 @@ Return ONLY valid JSON, no markdown:
 
             {coverageGaps.length > 0 && (
               <div style={{ ...c.card, marginBottom: "14px" }}>
-                <div style={{ fontSize: "8px", color: "#9a6a1a", letterSpacing: "0.14em", textTransform: "uppercase", marginBottom: "8px", fontWeight: "700" }}>⚠ Video Coverage Gaps</div>
+                <div style={{ fontSize: "8px", color: "#9a6a1a", letterSpacing: "0.14em", textTransform: "uppercase", marginBottom: "8px", fontWeight: "700" }}>⚠ Coverage Gaps</div>
                 <div style={{ fontSize: "9px", color: "#8a2846", marginBottom: "8px" }}>
-                  This free course predates CS0-003 and doesn't cover every objective proportionally — these need outside material:
+                  Thin on both video and practice questions — these genuinely need outside material (an objective thin on just one source isn't listed here, since the other one covers it):
                 </div>
                 <div style={{ display: "flex", flexWrap: "wrap", gap: "6px" }}>
                   {coverageGaps.map((o) => (
@@ -1567,16 +1581,29 @@ Return ONLY valid JSON, no markdown:
                             {vids.length > 0 ? `${objWatched}/${vids.length}` : "—"}
                           </span>
                         </div>
-                        {stat?.gap && (
-                          <div style={{ fontSize: "9px", color: "#A23333", background: "rgba(194,68,68,0.08)", border: "1px solid rgba(194,68,68,0.25)", borderRadius: "6px", padding: "5px 8px", marginBottom: "6px" }}>
-                            ⚠ No video in this playlist covers this objective — supplement with outside material.
-                          </div>
-                        )}
-                        {stat?.thin && (
-                          <div style={{ fontSize: "9px", color: "#9a6a1a", background: "rgba(154,106,26,0.08)", border: "1px solid rgba(154,106,26,0.25)", borderRadius: "6px", padding: "5px 8px", marginBottom: "6px" }}>
-                            ⚠ Thin coverage ({Math.round(stat.totalSec / 60)} min) — consider supplementing.
-                          </div>
-                        )}
+                        {(() => {
+                          const qCount = QUESTION_COUNTS_BY_OBJECTIVE[obj.id] || 0;
+                          const questionThin = qCount < QUESTION_THIN_THRESHOLD;
+                          if (stat?.gap) {
+                            return questionThin
+                              ? <div style={{ fontSize: "9px", color: "#A23333", background: "rgba(194,68,68,0.08)", border: "1px solid rgba(194,68,68,0.25)", borderRadius: "6px", padding: "5px 8px", marginBottom: "6px" }}>
+                                  ⚠ No video AND only {qCount} practice question{qCount === 1 ? "" : "s"} — this objective needs outside material.
+                                </div>
+                              : <div style={{ fontSize: "9px", color: "#8a2846", background: "#ffe0e9", border: "1px solid #ffc2d4", borderRadius: "6px", padding: "5px 8px", marginBottom: "6px" }}>
+                                  No video in this playlist, but {qCount} practice questions are available — drill it in Practice instead.
+                                </div>;
+                          }
+                          if (stat?.thin) {
+                            return questionThin
+                              ? <div style={{ fontSize: "9px", color: "#9a6a1a", background: "rgba(154,106,26,0.08)", border: "1px solid rgba(154,106,26,0.25)", borderRadius: "6px", padding: "5px 8px", marginBottom: "6px" }}>
+                                  ⚠ Thin coverage ({Math.round(stat.totalSec / 60)} min video, {qCount} questions) — consider supplementing.
+                                </div>
+                              : <div style={{ fontSize: "9px", color: "#8a2846", background: "#ffe0e9", border: "1px solid #ffc2d4", borderRadius: "6px", padding: "5px 8px", marginBottom: "6px" }}>
+                                  Only {Math.round(stat.totalSec / 60)} min of video, but {qCount} practice questions are available.
+                                </div>;
+                          }
+                          return null;
+                        })()}
                         {vids.map((v) => (
                           <VideoRow key={`${obj.id}-${v.id}`} video={v} checked={watchedVideos.includes(v.id)} onToggle={toggleWatched} disabled={!isLoggedIn} />
                         ))}
