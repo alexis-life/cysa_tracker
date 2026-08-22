@@ -746,10 +746,16 @@ export default function CySATracker() {
     const id = highlightTarget.startsWith("domain:")
       ? `domain-${highlightTarget.slice(7).replace(/\s+/g, "-")}`
       : `obj-${highlightTarget}`;
-    const el = document.getElementById(id);
-    if (el) el.scrollIntoView({ behavior: "smooth", block: "center" });
+    // Instant, not smooth: an animated scrollIntoView on this tab's heavy DOM
+    // (58+ video rows under a sticky header) let the sticky nav's active-tab
+    // underline visibly lag a frame behind the scroll, showing the previous
+    // tab as active for a moment. Waiting a frame first lets the newly
+    // mounted Videos content finish layout before we measure/scroll to it.
+    const raf = requestAnimationFrame(() => {
+      document.getElementById(id)?.scrollIntoView({ behavior: "auto", block: "center" });
+    });
     const t = setTimeout(() => setHighlightTarget(null), 2500);
-    return () => clearTimeout(t);
+    return () => { cancelAnimationFrame(raf); clearTimeout(t); };
   }, [tab, highlightTarget]);
 
   const jumpToObjective = (objectiveId) => { setHighlightTarget(objectiveId); setTab("videos"); };
