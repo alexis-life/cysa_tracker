@@ -1703,7 +1703,10 @@ Return ONLY valid JSON, no markdown:
                     const objHighlighted = highlightTarget === obj.id;
                     return (
                       <div key={obj.id} id={`obj-${obj.id}`}
-                        style={{ marginBottom: "14px", ...(objHighlighted ? { boxShadow: "0 0 0 3px rgba(185,55,94,0.35)", borderRadius: "8px", background: "#fff7fa", padding: "8px", margin: "-8px -8px 6px" } : {}) }}>
+                        style={{
+                          marginBottom: objHighlighted ? "6px" : "14px",
+                          ...(objHighlighted ? { boxShadow: "0 0 0 3px rgba(185,55,94,0.35)", borderRadius: "8px", background: "#fff7fa", padding: "8px", marginTop: "-8px", marginLeft: "-8px", marginRight: "-8px" } : {}),
+                        }}>
                         <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "6px" }}>
                           <span style={{ fontSize: "10.5px", color: "#522e38", fontWeight: "600" }}>{obj.label}</span>
                           <span style={{ fontSize: "9px", fontWeight: "700", color: vids.length === 0 ? "#ff9ebb" : objWatched === vids.length ? "#3F8F5F" : "#b9375e", whiteSpace: "nowrap", marginLeft: "8px" }}>
