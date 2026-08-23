@@ -667,8 +667,7 @@ export default function CySATracker() {
   const [filterDomain, setFilterDomain] = useState("Any Domain");
   const [filterObjective, setFilterObjective] = useState("Any Objective");
   const [includeLowConfidence, setIncludeLowConfidence] = useState(false);
-  const [questionSource, setQuestionSource] = useState("any"); // "any" | "book" | "ai"
-  const [loadingQ, setLoadingQ] = useState(false);
+  const [questionSource, setQuestionSource] = useState("book"); // "book" | "recommended"
   const [apiError, setApiError] = useState(null);
   const [dashView, setDashView] = useState("domain"); // "domain" | "objective"
 
@@ -897,84 +896,14 @@ export default function CySATracker() {
     return pool.length > 0 ? pool[Math.floor(Math.random() * pool.length)] : null;
   };
 
-  const fetchAIQuestion = async () => {
-    setLoadingQ(true); setApiError(null);
-    const usingRecommended = questionSource === "recommended" && recommendedTarget;
-    let targetDomain = usingRecommended
-      ? recommendedTarget.domain
-      : filterDomain === "Any Domain"
-      ? Object.keys(DOMAINS)[Math.floor(Math.random() * 4)]
-      : filterDomain;
-
-    let targetObjective = null;
-    if (usingRecommended && recommendedTarget.objectiveId) {
-      targetObjective = ALL_OBJECTIVES_FLAT.find((o) => o.id === recommendedTarget.objectiveId);
-    } else if (!usingRecommended && filterObjective !== "Any Objective") {
-      targetObjective = ALL_OBJECTIVES_FLAT.find((o) => o.label === filterObjective);
-    } else {
-      const domainObjs = OBJECTIVES[targetDomain] || [];
-      targetObjective = domainObjs[Math.floor(Math.random() * domainObjs.length)];
-    }
-
-    const recentTopics = history
-      .filter((h) => h.objectiveId === targetObjective?.id)
-      .slice(-4).map((h) => h.topic).filter(Boolean);
-
-    const avoidStr = recentTopics.length ? `Avoid these recently covered topics: ${recentTopics.join(", ")}.` : "";
-
-    const prompt = `You are a CompTIA CySA+ (CS0-003) exam question generator.
-
-Generate ONE scenario-based multiple choice question for:
-- Domain: "${targetDomain}"
-- Exam Objective: "${targetObjective?.label || "any"}"
-${avoidStr}
-
-Return ONLY a valid JSON object, no markdown, no extra text:
-{
-  "domain": "${targetDomain}",
-  "objectiveId": "${targetObjective?.id || ""}",
-  "objectiveLabel": "${targetObjective?.label || ""}",
-  "topic": "specific topic in 3-6 words",
-  "question": "scenario-based question text",
-  "options": ["A) ...", "B) ...", "C) ...", "D) ..."],
-  "answer": 0,
-  "explanation": "2-3 sentences explaining why the correct answer is right and why key distractors are wrong"
-}
-
-The "answer" field is the 0-based index of the correct option. Make it realistic and exam-level difficulty.`;
-
-    try {
-      const res = await fetch("/api/generate-question", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ prompt }),
-      });
-      const data = await res.json();
-      const text = data.content?.find((b) => b.type === "text")?.text || "";
-      const clean = text.replace(/```json|```/g, "").trim();
-      const parsed = JSON.parse(clean);
-      parsed.id = `ai-${Date.now()}`;
-      parsed.source = "AI Generated";
-      setCurrentQ(parsed);
-    } catch {
-      setApiError("Couldn't generate a question. Check connection and try again.");
-    } finally { setLoadingQ(false); }
-  };
-
   const loadQuestion = () => {
     setSelected(null); setRevealed(false); setApiError(null);
-    if (questionSource === "ai") {
-      fetchAIQuestion();
-      return;
-    }
     const seed = getNextSeed();
-    if (questionSource === "book") {
-      if (seed) setCurrentQ(seed);
-      else { setCurrentQ(null); setApiError("No unused questions left in the question bank for this domain/objective. Try a different filter or switch to AI."); }
-      return;
-    }
-    if (seed) setCurrentQ(seed);
-    else fetchAIQuestion();
+    if (seed) { setCurrentQ(seed); return; }
+    setCurrentQ(null);
+    setApiError(questionSource === "recommended"
+      ? "No unused questions left for this recommended target yet. Try Question Bank mode with a different filter, or ask Claude.ai for more and Import the results."
+      : "No unused questions left in the question bank for this domain/objective. Try a different filter, or ask Claude.ai for more and Import the results.");
   };
 
   const isMultiSelect = Array.isArray(currentQ?.answer);
@@ -1459,9 +1388,7 @@ Return ONLY valid JSON, no markdown:
             <div style={{ display: "flex", gap: "6px", marginTop: "8px", marginBottom: "4px" }}>
               {[
                 { key: "recommended", label: "🎯 Recommended" },
-                { key: "any", label: "Either" },
                 { key: "book", label: "📚 Question Bank" },
-                { key: "ai", label: "✦ AI" },
               ].map((opt) => (
                 <button
                   key={opt.key}
@@ -1484,7 +1411,7 @@ Return ONLY valid JSON, no markdown:
               ))}
             </div>
 
-            {!currentQ && !loadingQ && (
+            {!currentQ && (
               <div style={{ textAlign: "center", paddingTop: "30px" }}>
                 <div style={{ color: "#ff9ebb", fontSize: "10px", marginBottom: "16px" }}>
                   {questionSource === "recommended"
@@ -1495,7 +1422,6 @@ Return ONLY valid JSON, no markdown:
               </div>
             )}
 
-            {loadingQ && <div style={{ textAlign: "center", padding: "50px 0", color: "#8a2846", fontSize: "10px", letterSpacing: "0.1em" }}>Generating question...</div>}
             {apiError && (
               <div style={{ color: "#C24444", fontSize: "10px", textAlign: "center", padding: "16px 0" }}>
                 {apiError}<br />
@@ -1503,7 +1429,7 @@ Return ONLY valid JSON, no markdown:
               </div>
             )}
 
-            {currentQ && !loadingQ && (
+            {currentQ && (
               <div style={c.card}>
                 <span style={c.domTag(currentQ.domain)}>{currentQ.domain}</span>
                 {getObjectiveLabel(currentQ) && <span style={c.objTag(currentQ.domain)}>{getObjectiveLabel(currentQ)}</span>}
