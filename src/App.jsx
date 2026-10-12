@@ -466,28 +466,37 @@ const QUESTION_COUNTS_BY_OBJECTIVE = SEED_QUESTIONS.reduce((acc, q) => {
   return acc;
 }, {});
 
-function formatWeekRange(startISO) {
+function formatWeekRange(startISO, endISO) {
   const start = new Date(startISO + "T00:00:00");
-  const end = new Date(start);
-  end.setDate(end.getDate() + 6);
+  const end = endISO ? new Date(endISO + "T00:00:00") : new Date(start);
+  if (!endISO) end.setDate(end.getDate() + 6);
   const fmt = (d) => d.toLocaleDateString("en-US", { month: "short", day: "numeric" });
   return `${fmt(start)} – ${fmt(end)}`;
 }
 
-// 8-week compressed plan (chosen over the original ~16-week schedule to
-// reduce forgetting — review is spread across every week instead of being
-// crammed into a final cram phase). Dates are fixed to this specific run at
-// the exam so "current week" can be computed against real time.
-const EXAM_DATE = "2026-10-18"; // booked: Sunday Oct 18, 2026, 1:30 PM PDT check-in
+// Exclusive end of a plan week. A normal week runs 7 days (next Monday).
+// An explicit `end` is an inclusive calendar date — exam week closes the
+// morning after that date, so it can be shorter than 7 days.
+function weekWindowEnd(w) {
+  const end = w.end ? new Date(w.end + "T00:00:00") : new Date(w.start + "T00:00:00");
+  end.setDate(end.getDate() + (w.end ? 1 : 7));
+  return end;
+}
+
+// 5-week restart. The earlier 8-week run (starting 2026-08-21, exam
+// 2026-10-18) lapsed; this schedule starts fresh Monday 2026-10-12 and
+// finishes at the rescheduled exam. Dates are fixed so "current week"
+// can be computed against real time. Week 5 is shorter than 7 days
+// because the exam is Saturday, not the following Sunday.
+const EXAM_DATE = "2026-11-14"; // booked: Saturday Nov 14, 2026 — check-in 11:30 AM PST, start 12:00 PM PST (America/Los_Angeles)
+const EXAM_CHECKIN_LABEL = "11:30 AM PST";
+const EXAM_START_LABEL = "12:00 PM PST";
 const STUDY_PLAN = [
-  { week: 1, start: "2026-08-21", focus: "Orientation + 1.1, 1.2, 1.3", objectiveIds: ["1.1", "1.2", "1.3"], review: "Practice each objective right after watching it — don't wait." },
-  { week: 2, start: "2026-08-28", focus: "1.4, 1.5 — finishes Security Operations", objectiveIds: ["1.4", "1.5"], review: "Redo any Week 1 missed questions before moving on." },
-  { week: 3, start: "2026-09-04", focus: "2.1, 2.2, 2.3", objectiveIds: ["2.1", "2.2", "2.3"], review: "15 min/day quick-practice on Domain 1 so it doesn't go cold." },
-  { week: 4, start: "2026-09-11", focus: "2.4 — the single biggest chunk (~7h of video)", objectiveIds: ["2.4"], review: "15–20 min/day mixed review across Domains 1–2." },
-  { week: 5, start: "2026-09-18", focus: "2.5 — finishes Vulnerability Management", objectiveIds: ["2.5"], review: "Heavy VulnMgmt practice + a Domain 1 spot-check." },
-  { week: 6, start: "2026-09-25", focus: "All of Domain 3 & 4 — light on video here, so supplement 4.1 (zero video coverage) with outside reading", objectiveIds: ["3.1", "3.2", "3.3", "4.1", "4.2"], review: "Keep touching Domains 1–2 daily so they don't go cold." },
-  { week: 7, start: "2026-10-02", focus: "No new content — full practice sweep across all 15 objectives", objectiveIds: [], review: "Driven entirely by the Dashboard's weakest-objective flags." },
-  { week: 8, start: "2026-10-09", focus: "No new content — a timed full practice exam (use Dion's CS0-003 Practice Exams course on Udemy, Exam mode: 90 questions/2h45m — NOT the Dion \"Complete Course,\" which updated to CS0-004 and no longer matches this exam), then gap-fill only your 2–3 weakest objectives", objectiveIds: [], review: "Light review only — rest before test day." },
+  { week: 1, start: "2026-10-12", focus: "Domain 1 — Security Operations (1.1–1.5)", objectiveIds: ["1.1", "1.2", "1.3", "1.4", "1.5"], review: "Practice each objective right after watching it." },
+  { week: 2, start: "2026-10-19", focus: "2.1, 2.2, 2.3", objectiveIds: ["2.1", "2.2", "2.3"], review: "15 min/day quick practice on Domain 1." },
+  { week: 3, start: "2026-10-26", focus: "2.4 and 2.5 — Vulnerability Management, the biggest chunk", objectiveIds: ["2.4", "2.5"], review: "Mixed Domains 1–2 review daily." },
+  { week: 4, start: "2026-11-02", focus: "Domains 3 and 4 (3.1, 3.2, 3.3, 4.1, 4.2) — supplement 4.1 with outside reading since the videos don't cover it", objectiveIds: ["3.1", "3.2", "3.3", "4.1", "4.2"], review: "Keep touching Domains 1–2 daily." },
+  { week: 5, start: "2026-11-09", end: "2026-11-14", focus: "No new content — timed full practice exam on Tuesday (use Dion's CS0-003 Practice Exams course on Udemy, Exam mode: 90 questions/2h45m — NOT the Dion \"Complete Course,\" which updated to CS0-004 and no longer matches this exam), then gap-fill the 2–3 weakest objectives. Rest Friday before the Saturday exam.", objectiveIds: [], review: "Exam week is shorter than 7 days — it ends Saturday." },
 ];
 
 const STORAGE_KEY = "cysa-tracker-v2";
@@ -546,7 +555,11 @@ async function saveWatchedVideos(watched) {
   }
 }
 
-const PLAN_STORAGE_KEY = "cysa-tracker-plan-v1";
+// Bumped from cysa-tracker-plan-v1. That row stores completedWeeks as bare
+// week numbers from the lapsed 8-week plan. Weeks 1–5 exist in both plans
+// but cover different dates and objectives, so reusing v1 would mark the
+// restart's early weeks done. v2 starts empty; the old row is left unread.
+const PLAN_STORAGE_KEY = "cysa-tracker-plan-v2";
 
 async function loadPlanProgress() {
   try {
@@ -834,8 +847,7 @@ export default function CySATracker() {
   const daysUntilExam = Math.ceil((new Date(EXAM_DATE + "T00:00:00") - now) / 86400000);
   let currentWeekIndex = STUDY_PLAN.findIndex((w) => {
     const start = new Date(w.start + "T00:00:00");
-    const end = new Date(start); end.setDate(end.getDate() + 7);
-    return now >= start && now < end;
+    return now >= start && now < weekWindowEnd(w);
   });
   if (currentWeekIndex === -1) currentWeekIndex = now < new Date(STUDY_PLAN[0].start + "T00:00:00") ? 0 : STUDY_PLAN.length;
   const currentPlanWeek = STUDY_PLAN[currentWeekIndex];
@@ -1292,7 +1304,7 @@ Return ONLY valid JSON, no markdown:
             </div>
 
             <div style={{ fontSize: "8px", color: "#ff9ebb", marginTop: "-8px", marginBottom: "14px" }}>
-              8-week compressed plan targeting exam day {new Date(EXAM_DATE + "T00:00:00").toLocaleDateString("en-US", { month: "long", day: "numeric", year: "numeric" })} — chosen over a longer schedule so review stays spread across every week instead of crammed at the end. CS0-003 retires Dec 22, 2026, so this still leaves buffer for a retake if needed.
+              5-week restart beginning {new Date(STUDY_PLAN[0].start + "T00:00:00").toLocaleDateString("en-US", { weekday: "long", month: "long", day: "numeric", year: "numeric" })}, targeting exam day {new Date(EXAM_DATE + "T00:00:00").toLocaleDateString("en-US", { weekday: "long", month: "long", day: "numeric", year: "numeric" })} — check-in {EXAM_CHECKIN_LABEL}, start {EXAM_START_LABEL} (America/Los_Angeles). Week 5 is shorter than 7 days and ends on exam day. CS0-003 retires Dec 22, 2026, so this still leaves buffer for a retake if needed.
               {!isLoggedIn && " Sign in to save which weeks you've completed."}
             </div>
 
@@ -1309,7 +1321,7 @@ Return ONLY valid JSON, no markdown:
                 }}>
                   <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "6px" }}>
                     <div style={{ fontSize: "10px", color: "#b9375e", letterSpacing: "0.08em", textTransform: "uppercase", fontWeight: "700" }}>
-                      Week {w.week} · {formatWeekRange(w.start)}
+                      Week {w.week} · {formatWeekRange(w.start, w.end)}
                       {isCurrent && <span style={{ marginLeft: "8px", fontSize: "8px", background: "#b9375e", color: "#fff", padding: "2px 8px", borderRadius: "20px" }}>CURRENT</span>}
                     </div>
                     <label style={{ display: "flex", alignItems: "center", gap: "5px", cursor: isLoggedIn ? "pointer" : "default" }}>
@@ -1338,6 +1350,8 @@ Return ONLY valid JSON, no markdown:
             <div style={{ ...c.card, textAlign: "center", borderColor: "#b9375e", background: "#fff7fa" }}>
               <div style={{ fontSize: "10px", color: "#b9375e", letterSpacing: "0.1em", textTransform: "uppercase", fontWeight: "700", marginBottom: "4px" }}>🎯 Exam Day</div>
               <div style={{ fontSize: "12px", color: "#522e38", fontWeight: "600" }}>{new Date(EXAM_DATE + "T00:00:00").toLocaleDateString("en-US", { weekday: "long", month: "long", day: "numeric", year: "numeric" })}</div>
+              <div style={{ fontSize: "10px", color: "#8a2846", marginTop: "4px" }}>Check-in {EXAM_CHECKIN_LABEL} · Start {EXAM_START_LABEL}</div>
+              <div style={{ fontSize: "8px", color: "#ff9ebb", marginTop: "2px" }}>America/Los_Angeles</div>
             </div>
           </>
         )}
