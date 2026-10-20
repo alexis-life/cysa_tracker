@@ -483,20 +483,19 @@ function weekWindowEnd(w) {
   return end;
 }
 
-// 5-week restart. The earlier 8-week run (starting 2026-08-21, exam
-// 2026-10-18) lapsed; this schedule starts fresh Monday 2026-10-12 and
-// finishes at the rescheduled exam. Dates are fixed so "current week"
-// can be computed against real time. Week 5 is shorter than 7 days
-// because the exam is Saturday, not the following Sunday.
+// 4-week gentle restart. The Oct 12 five-week plan was not started;
+// this schedule begins Monday 2026-10-19 at an easy pace and finishes
+// at the same exam (Saturday 2026-11-14). Dates are fixed so "current
+// week" can be computed against real time. Week 4 is shorter than 7
+// days because the exam is Saturday, not the following Sunday.
 const EXAM_DATE = "2026-11-14"; // booked: Saturday Nov 14, 2026 — check-in 11:30 AM PST, start 12:00 PM PST (America/Los_Angeles)
 const EXAM_CHECKIN_LABEL = "11:30 AM PST";
 const EXAM_START_LABEL = "12:00 PM PST";
 const STUDY_PLAN = [
-  { week: 1, start: "2026-10-12", focus: "Domain 1 — Security Operations (1.1–1.5)", objectiveIds: ["1.1", "1.2", "1.3", "1.4", "1.5"], review: "Practice each objective right after watching it." },
-  { week: 2, start: "2026-10-19", focus: "2.1, 2.2, 2.3", objectiveIds: ["2.1", "2.2", "2.3"], review: "15 min/day quick practice on Domain 1." },
-  { week: 3, start: "2026-10-26", focus: "2.4 and 2.5 — Vulnerability Management, the biggest chunk", objectiveIds: ["2.4", "2.5"], review: "Mixed Domains 1–2 review daily." },
-  { week: 4, start: "2026-11-02", focus: "Domains 3 and 4 (3.1, 3.2, 3.3, 4.1, 4.2) — supplement 4.1 with outside reading since the videos don't cover it", objectiveIds: ["3.1", "3.2", "3.3", "4.1", "4.2"], review: "Keep touching Domains 1–2 daily." },
-  { week: 5, start: "2026-11-09", end: "2026-11-14", focus: "No new content — timed full practice exam on Tuesday (use Dion's CS0-003 Practice Exams course on Udemy, Exam mode: 90 questions/2h45m — NOT the Dion \"Complete Course,\" which updated to CS0-004 and no longer matches this exam), then gap-fill the 2–3 weakest objectives. Rest Friday before the Saturday exam.", objectiveIds: [], review: "Exam week is shorter than 7 days — it ends Saturday." },
+  { week: 1, start: "2026-10-19", focus: "Easy restart, 20–30 min/night — Domain 1 Security Operations, one objective a night: Mon 1.1, Tue 1.2, Wed 1.3, Thu 1.4, Fri 1.5, Sat short Domain 1 quiz, Sun off.", objectiveIds: ["1.1", "1.2", "1.3", "1.4", "1.5"], review: "Small wins count — just show up." },
+  { week: 2, start: "2026-10-26", focus: "~45 min/night — 2.1, 2.2, 2.3, 2.4 (Vulnerability Management). Spread 2.4, the biggest chunk, over 2–3 nights.", objectiveIds: ["2.1", "2.2", "2.3", "2.4"], review: "10 min Domain 1 quick practice each night." },
+  { week: 3, start: "2026-11-02", focus: "~60 min/night — 2.5, then Domain 3 (3.1, 3.2, 3.3) and Domain 4 (4.1, 4.2). Supplement 4.1 with outside reading; the videos don't cover it.", objectiveIds: ["2.5", "3.1", "3.2", "3.3", "4.1", "4.2"], review: "Mixed Domains 1–2 questions daily." },
+  { week: 4, start: "2026-11-09", end: "2026-11-14", focus: "No new content — Mon gap-fill weakest objectives, Tue timed full practice exam (use Dion's CS0-003 Practice Exams course on Udemy, Exam mode: 90 questions/2h45m — NOT the Dion \"Complete Course,\" which updated to CS0-004 and no longer matches this exam), Wed–Thu review misses plus a second practice set, Fri light review and rest, Sat exam.", objectiveIds: [], review: "Exam week is shorter than 7 days — it ends on exam day. Light and steady is enough." },
 ];
 
 const STORAGE_KEY = "cysa-tracker-v2";
@@ -555,11 +554,12 @@ async function saveWatchedVideos(watched) {
   }
 }
 
-// Bumped from cysa-tracker-plan-v1. That row stores completedWeeks as bare
-// week numbers from the lapsed 8-week plan. Weeks 1–5 exist in both plans
-// but cover different dates and objectives, so reusing v1 would mark the
-// restart's early weeks done. v2 starts empty; the old row is left unread.
-const PLAN_STORAGE_KEY = "cysa-tracker-plan-v2";
+// Bumped from cysa-tracker-plan-v2. That row belongs to the Oct 12
+// five-week plan. None of those weeks were completed, and weeks 1–4
+// would otherwise collide with this gentler schedule. v3 starts empty;
+// v1 and v2 are left unread. Question history and watched videos stay
+// on their existing keys.
+const PLAN_STORAGE_KEY = "cysa-tracker-plan-v3";
 
 async function loadPlanProgress() {
   try {
@@ -1304,7 +1304,7 @@ Return ONLY valid JSON, no markdown:
             </div>
 
             <div style={{ fontSize: "8px", color: "#ff9ebb", marginTop: "-8px", marginBottom: "14px" }}>
-              5-week restart beginning {new Date(STUDY_PLAN[0].start + "T00:00:00").toLocaleDateString("en-US", { weekday: "long", month: "long", day: "numeric", year: "numeric" })}, targeting exam day {new Date(EXAM_DATE + "T00:00:00").toLocaleDateString("en-US", { weekday: "long", month: "long", day: "numeric", year: "numeric" })} — check-in {EXAM_CHECKIN_LABEL}, start {EXAM_START_LABEL} (America/Los_Angeles). Week 5 is shorter than 7 days and ends on exam day. CS0-003 retires Dec 22, 2026, so this still leaves buffer for a retake if needed.
+              4-week gentle restart beginning {new Date(STUDY_PLAN[0].start + "T00:00:00").toLocaleDateString("en-US", { weekday: "long", month: "long", day: "numeric", year: "numeric" })}. Start small — 20–30 minutes a night is enough, and a missed night is not a failed week. Exam day is {new Date(EXAM_DATE + "T00:00:00").toLocaleDateString("en-US", { weekday: "long", month: "long", day: "numeric", year: "numeric" })} — check-in {EXAM_CHECKIN_LABEL}, start {EXAM_START_LABEL} (America/Los_Angeles). Week 4 is shorter than 7 days and ends on exam day. CS0-003 retires Dec 22, 2026, so there is still room for a retake if you want one.
               {!isLoggedIn && " Sign in to save which weeks you've completed."}
             </div>
 
