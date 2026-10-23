@@ -474,6 +474,15 @@ function formatWeekRange(startISO, endISO) {
   return `${fmt(start)} – ${fmt(end)}`;
 }
 
+function formatPlanDay(iso) {
+  return new Date(iso + "T00:00:00").toLocaleDateString("en-US", { weekday: "short", month: "short", day: "numeric" });
+}
+
+function isSameCalendarDay(now, iso) {
+  const day = new Date(iso + "T00:00:00");
+  return now.getFullYear() === day.getFullYear() && now.getMonth() === day.getMonth() && now.getDate() === day.getDate();
+}
+
 // Exclusive end of a plan week. A normal week runs 7 days (next Monday).
 // An explicit `end` is an inclusive calendar date — exam week closes the
 // morning after that date, so it can be shorter than 7 days.
@@ -483,19 +492,82 @@ function weekWindowEnd(w) {
   return end;
 }
 
-// 4-week gentle restart. The Oct 12 five-week plan was not started;
-// this schedule begins Monday 2026-10-19 at an easy pace and finishes
-// at the same exam (Saturday 2026-11-14). Dates are fixed so "current
-// week" can be computed against real time. Week 4 is shorter than 7
-// days because the exam is Saturday, not the following Sunday.
-const EXAM_DATE = "2026-11-14"; // booked: Saturday Nov 14, 2026 — check-in 11:30 AM PST, start 12:00 PM PST (America/Los_Angeles)
-const EXAM_CHECKIN_LABEL = "11:30 AM PST";
-const EXAM_START_LABEL = "12:00 PM PST";
+// 22-day catch-up. Replaces the Oct 19 four-week plan. Starts Friday
+// 2026-10-23 and ends on exam day Saturday 2026-11-14. Each phase has
+// an inclusive end date so "current phase" follows the calendar from
+// Oct 23 through Nov 14, including phases that are not Monday–Sunday.
+const EXAM_DATE = "2026-11-14"; // booked: Saturday Nov 14, 2026 — check-in 11:30 AM PT, start noon PT (America/Los_Angeles)
+const EXAM_CHECKIN_LABEL = "11:30 AM PT";
+const EXAM_START_LABEL = "12:00 PM PT";
+const PLAN_METHOD = "Read the objective's Notion page or notes first, use the linked videos only for fuzzy spots, then do about 10 practice questions and log it. Weekdays about 45–60 min, weekends about 60–90 min.";
 const STUDY_PLAN = [
-  { week: 1, start: "2026-10-19", focus: "Easy restart, 20–30 min/night — Domain 1 Security Operations, one objective a night: Mon 1.1, Tue 1.2, Wed 1.3, Thu 1.4, Fri 1.5, Sat short Domain 1 quiz, Sun off.", objectiveIds: ["1.1", "1.2", "1.3", "1.4", "1.5"], review: "Small wins count — just show up." },
-  { week: 2, start: "2026-10-26", focus: "~45 min/night — 2.1, 2.2, 2.3, 2.4 (Vulnerability Management). Spread 2.4, the biggest chunk, over 2–3 nights.", objectiveIds: ["2.1", "2.2", "2.3", "2.4"], review: "10 min Domain 1 quick practice each night." },
-  { week: 3, start: "2026-11-02", focus: "~60 min/night — 2.5, then Domain 3 (3.1, 3.2, 3.3) and Domain 4 (4.1, 4.2). Supplement 4.1 with outside reading; the videos don't cover it.", objectiveIds: ["2.5", "3.1", "3.2", "3.3", "4.1", "4.2"], review: "Mixed Domains 1–2 questions daily." },
-  { week: 4, start: "2026-11-09", end: "2026-11-14", focus: "No new content — Mon gap-fill weakest objectives, Tue timed full practice exam (use Dion's CS0-003 Practice Exams course on Udemy, Exam mode: 90 questions/2h45m — NOT the Dion \"Complete Course,\" which updated to CS0-004 and no longer matches this exam), Wed–Thu review misses plus a second practice set, Fri light review and rest, Sat exam.", objectiveIds: [], review: "Exam week is shorter than 7 days — it ends on exam day. Light and steady is enough." },
+  {
+    week: 1,
+    name: "Phase 1",
+    start: "2026-10-23",
+    end: "2026-10-28",
+    focus: "Domain 1 — Security Operations (33%)",
+    objectiveIds: ["1.1", "1.2", "1.3", "1.4", "1.5"],
+    review: "Wednesday is the Domain 1 quiz: 25–30 questions, then review the misses.",
+    days: [
+      { date: "2026-10-23", task: "1.1" },
+      { date: "2026-10-24", task: "1.2" },
+      { date: "2026-10-25", task: "1.3" },
+      { date: "2026-10-26", task: "1.4" },
+      { date: "2026-10-27", task: "1.5" },
+      { date: "2026-10-28", task: "Domain 1 quiz (25–30 questions) and review misses" },
+    ],
+  },
+  {
+    week: 2,
+    name: "Phase 2",
+    start: "2026-10-29",
+    end: "2026-11-04",
+    focus: "Domain 2 — Vulnerability Management (30%)",
+    objectiveIds: ["2.1", "2.2", "2.3", "2.4", "2.5"],
+    review: "Saturday's 2.3 session is short. Give 2.4 two days, then quiz on Wednesday and review the misses.",
+    days: [
+      { date: "2026-10-29", task: "2.1" },
+      { date: "2026-10-30", task: "2.2" },
+      { date: "2026-10-31", task: "2.3 (short session)" },
+      { date: "2026-11-01", task: "2.4 part 1" },
+      { date: "2026-11-02", task: "2.4 part 2" },
+      { date: "2026-11-03", task: "2.5" },
+      { date: "2026-11-04", task: "Domain 2 quiz and review misses" },
+    ],
+  },
+  {
+    week: 3,
+    name: "Phase 3",
+    start: "2026-11-05",
+    end: "2026-11-08",
+    focus: "Domain 3 Incident Response and Domain 4 Reporting & Communication (37% combined)",
+    objectiveIds: ["3.1", "3.2", "3.3", "4.1", "4.2"],
+    review: "Sunday is a flex day — catch up on anything that slipped, or rest.",
+    days: [
+      { date: "2026-11-05", task: "3.1" },
+      { date: "2026-11-06", task: "3.2 and 3.3" },
+      { date: "2026-11-07", task: "4.1 and 4.2 — 4.1 has no video coverage, so use outside reading" },
+      { date: "2026-11-08", task: "Flex day: catch up on anything that slipped, or rest" },
+    ],
+  },
+  {
+    week: 4,
+    name: "Phase 4",
+    start: "2026-11-09",
+    end: "2026-11-14",
+    focus: "Exam week — no new content",
+    objectiveIds: [],
+    review: "Light review Friday, then rest. This phase is shorter than 7 days and ends on exam day.",
+    days: [
+      { date: "2026-11-09", task: "Timed full practice exam 1 (Dion's CS0-003 Practice Exams on Udemy, Exam mode — NOT the Complete Course, which moved to CS0-004)" },
+      { date: "2026-11-10", task: "Review misses, gap-fill weakest objectives" },
+      { date: "2026-11-11", task: "Timed practice exam 2" },
+      { date: "2026-11-12", task: "Review misses, weakest objectives" },
+      { date: "2026-11-13", task: "Light review, then rest" },
+      { date: "2026-11-14", task: "Exam — check-in 11:30 AM PT, start noon PT" },
+    ],
+  },
 ];
 
 const STORAGE_KEY = "cysa-tracker-v2";
@@ -554,12 +626,11 @@ async function saveWatchedVideos(watched) {
   }
 }
 
-// Bumped from cysa-tracker-plan-v2. That row belongs to the Oct 12
-// five-week plan. None of those weeks were completed, and weeks 1–4
-// would otherwise collide with this gentler schedule. v3 starts empty;
-// v1 and v2 are left unread. Question history and watched videos stay
-// on their existing keys.
-const PLAN_STORAGE_KEY = "cysa-tracker-plan-v3";
+// Bumped from cysa-tracker-plan-v3. That row belongs to the Oct 19
+// four-week plan. This catch-up uses different phase dates, so v4
+// starts with nothing marked done. Question history and watched videos
+// stay on their existing keys.
+const PLAN_STORAGE_KEY = "cysa-tracker-plan-v4";
 
 async function loadPlanProgress() {
   try {
@@ -851,6 +922,7 @@ export default function CySATracker() {
   });
   if (currentWeekIndex === -1) currentWeekIndex = now < new Date(STUDY_PLAN[0].start + "T00:00:00") ? 0 : STUDY_PLAN.length;
   const currentPlanWeek = STUDY_PLAN[currentWeekIndex];
+  const todayPlanTask = currentPlanWeek?.days?.find((d) => isSameCalendarDay(now, d.date))?.task || null;
 
   // Weighted by exam domain percentages (33/30/20/17, summing to 100) rather
   // than a flat average, so an untouched heavy domain drags the score down
@@ -1146,8 +1218,9 @@ Return ONLY valid JSON, no markdown:
 
                 {currentPlanWeek && (
                   <div style={{ marginBottom: "10px" }}>
-                    <div style={{ fontSize: "9px", color: "#8a2846", marginBottom: "2px" }}>This week (Week {currentPlanWeek.week})</div>
-                    <div style={{ fontSize: "11px", color: "#522e38", fontWeight: "600", marginBottom: currentPlanWeek.objectiveIds.length ? "6px" : "0" }}>{currentPlanWeek.focus}</div>
+                    <div style={{ fontSize: "9px", color: "#8a2846", marginBottom: "2px" }}>This phase ({currentPlanWeek.name || `Phase ${currentPlanWeek.week}`})</div>
+                    <div style={{ fontSize: "11px", color: "#522e38", fontWeight: "600", marginBottom: todayPlanTask || currentPlanWeek.objectiveIds.length ? "6px" : "0" }}>{currentPlanWeek.focus}</div>
+                    {todayPlanTask && <div style={{ fontSize: "10px", color: "#522e38", marginBottom: currentPlanWeek.objectiveIds.length ? "6px" : "0", lineHeight: "1.45" }}>Today: {todayPlanTask}</div>}
                     {currentPlanWeek.objectiveIds.length > 0 && (
                       <div style={{ display: "flex", flexWrap: "wrap", gap: "6px" }}>
                         {currentPlanWeek.objectiveIds.map((id) => (
@@ -1299,13 +1372,18 @@ Return ONLY valid JSON, no markdown:
           <>
             <div style={c.statRow}>
               <div style={c.sBox(daysUntilExam <= 14 ? "#C24444" : "#b9375e")}><span style={c.sNum()}>{daysUntilExam}</span><span style={c.sLbl}>Days To Exam</span></div>
-              <div style={c.sBox("#8a2846")}><span style={c.sNum()}>{Math.min(currentWeekIndex + 1, STUDY_PLAN.length)}/{STUDY_PLAN.length}</span><span style={c.sLbl}>Current Week</span></div>
-              <div style={c.sBox("#3F8F5F")}><span style={c.sNum()}>{planCompletedWeeks.length}/{STUDY_PLAN.length}</span><span style={c.sLbl}>Weeks Done</span></div>
+              <div style={c.sBox("#8a2846")}><span style={c.sNum()}>{Math.min(currentWeekIndex + 1, STUDY_PLAN.length)}/{STUDY_PLAN.length}</span><span style={c.sLbl}>Current Phase</span></div>
+              <div style={c.sBox("#3F8F5F")}><span style={c.sNum()}>{planCompletedWeeks.length}/{STUDY_PLAN.length}</span><span style={c.sLbl}>Phases Done</span></div>
             </div>
 
             <div style={{ fontSize: "8px", color: "#ff9ebb", marginTop: "-8px", marginBottom: "14px" }}>
-              4-week gentle restart beginning {new Date(STUDY_PLAN[0].start + "T00:00:00").toLocaleDateString("en-US", { weekday: "long", month: "long", day: "numeric", year: "numeric" })}. Start small — 20–30 minutes a night is enough, and a missed night is not a failed week. Exam day is {new Date(EXAM_DATE + "T00:00:00").toLocaleDateString("en-US", { weekday: "long", month: "long", day: "numeric", year: "numeric" })} — check-in {EXAM_CHECKIN_LABEL}, start {EXAM_START_LABEL} (America/Los_Angeles). Week 4 is shorter than 7 days and ends on exam day. CS0-003 retires Dec 22, 2026, so there is still room for a retake if you want one.
-              {!isLoggedIn && " Sign in to save which weeks you've completed."}
+              22-day catch-up from {new Date(STUDY_PLAN[0].start + "T00:00:00").toLocaleDateString("en-US", { weekday: "long", month: "long", day: "numeric", year: "numeric" })} through exam day {new Date(EXAM_DATE + "T00:00:00").toLocaleDateString("en-US", { weekday: "long", month: "long", day: "numeric", year: "numeric" })} — check-in {EXAM_CHECKIN_LABEL}, start {EXAM_START_LABEL} (America/Los_Angeles). Four phases, then the exam. CS0-003 retires Dec 22, 2026, so there is still room for a retake if you want one.
+              {!isLoggedIn && " Sign in to save which phases you've completed."}
+            </div>
+
+            <div style={c.card}>
+              <div style={{ fontSize: "8px", color: "#b9375e", letterSpacing: "0.1em", textTransform: "uppercase", fontWeight: "700", marginBottom: "4px" }}>Method</div>
+              <div style={{ fontSize: "10px", color: "#522e38", lineHeight: "1.5" }}>{PLAN_METHOD}</div>
             </div>
 
             {STUDY_PLAN.map((w, i) => {
@@ -1321,7 +1399,7 @@ Return ONLY valid JSON, no markdown:
                 }}>
                   <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "6px" }}>
                     <div style={{ fontSize: "10px", color: "#b9375e", letterSpacing: "0.08em", textTransform: "uppercase", fontWeight: "700" }}>
-                      Week {w.week} · {formatWeekRange(w.start, w.end)}
+                      {w.name || `Phase ${w.week}`} · {formatWeekRange(w.start, w.end)}
                       {isCurrent && <span style={{ marginLeft: "8px", fontSize: "8px", background: "#b9375e", color: "#fff", padding: "2px 8px", borderRadius: "20px" }}>CURRENT</span>}
                     </div>
                     <label style={{ display: "flex", alignItems: "center", gap: "5px", cursor: isLoggedIn ? "pointer" : "default" }}>
@@ -1331,6 +1409,20 @@ Return ONLY valid JSON, no markdown:
                     </label>
                   </div>
                   <div style={{ fontSize: "11px", color: "#522e38", marginBottom: "6px", lineHeight: "1.5" }}>{w.focus}</div>
+                  {w.days?.length > 0 && (
+                    <div style={{ display: "flex", flexDirection: "column", gap: "2px", marginBottom: "8px" }}>
+                      {w.days.map((d) => {
+                        const isToday = isSameCalendarDay(now, d.date);
+                        return (
+                          <div key={d.date} style={{ display: "flex", gap: "8px", alignItems: "baseline", fontSize: "10px", lineHeight: "1.45", padding: "3px 6px", borderRadius: "6px", background: isToday ? "#ffe0e9" : "transparent" }}>
+                            <span style={{ color: "#b9375e", fontWeight: "700", minWidth: "88px", flexShrink: 0 }}>{formatPlanDay(d.date)}</span>
+                            <span style={{ color: "#522e38", flex: 1 }}>{d.task}</span>
+                            {isToday && <span style={{ fontSize: "8px", background: "#b9375e", color: "#fff", padding: "1px 6px", borderRadius: "20px", fontWeight: "700", letterSpacing: "0.06em" }}>TODAY</span>}
+                          </div>
+                        );
+                      })}
+                    </div>
+                  )}
                   <div style={{ fontSize: "9px", color: "#8a2846", marginBottom: w.objectiveIds.length ? "8px" : "0", lineHeight: "1.5" }}>
                     <strong style={{ color: "#b9375e" }}>Review: </strong>{w.review}
                   </div>
