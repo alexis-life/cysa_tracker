@@ -478,94 +478,122 @@ function formatPlanDay(iso) {
   return new Date(iso + "T00:00:00").toLocaleDateString("en-US", { weekday: "short", month: "short", day: "numeric" });
 }
 
+// Calendar date in America/Los_Angeles. Comparing these ISO strings
+// keeps "today", the current phase, and days-left stable across the
+// Nov 1, 2026 PDT→PST fallback, including the repeated 1:00–2:00 hour.
+const PACIFIC_TZ = "America/Los_Angeles";
+
+function pacificDateISO(date) {
+  const parts = new Intl.DateTimeFormat("en-US", {
+    timeZone: PACIFIC_TZ,
+    year: "numeric",
+    month: "2-digit",
+    day: "2-digit",
+  }).formatToParts(date);
+  const get = (type) => parts.find((p) => p.type === type).value;
+  return `${get("year")}-${get("month")}-${get("day")}`;
+}
+
+function daysBetweenISO(fromISO, toISO) {
+  const utc = (iso) => {
+    const [y, m, d] = iso.split("-").map(Number);
+    return Date.UTC(y, m - 1, d);
+  };
+  return Math.round((utc(toISO) - utc(fromISO)) / 86400000);
+}
+
 function isSameCalendarDay(now, iso) {
-  const day = new Date(iso + "T00:00:00");
-  return now.getFullYear() === day.getFullYear() && now.getMonth() === day.getMonth() && now.getDate() === day.getDate();
+  return pacificDateISO(now) === iso;
 }
 
-// Exclusive end of a plan week. A normal week runs 7 days (next Monday).
-// An explicit `end` is an inclusive calendar date — exam week closes the
-// morning after that date, so it can be shorter than 7 days.
-function weekWindowEnd(w) {
-  const end = w.end ? new Date(w.end + "T00:00:00") : new Date(w.start + "T00:00:00");
-  end.setDate(end.getDate() + (w.end ? 1 : 7));
-  return end;
-}
-
-// 22-day catch-up. Replaces the Oct 19 four-week plan. Starts Friday
-// 2026-10-23 and ends on exam day Saturday 2026-11-14. Each phase has
-// an inclusive end date so "current phase" follows the calendar from
-// Oct 23 through Nov 14, including phases that are not Monday–Sunday.
-const EXAM_DATE = "2026-11-14"; // booked: Saturday Nov 14, 2026 — check-in 11:30 AM PT, start noon PT (America/Los_Angeles)
-const EXAM_CHECKIN_LABEL = "11:30 AM PT";
-const EXAM_START_LABEL = "12:00 PM PT";
-const PLAN_METHOD = "Read the objective's Notion page or notes first, use the linked videos only for fuzzy spots, then do about 10 practice questions and log it. Weekdays about 45–60 min, weekends about 60–90 min.";
+// Rescheduled exam. The Oct 23 catch-up's Domain 1 block and 2.1–2.3
+// are behind; they stay in EARLIER_SCHEDULE instead of the active phases.
+// Active phases use week ids 5–8 so saved checks 1–4 on cysa-tracker-plan-v4
+// are not applied to this new work. "Today" is a Pacific calendar date.
+const EXAM_DATE = "2026-11-28"; // booked: Saturday Nov 28, 2026, 1:00 PM PT, online Pearson OnVUE, 210 minutes. Check-in opens 12:30 PM PT (America/Los_Angeles; PST by this date).
+const EXAM_CHECKIN_LABEL = "12:30 PM PT";
+const EXAM_START_LABEL = "1:00 PM PT";
+const EXAM_FORMAT_LABEL = "Pearson OnVUE · 210 minutes";
+const PLAN_METHOD = "Read the objective's Notion page or notes first, use the linked videos only for fuzzy spots, then do about 10 practice questions and log it. Weekdays about 45–60 min, weekends about 60–90 min. Practice exams are Dion's CS0-003 Practice Exams on Udemy, Exam mode, timed, 90 questions each — not the Complete Course, which moved to CS0-004.";
+// Labels for checks saved under the October 23 plan. Same storage key, same
+// week numbers, so a check still means the phase it was saved against.
+const PREVIOUS_PLAN_CHECKS = [
+  { week: 1, label: "Domain 1 · Oct 23–28" },
+  { week: 2, label: "Domain 2 block · Oct 29–Nov 4" },
+  { week: 3, label: "Domains 3–4 · Nov 5–8" },
+  { week: 4, label: "Exam week · Nov 9–14" },
+];
 const STUDY_PLAN = [
   {
-    week: 1,
+    week: 5,
     name: "Phase 1",
-    start: "2026-10-23",
-    end: "2026-10-28",
-    focus: "Domain 1 — Security Operations (33%)",
-    objectiveIds: ["1.1", "1.2", "1.3", "1.4", "1.5"],
-    review: "Wednesday is the Domain 1 quiz: 25–30 questions, then review the misses.",
+    start: "2026-11-01",
+    end: "2026-11-05",
+    focus: "Finish Domain 2 — Vulnerability Management (30%)",
+    objectiveIds: ["2.4", "2.5"],
+    review: "Thursday is the Domain 2 quiz, then review the misses.",
     days: [
-      { date: "2026-10-23", task: "1.1" },
-      { date: "2026-10-24", task: "1.2" },
-      { date: "2026-10-25", task: "1.3" },
-      { date: "2026-10-26", task: "1.4" },
-      { date: "2026-10-27", task: "1.5" },
-      { date: "2026-10-28", task: "Domain 1 quiz (25–30 questions) and review misses" },
-    ],
-  },
-  {
-    week: 2,
-    name: "Phase 2",
-    start: "2026-10-29",
-    end: "2026-11-04",
-    focus: "Domain 2 — Vulnerability Management (30%)",
-    objectiveIds: ["2.1", "2.2", "2.3", "2.4", "2.5"],
-    review: "Saturday's 2.3 session is short. Give 2.4 two days, then quiz on Wednesday and review the misses.",
-    days: [
-      { date: "2026-10-29", task: "2.1" },
-      { date: "2026-10-30", task: "2.2" },
-      { date: "2026-10-31", task: "2.3 (short session)" },
       { date: "2026-11-01", task: "2.4 part 1" },
       { date: "2026-11-02", task: "2.4 part 2" },
-      { date: "2026-11-03", task: "2.5" },
-      { date: "2026-11-04", task: "Domain 2 quiz and review misses" },
+      { date: "2026-11-03", task: "2.4 part 3 (SSRF, data poisoning, cryptographic failures, insecure design, misconfiguration)" },
+      { date: "2026-11-04", task: "2.5 (include attack surface management and SLOs)" },
+      { date: "2026-11-05", task: "Domain 2 quiz and review misses" },
     ],
   },
   {
-    week: 3,
-    name: "Phase 3",
-    start: "2026-11-05",
-    end: "2026-11-08",
-    focus: "Domain 3 Incident Response and Domain 4 Reporting & Communication (37% combined)",
+    week: 6,
+    name: "Phase 2",
+    start: "2026-11-06",
+    end: "2026-11-12",
+    focus: "Domains 3 and 4 — Incident Response and Reporting & Communication (37% combined)",
     objectiveIds: ["3.1", "3.2", "3.3", "4.1", "4.2"],
-    review: "Sunday is a flex day — catch up on anything that slipped, or rest.",
+    review: "Wednesday is the Domains 3–4 quiz. Thursday is a flex day.",
     days: [
-      { date: "2026-11-05", task: "3.1" },
-      { date: "2026-11-06", task: "3.2 and 3.3" },
-      { date: "2026-11-07", task: "4.1 and 4.2 — 4.1 has no video coverage, so use outside reading" },
-      { date: "2026-11-08", task: "Flex day: catch up on anything that slipped, or rest" },
+      { date: "2026-11-06", task: "3.1 (include OSSTMM)" },
+      { date: "2026-11-07", task: "3.2" },
+      { date: "2026-11-08", task: "3.3" },
+      { date: "2026-11-09", task: "4.1 (outside reading)" },
+      { date: "2026-11-10", task: "4.2" },
+      { date: "2026-11-11", task: "Domains 3–4 quiz and review misses" },
+      { date: "2026-11-12", task: "Flex day" },
     ],
   },
   {
-    week: 4,
-    name: "Phase 4",
-    start: "2026-11-09",
-    end: "2026-11-14",
-    focus: "Exam week — no new content",
-    objectiveIds: [],
-    review: "Light review Friday, then rest. This phase is shorter than 7 days and ends on exam day.",
+    week: 7,
+    name: "Phase 3",
+    start: "2026-11-13",
+    end: "2026-11-22",
+    focus: "Practice and gap-fill",
+    objectiveIds: ["1.5"],
+    review: "Timed practice exams, then the weak spots they turn up. Domain 1’s soft spot is 1.5.",
     days: [
-      { date: "2026-11-09", task: "Timed full practice exam 1 (Dion's CS0-003 Practice Exams on Udemy, Exam mode — NOT the Complete Course, which moved to CS0-004)" },
-      { date: "2026-11-10", task: "Review misses, gap-fill weakest objectives" },
-      { date: "2026-11-11", task: "Timed practice exam 2" },
-      { date: "2026-11-12", task: "Review misses, weakest objectives" },
-      { date: "2026-11-13", task: "Light review, then rest" },
-      { date: "2026-11-14", task: "Exam — check-in 11:30 AM PT, start noon PT" },
+      { date: "2026-11-13", task: "Practice Exam 1" },
+      { date: "2026-11-14", task: "Review Exam 1 misses" },
+      { date: "2026-11-15", task: "Domain 1 weak spots, especially 1.5" },
+      { date: "2026-11-16", task: "Practice Exam 2" },
+      { date: "2026-11-17", task: "Review misses" },
+      { date: "2026-11-18", task: "Domain 2 weak spots" },
+      { date: "2026-11-19", task: "Practice Exam 3" },
+      { date: "2026-11-20", task: "Review misses" },
+      { date: "2026-11-21", task: "Practice Exam 4" },
+      { date: "2026-11-22", task: "Review misses plus Domains 3–4 weak spots" },
+    ],
+  },
+  {
+    week: 8,
+    name: "Phase 4",
+    start: "2026-11-23",
+    end: "2026-11-28",
+    focus: "Final week",
+    objectiveIds: [],
+    review: "Thanksgiving is a rest day. Friday is light review and the OnVUE system test.",
+    days: [
+      { date: "2026-11-23", task: "Practice Exam 5" },
+      { date: "2026-11-24", task: "Review misses" },
+      { date: "2026-11-25", task: "Practice Exam 6 (or flex)" },
+      { date: "2026-11-26", task: "Thanksgiving, rest" },
+      { date: "2026-11-27", task: "Light review and the OnVUE system test" },
+      { date: "2026-11-28", task: "Exam — 1:00 PM PT online, Pearson OnVUE (210 minutes). Check-in opens 12:30 PM PT" },
     ],
   },
 ];
@@ -626,10 +654,11 @@ async function saveWatchedVideos(watched) {
   }
 }
 
-// Bumped from cysa-tracker-plan-v3. That row belongs to the Oct 19
-// four-week plan. This catch-up uses different phase dates, so v4
-// starts with nothing marked done. Question history and watched videos
-// stay on their existing keys.
+// Still cysa-tracker-plan-v4. completedWeeks is a list of week numbers.
+// 1–4 belong to the October 23 plan and are listed in PREVIOUS_PLAN_CHECKS.
+// The November 28 phases are 5–8, so those saved checks stay attached to
+// the old phases instead of marking this schedule done. Question history
+// and watched videos stay on their existing keys.
 const PLAN_STORAGE_KEY = "cysa-tracker-plan-v4";
 
 async function loadPlanProgress() {
@@ -915,14 +944,14 @@ export default function CySATracker() {
   });
 
   const now = new Date();
-  const daysUntilExam = Math.ceil((new Date(EXAM_DATE + "T00:00:00") - now) / 86400000);
-  let currentWeekIndex = STUDY_PLAN.findIndex((w) => {
-    const start = new Date(w.start + "T00:00:00");
-    return now >= start && now < weekWindowEnd(w);
-  });
-  if (currentWeekIndex === -1) currentWeekIndex = now < new Date(STUDY_PLAN[0].start + "T00:00:00") ? 0 : STUDY_PLAN.length;
+  const todayISO = pacificDateISO(now);
+  const daysUntilExam = daysBetweenISO(todayISO, EXAM_DATE);
+  let currentWeekIndex = STUDY_PLAN.findIndex((w) => todayISO >= w.start && todayISO <= w.end);
+  if (currentWeekIndex === -1) currentWeekIndex = todayISO < STUDY_PLAN[0].start ? 0 : STUDY_PLAN.length;
   const currentPlanWeek = STUDY_PLAN[currentWeekIndex];
   const todayPlanTask = currentPlanWeek?.days?.find((d) => isSameCalendarDay(now, d.date))?.task || null;
+  const completedPlanCount = STUDY_PLAN.filter((w) => planCompletedWeeks.includes(w.week)).length;
+  const savedPreviousChecks = PREVIOUS_PLAN_CHECKS.filter((p) => planCompletedWeeks.includes(p.week));
 
   // Weighted by exam domain percentages (33/30/20/17, summing to 100) rather
   // than a flat average, so an untouched heavy domain drags the score down
@@ -1373,12 +1402,37 @@ Return ONLY valid JSON, no markdown:
             <div style={c.statRow}>
               <div style={c.sBox(daysUntilExam <= 14 ? "#C24444" : "#b9375e")}><span style={c.sNum()}>{daysUntilExam}</span><span style={c.sLbl}>Days To Exam</span></div>
               <div style={c.sBox("#8a2846")}><span style={c.sNum()}>{Math.min(currentWeekIndex + 1, STUDY_PLAN.length)}/{STUDY_PLAN.length}</span><span style={c.sLbl}>Current Phase</span></div>
-              <div style={c.sBox("#3F8F5F")}><span style={c.sNum()}>{planCompletedWeeks.length}/{STUDY_PLAN.length}</span><span style={c.sLbl}>Phases Done</span></div>
+              <div style={c.sBox("#3F8F5F")}><span style={c.sNum()}>{completedPlanCount}/{STUDY_PLAN.length}</span><span style={c.sLbl}>Phases Done</span></div>
             </div>
 
             <div style={{ fontSize: "8px", color: "#ff9ebb", marginTop: "-8px", marginBottom: "14px" }}>
-              22-day catch-up from {new Date(STUDY_PLAN[0].start + "T00:00:00").toLocaleDateString("en-US", { weekday: "long", month: "long", day: "numeric", year: "numeric" })} through exam day {new Date(EXAM_DATE + "T00:00:00").toLocaleDateString("en-US", { weekday: "long", month: "long", day: "numeric", year: "numeric" })} — check-in {EXAM_CHECKIN_LABEL}, start {EXAM_START_LABEL} (America/Los_Angeles). Four phases, then the exam. CS0-003 retires Dec 22, 2026, so there is still room for a retake if you want one.
+              Schedule from {new Date(STUDY_PLAN[0].start + "T00:00:00").toLocaleDateString("en-US", { weekday: "long", month: "long", day: "numeric", year: "numeric" })} through exam day {new Date(EXAM_DATE + "T00:00:00").toLocaleDateString("en-US", { weekday: "long", month: "long", day: "numeric", year: "numeric" })} — {EXAM_START_LABEL}, online, {EXAM_FORMAT_LABEL}. Check-in opens {EXAM_CHECKIN_LABEL} (America/Los_Angeles). CS0-003 retires Dec 22, 2026, so there is still room for a retake if you want one.
               {!isLoggedIn && " Sign in to save which phases you've completed."}
+            </div>
+
+            <div style={{ ...c.card, opacity: 0.85 }}>
+              <div style={{ fontSize: "8px", color: "#b9375e", letterSpacing: "0.1em", textTransform: "uppercase", fontWeight: "700", marginBottom: "4px" }}>Earlier — behind this restart</div>
+              <div style={{ fontSize: "10px", color: "#522e38", lineHeight: "1.5", marginBottom: "6px" }}>Domain 1 (Oct 23–28) and 2.1–2.3 (Oct 29–31) already passed. They are not part of the phases below.</div>
+              <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", gap: "8px", padding: "3px 0" }}>
+                <span style={{ fontSize: "10px", color: "#522e38" }}><strong style={{ color: "#b9375e" }}>Oct 23–28</strong> · Domain 1 (1.1–1.5), then the Domain 1 quiz</span>
+                <label style={{ display: "flex", alignItems: "center", gap: "5px", cursor: isLoggedIn ? "pointer" : "default", flexShrink: 0 }}>
+                  <input type="checkbox" checked={planCompletedWeeks.includes(1)} disabled={!isLoggedIn} onChange={() => togglePlanWeek(1)} title={!isLoggedIn ? "Sign in to track progress" : "Saved Domain 1 check from the October 23 plan"}
+                    style={{ accentColor: "#3F8F5F", cursor: isLoggedIn ? "pointer" : "default" }} />
+                  <span style={{ fontSize: "8px", color: "#8a2846", textTransform: "uppercase", letterSpacing: "0.06em", fontWeight: "700" }}>Done</span>
+                </label>
+              </div>
+              <div style={{ fontSize: "10px", color: "#522e38", lineHeight: "1.5" }}><strong style={{ color: "#b9375e" }}>Oct 29–31</strong> · 2.1, 2.2, 2.3</div>
+              {savedPreviousChecks.filter((p) => p.week !== 1).length > 0 && (
+                <div style={{ marginTop: "8px" }}>
+                  {savedPreviousChecks.filter((p) => p.week !== 1).map((p) => (
+                    <label key={p.week} style={{ display: "flex", alignItems: "center", gap: "6px", fontSize: "10px", color: "#522e38", marginTop: "4px", cursor: isLoggedIn ? "pointer" : "default" }}>
+                      <input type="checkbox" checked disabled={!isLoggedIn} onChange={() => togglePlanWeek(p.week)}
+                        style={{ accentColor: "#3F8F5F", cursor: isLoggedIn ? "pointer" : "default" }} />
+                      Still saved from the October 23 plan: {p.label}
+                    </label>
+                  ))}
+                </div>
+              )}
             </div>
 
             <div style={c.card}>
@@ -1442,7 +1496,8 @@ Return ONLY valid JSON, no markdown:
             <div style={{ ...c.card, textAlign: "center", borderColor: "#b9375e", background: "#fff7fa" }}>
               <div style={{ fontSize: "10px", color: "#b9375e", letterSpacing: "0.1em", textTransform: "uppercase", fontWeight: "700", marginBottom: "4px" }}>🎯 Exam Day</div>
               <div style={{ fontSize: "12px", color: "#522e38", fontWeight: "600" }}>{new Date(EXAM_DATE + "T00:00:00").toLocaleDateString("en-US", { weekday: "long", month: "long", day: "numeric", year: "numeric" })}</div>
-              <div style={{ fontSize: "10px", color: "#8a2846", marginTop: "4px" }}>Check-in {EXAM_CHECKIN_LABEL} · Start {EXAM_START_LABEL}</div>
+              <div style={{ fontSize: "10px", color: "#8a2846", marginTop: "4px" }}>{EXAM_START_LABEL} · {EXAM_FORMAT_LABEL}</div>
+              <div style={{ fontSize: "10px", color: "#8a2846", marginTop: "2px" }}>Online · check-in opens {EXAM_CHECKIN_LABEL}</div>
               <div style={{ fontSize: "8px", color: "#ff9ebb", marginTop: "2px" }}>America/Los_Angeles</div>
             </div>
           </>
