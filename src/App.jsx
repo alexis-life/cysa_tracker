@@ -2,6 +2,8 @@ import { useState, useEffect } from "react";
 import { supabase } from "./supabaseClient";
 import { DOMAINS, c } from "./theme";
 import { BOOK_NOTES_BY_ID, PLAN_READINGS } from "./bookContent";
+import examTips from "./examTips.json";
+import { ASSESSMENT_QUESTIONS } from "./assessmentQuestions";
 
 const OBJECTIVES = {
   "Security Operations": [
@@ -367,6 +369,7 @@ const SEED_QUESTIONS = [
   { id: "quizlet-81", domain: "Vulnerability Management", objectiveId: "2.1", topic: "Reconnaissance and Intelligence Gathering", question: "A company's security team needs to assess the security posture of its AWS environment, focusing on both reconnaissance and exploitation phases of a penetration testing engagement, and needs a tool that automates attack scenarios and validates cloud security controls. Which tool is best suited for this task?", options: ["Zed Attack Proxy (ZAP)", "Tenable.io", "Suricata", "Pacu"], answer: 3, explanation: "Pacu is an open-source AWS exploitation framework purpose-built to automate attack scenarios and validate cloud security controls in AWS environments. ZAP targets web apps, Tenable.io is a general vulnerability management platform, and Suricata is a network threat detection engine.", source: "Quizlet - A.4 CompTIA CySA+ Practice Exam by Rina_Ge" },
   { id: "quizlet-82", domain: "Incident Response", objectiveId: "3.3", topic: "Preparation & Post-Incident Activity Phases", question: "A company experiences a security incident where an attacker steals sensitive information. The team performs a root cause and forensic analysis to determine how the breach occurred. What can the company gain by performing a root cause analysis specifically?", options: ["To gather forensic evidence", "To restore services and systems as quickly as possible", "To identify areas for improvement in the incident response plan", "To identify the initial entry point of the attack"], answer: 2, explanation: "Root cause analysis identifies the underlying cause(s) of an incident so the team can make changes that prevent similar incidents in the future — gathering evidence and restoring services are separate goals of forensic analysis and recovery, respectively.", source: "Quizlet - A.4 CompTIA CySA+ Practice Exam by Rina_Ge" },
   { id: "quizlet-83", domain: "Vulnerability Management", objectiveId: "2.1", topic: "Vulnerability Scanning Methods & Concepts", question: "A company has discovered that sensitive data leaked to the public and needs to assess potential vulnerabilities and identify the attack vectors that could have led to this incident. Which methodology framework can the team use to guide their testing process?", options: ["Open Source Security Testing Methodology Manual (OSSTMM)", "Open Web Application Security Project (OWASP) Testing Guide", "Penetration Testing Execution Standard (PTES)", "NIST Special Publication 800-53"], answer: 0, explanation: "OSSTMM provides a comprehensive framework covering asset identification, threat modeling, and vulnerability analysis suited to this broad data-leak investigation. OWASP's guide is web-app specific, PTES fits general penetration testing engagements more than this exact scenario, and NIST SP 800-53 is a security/privacy controls catalog, not a testing methodology.", source: "Quizlet - A.4 CompTIA CySA+ Practice Exam by Rina_Ge", confidence: "low" },
+  ...ASSESSMENT_QUESTIONS,
 ];
 
 // "CompTIA CySA+ Full Course (CS0-003)" by Certify Breakfast on YouTube.
@@ -815,6 +818,47 @@ function BookNotesPanel({ objectiveId }) {
           </div>
         ))}
         <div style={{ fontSize: "8px", color: "#ff9ebb", marginTop: "4px" }}>Printed page numbers from the Sybex CS0-003 study guide. Notes are a paraphrase.</div>
+      </div>
+    </details>
+  );
+}
+
+const EXAM_TIP_KIND = { note: "Exam note", tip: "Exam tip", essential: "Essential" };
+
+function ExamTipsPanel({ objectiveId }) {
+  const items = examTips.filter((item) => item.objectiveIds.includes(objectiveId));
+  if (!items.length) return null;
+  const callouts = items.filter((item) => item.kind !== "essential");
+  const essentials = items.filter((item) => item.kind === "essential");
+  const renderList = (list) => (
+    <ul style={{ margin: "0 0 8px", paddingLeft: "16px" }}>
+      {list.map((item) => (
+        <li key={item.id} style={{ marginBottom: "4px" }}>
+          <span style={{ color: "#8a2846" }}>Ch {item.chapter}, p. {item.page} · {EXAM_TIP_KIND[item.kind]}. </span>
+          {renderNoteText(item.text)}
+        </li>
+      ))}
+    </ul>
+  );
+  return (
+    <details style={{ marginBottom: "8px", border: "1px solid #ffc2d4", borderRadius: "8px", background: "#fff", padding: "6px 10px" }}>
+      <summary style={{ cursor: "pointer", fontSize: "9px", letterSpacing: "0.08em", textTransform: "uppercase", color: "#b9375e", fontWeight: "700" }}>
+        Exam tips
+      </summary>
+      <div style={{ marginTop: "8px", fontSize: "10px", color: "#522e38", lineHeight: "1.55" }}>
+        {callouts.length > 0 && (
+          <>
+            <div style={{ fontSize: "8px", letterSpacing: "0.1em", textTransform: "uppercase", color: "#b9375e", fontWeight: "700", marginBottom: "4px" }}>Notes and tips</div>
+            {renderList(callouts)}
+          </>
+        )}
+        {essentials.length > 0 && (
+          <>
+            <div style={{ fontSize: "8px", letterSpacing: "0.1em", textTransform: "uppercase", color: "#b9375e", fontWeight: "700", marginBottom: "4px" }}>Essentials</div>
+            {renderList(essentials)}
+          </>
+        )}
+        <div style={{ fontSize: "8px", color: "#ff9ebb", marginTop: "4px" }}>Original wording. Page numbers are printed pages in the Sybex CS0-003 study guide.</div>
       </div>
     </details>
   );
@@ -1675,7 +1719,8 @@ Return ONLY valid JSON, no markdown:
               <div style={c.card}>
                 <span style={c.domTag(currentQ.domain)}>{currentQ.domain}</span>
                 {getObjectiveLabel(currentQ) && <span style={c.objTag(currentQ.domain)}>{getObjectiveLabel(currentQ)}</span>}
-                {currentQ.topic && <div style={{ fontSize: "8px", color: "#8a2846", letterSpacing: "0.1em", textTransform: "uppercase", marginBottom: currentQ.confidence === "low" ? "2px" : "10px" }}>Topic: {currentQ.topic}</div>}
+                {currentQ.topic && <div style={{ fontSize: "8px", color: "#8a2846", letterSpacing: "0.1em", textTransform: "uppercase", marginBottom: currentQ.ref ? "2px" : currentQ.confidence === "low" ? "2px" : "10px" }}>Topic: {currentQ.topic}</div>}
+                {currentQ.ref && <div style={{ fontSize: "8px", color: "#8a2846", marginBottom: currentQ.confidence === "low" ? "2px" : "10px" }}>{currentQ.ref}</div>}
                 {currentQ.confidence === "low" && (
                   <div style={{ fontSize: "8px", color: "#9a6a1a", letterSpacing: "0.1em", textTransform: "uppercase", marginBottom: "10px" }}>⚠ Debatable answer</div>
                 )}
@@ -1905,6 +1950,7 @@ Return ONLY valid JSON, no markdown:
                           return null;
                         })()}
                         <BookNotesPanel objectiveId={obj.id} />
+                        <ExamTipsPanel objectiveId={obj.id} />
                         {vids.map((v) => (
                           <VideoRow key={`${obj.id}-${v.id}`} video={v} checked={watchedVideos.includes(v.id)} onToggle={toggleWatched} disabled={!isLoggedIn} />
                         ))}
