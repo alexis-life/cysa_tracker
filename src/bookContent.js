@@ -1314,181 +1314,105 @@ export const BOOK_NOTES = [
 export const BOOK_NOTES_BY_ID = Object.fromEntries(BOOK_NOTES.map((n) => [n.objectiveId, n]));
 
 export const PLAN_READINGS = {
-  "2026-11-10": {
-    "minutes": 45,
-    "readings": [
-      {
-        "chapter": "12",
-        "section": "Incident Response Reporting and Communication",
-        "pages": "431–438"
-      },
-      {
-        "chapter": "12",
-        "section": "Exam Essentials",
-        "pages": "440"
-      }
-    ],
-    "note": "Then the chapter 12 review questions tagged 4.2 (14 in the question bank)."
-  },
   "2026-11-11": {
-    "minutes": 60,
-    "readings": [
-      {
-        "chapter": "9",
-        "section": "Attack Frameworks and Developing Testing Strategies (3.1)",
-        "pages": "361–367"
-      },
-      {
-        "chapter": "12",
-        "section": "Vulnerability Management Reporting and Communication (4.1, the objective with no videos)",
-        "pages": "424–430"
-      }
-    ],
-    "note": "Question bank items for 3.1 and 4.1, then the Domains 3–4 quiz."
+    "minutes": 0,
+    "readings": [],
+    "note": "The 20 assessment questions on this site (sybex-at-q1–q20). About 30–45 min. A starting picture, not a grade."
   },
   "2026-11-12": {
     "minutes": 60,
     "readings": [
-      {
-        "chapter": "11",
-        "section": "Containing the Damage through Wrapping Up the Response (3.2 / 3.3)",
-        "pages": "398–412"
-      }
+      { "chapter": "2", "section": "1.1", "pages": "38–52" }
     ],
-    "note": "Chapter 11 review questions (20)."
+    "note": "Then Ch 2 review questions 1–10."
   },
   "2026-11-13": {
-    "minutes": 0,
-    "readings": [],
-    "note": "Practice exam day. Skim the book's Domain 1 exam notes for about 10 minutes beforehand."
+    "minutes": 60,
+    "readings": [
+      { "chapter": "3", "section": "1.2", "pages": "78–103" }
+    ],
+    "note": "Then 10 questions."
   },
   "2026-11-14": {
-    "minutes": 75,
+    "minutes": 90,
     "readings": [
-      {
-        "chapter": "—",
-        "section": "For each missed objective, read that objective's Book notes on the Videos tab.",
-        "pages": "varies"
-      }
+      { "chapter": "3", "section": "1.3", "pages": "104–125" },
+      { "chapter": "1", "section": "1.5", "pages": "27–31" }
     ],
-    "note": "Printed assessment test (pp. xxxv–xxxviii) as a mixed check."
+    "note": "Then Ch 3 review questions."
   },
   "2026-11-15": {
     "minutes": 90,
     "readings": [
-      {
-        "chapter": "1",
-        "section": "Efficiency and Process Improvement (1.5)",
-        "pages": "27–31"
-      },
-      {
-        "chapter": "3",
-        "section": "Determining Malicious Activity Using Tools and Techniques (1.3)",
-        "pages": "104–125"
-      }
+      { "chapter": "4", "section": "1.4", "pages": "136–151" }
     ],
-    "note": "Chapter 3 review questions (20)."
+    "note": "Then Ch 4 review questions."
   },
   "2026-11-16": {
-    "minutes": 0,
-    "readings": [],
-    "note": "Skim the book's Domain 2 exam notes beforehand."
+    "minutes": 60,
+    "readings": [
+      { "chapter": "7", "section": "2.3", "pages": "247–259" },
+      { "chapter": "6", "section": "2.2", "pages": "228–237" }
+    ],
+    "note": "Then Ch 7 review questions."
   },
   "2026-11-17": {
     "minutes": 60,
     "readings": [
-      {
-        "chapter": "2",
-        "section": "Infrastructure, OS concepts, logging, and network architecture (1.1)",
-        "pages": "38–52"
-      }
+      { "chapter": "7", "section": "2.4 — web app vulns, SSRF, data poisoning", "pages": "260–283" }
     ],
-    "note": "Chapter 2 review questions 1–10."
+    "note": "Then 10 questions."
   },
   "2026-11-18": {
     "minutes": 60,
     "readings": [
-      {
-        "chapter": "7",
-        "section": "Understanding CVSS and Validating Scan Results (2.3)",
-        "pages": "250–259"
-      },
-      {
-        "chapter": "6",
-        "section": "Vulnerability Assessment Tools (2.2)",
-        "pages": "228–237"
-      }
+      { "chapter": "6", "section": "2.1", "pages": "221–226" },
+      { "chapter": "8", "section": "2.5 — risk, controls, and SLOs", "pages": "300–304 and 321–332" }
     ],
-    "note": "Chapter 7 review questions (20)."
+    "note": "Then Ch 8 review questions."
   },
   "2026-11-19": {
     "minutes": 0,
     "readings": [],
-    "note": ""
+    "note": "Timed Dion Practice Exam 1. No new chapter reading."
   },
   "2026-11-20": {
     "minutes": 60,
     "readings": [
-      {
-        "chapter": "7",
-        "section": "Web Application Vulnerabilities (2.4)",
-        "pages": "276–283"
-      },
-      {
-        "chapter": "8",
-        "section": "Managing Risk and Security Control Types (2.5)",
-        "pages": "300–304"
-      }
+      { "chapter": "12", "section": "4.1 vulnerability management reporting and 4.2 incident response reporting", "pages": "424–438" }
     ],
-    "note": "Chapter 8 review questions (20)."
+    "note": "After reviewing Exam 1 misses."
   },
   "2026-11-21": {
-    "minutes": 0,
-    "readings": [],
-    "note": "Optional: open the 1.4 book notes on the Videos tab."
-  },
-  "2026-11-22": {
     "minutes": 90,
     "readings": [
-      {
-        "chapter": "10",
-        "section": "Indicators of Compromise through Evidence Acquisition (3.2)",
-        "pages": "378–389"
-      },
-      {
-        "chapter": "13",
-        "section": "Post-Incident Activity and Evidence Acquisition (3.2 / 3.3)",
-        "pages": "462–471"
-      }
+      { "chapter": "9", "section": "3.1", "pages": "361–367" },
+      { "chapter": "10", "section": "Domain 3", "pages": "378–389" },
+      { "chapter": "11", "section": "Domain 3", "pages": "398–412" }
     ],
-    "note": "Chapter 10 and chapter 13 review questions."
+    "note": "Then Ch 11 review questions."
   },
-  "2026-11-23": {
+  "2026-11-22": {
     "minutes": 0,
     "readings": [],
-    "note": ""
+    "note": "Timed Dion Practice Exam 2. No new chapter reading."
   },
-  "2026-11-24": {
+  "2026-11-23": {
     "minutes": 60,
     "readings": [
-      {
-        "chapter": "8",
-        "section": "Software Security Testing and Policies, Governance, and SLOs (2.1 / 2.5)",
-        "pages": "321–332"
-      }
+      { "chapter": "13", "section": "3.3", "pages": "462–471" }
     ],
-    "note": "Chapter 9 review questions (20)."
+    "note": "After reviewing Exam 2 misses."
+  },
+  "2026-11-24": {
+    "minutes": 0,
+    "readings": [],
+    "note": "Timed Dion Practice Exam 3. No new chapter reading."
   },
   "2026-11-25": {
     "minutes": 60,
-    "readings": [
-      {
-        "chapter": "5",
-        "section": "If this is a flex day: Port Scanning and Common Tools (nmap, Angry IP, Maltego, Recon-ng) (2.2)",
-        "pages": "165–174"
-      }
-    ],
-    "note": "If flex: chapter 5 review questions (20)."
+    "readings": [],
+    "note": "Review Exam 3 misses, then redo review questions from the weakest domain. Practice Exams 4–6 are optional extras."
   },
   "2026-11-26": {
     "minutes": 0,
@@ -1498,12 +1422,13 @@ export const PLAN_READINGS = {
   "2026-11-27": {
     "minutes": 30,
     "readings": [
-      {
-        "chapter": "—",
-        "section": "Skim the book's exam notes and exam essentials end to end. No new chapter reading.",
-        "pages": "—"
-      }
+      { "chapter": "—", "section": "Skim the exam essentials.", "pages": "—" }
     ],
+    "note": "Then run the OnVUE system test."
+  },
+  "2026-11-28": {
+    "minutes": 0,
+    "readings": [],
     "note": ""
   }
 };

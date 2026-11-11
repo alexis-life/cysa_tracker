@@ -510,94 +510,89 @@ function isSameCalendarDay(now, iso) {
   return pacificDateISO(now) === iso;
 }
 
-// Rescheduled exam. The Oct 23 catch-up's Domain 1 block and 2.1–2.3
-// are behind; they stay in EARLIER_SCHEDULE instead of the active phases.
-// Active phases use week ids 5–8 so saved checks 1–4 on cysa-tracker-plan-v4
-// are not applied to this new work. "Today" is a Pacific calendar date.
+// Nov 11 catch-up. Highest-weight domains come first. Nov 1–10 stay on
+// the earlier card, not in STUDY_PLAN, so they cannot be the current phase.
+// New phases use week ids 9–12. Saved checks 1–8 on cysa-tracker-plan-v4
+// keep their old meaning and are not applied to this schedule.
+// "Today" is a Pacific calendar date.
 const EXAM_DATE = "2026-11-28"; // booked: Saturday Nov 28, 2026, 1:00 PM PT, online Pearson OnVUE, 210 minutes. Check-in opens 12:30 PM PT (America/Los_Angeles; PST by this date).
 const EXAM_CHECKIN_LABEL = "12:30 PM PT";
 const EXAM_START_LABEL = "1:00 PM PT";
 const EXAM_FORMAT_LABEL = "Pearson OnVUE · 210 minutes";
 const PLAN_METHOD = "Read the objective's Notion page or notes first, use the linked videos only for fuzzy spots, then do about 10 practice questions and log it. Weekdays about 45–60 min, weekends about 60–90 min. Practice exams are Dion's CS0-003 Practice Exams on Udemy, Exam mode, timed, 90 questions each — not the Complete Course, which moved to CS0-004.";
-// Labels for checks saved under the October 23 plan. Same storage key, same
+// Labels for checks saved under earlier schedules. Same storage key and
 // week numbers, so a check still means the phase it was saved against.
 const PREVIOUS_PLAN_CHECKS = [
   { week: 1, label: "Domain 1 · Oct 23–28" },
   { week: 2, label: "Domain 2 block · Oct 29–Nov 4" },
   { week: 3, label: "Domains 3–4 · Nov 5–8" },
   { week: 4, label: "Exam week · Nov 9–14" },
+  { week: 5, label: "Finish Domain 2 · Nov 1–5" },
+  { week: 6, label: "Domains 3–4 · Nov 6–12" },
+  { week: 7, label: "Practice and gap-fill · Nov 13–22" },
+  { week: 8, label: "Final week · Nov 23–28" },
 ];
 const STUDY_PLAN = [
   {
-    week: 5,
-    name: "Phase 1",
-    start: "2026-11-01",
-    end: "2026-11-05",
-    focus: "Finish Domain 2 — Vulnerability Management (30%)",
-    objectiveIds: ["2.4", "2.5"],
-    review: "Thursday is the Domain 2 quiz, then review the misses.",
+    week: 9,
+    name: "Phase A",
+    start: "2026-11-11",
+    end: "2026-11-15",
+    focus: "Baseline and Domain 1 — Security Operations (33%)",
+    objectiveIds: ["1.1", "1.2", "1.3", "1.4", "1.5"],
+    review: "The baseline is only a starting picture. One objective a day after that is plenty.",
     days: [
-      { date: "2026-11-01", task: "2.4 part 1" },
-      { date: "2026-11-02", task: "2.4 part 2" },
-      { date: "2026-11-03", task: "2.4 part 3 (SSRF, data poisoning, cryptographic failures, insecure design, misconfiguration)" },
-      { date: "2026-11-04", task: "2.5 (include attack surface management and SLOs)" },
-      { date: "2026-11-05", task: "Domain 2 quiz and review misses" },
+      { date: "2026-11-11", task: "No-pressure baseline. Do the 20 assessment questions (sybex-at-q1–q20), about 30–45 min.", practiceSet: "assessment" },
+      { date: "2026-11-12", task: "1.1. Ch 2 pp. 38–52, then Ch 2 review questions 1–10." },
+      { date: "2026-11-13", task: "1.2. Ch 3 pp. 78–103, then 10 questions." },
+      { date: "2026-11-14", task: "1.3 and 1.5. Ch 3 pp. 104–125 and Ch 1 pp. 27–31, then Ch 3 review questions." },
+      { date: "2026-11-15", task: "1.4. Ch 4 pp. 136–151, then Ch 4 review questions." },
     ],
   },
   {
-    week: 6,
-    name: "Phase 2",
-    start: "2026-11-06",
-    end: "2026-11-12",
-    focus: "Domains 3 and 4 — Incident Response and Reporting & Communication (37% combined)",
+    week: 10,
+    name: "Phase B",
+    start: "2026-11-16",
+    end: "2026-11-18",
+    focus: "Domain 2 — Vulnerability Management (30%)",
+    objectiveIds: ["2.1", "2.2", "2.3", "2.4", "2.5"],
+    review: "Three focused nights. Read the pages, then the questions.",
+    days: [
+      { date: "2026-11-16", task: "2.3 and 2.2. Ch 7 pp. 247–259 and Ch 6 pp. 228–237, then Ch 7 review questions." },
+      { date: "2026-11-17", task: "2.4. Ch 7 pp. 260–283 (web app vulns, SSRF, data poisoning), then 10 questions." },
+      { date: "2026-11-18", task: "2.5 and 2.1. Ch 6 pp. 221–226 and Ch 8 pp. 300–304 and 321–332 (risk, controls, SLOs), then Ch 8 review questions." },
+    ],
+  },
+  {
+    week: 11,
+    name: "Phase C",
+    start: "2026-11-19",
+    end: "2026-11-25",
+    focus: "Practice exams plus Domains 3 and 4 (37% combined)",
     objectiveIds: ["3.1", "3.2", "3.3", "4.1", "4.2"],
-    review: "Wednesday is the Domains 3–4 quiz. Thursday is a flex day.",
+    review: "Timed exams, then the misses. Practice Exams 4–6 are optional extras.",
     days: [
-      { date: "2026-11-06", task: "3.1 (include OSSTMM)" },
-      { date: "2026-11-07", task: "3.2" },
-      { date: "2026-11-08", task: "3.3" },
-      { date: "2026-11-09", task: "4.1 (outside reading)" },
-      { date: "2026-11-10", task: "4.2" },
-      { date: "2026-11-11", task: "Domains 3–4 quiz and review misses" },
-      { date: "2026-11-12", task: "Flex day" },
+      { date: "2026-11-19", task: "Dion Practice Exam 1, timed." },
+      { date: "2026-11-20", task: "Review Exam 1 misses, then Domain 4. Ch 12 pp. 424–438 (4.1 VM reporting, 4.2 IR reporting)." },
+      { date: "2026-11-21", task: "Domain 3. Ch 9 pp. 361–367 (3.1), Ch 10 pp. 378–389, Ch 11 pp. 398–412, then Ch 11 review questions." },
+      { date: "2026-11-22", task: "Dion Practice Exam 2." },
+      { date: "2026-11-23", task: "Review Exam 2 misses, then 3.3. Ch 13 pp. 462–471." },
+      { date: "2026-11-24", task: "Dion Practice Exam 3." },
+      { date: "2026-11-25", task: "Review Exam 3 misses, then redo review questions from the weakest domain. Practice Exams 4–6 are optional extras." },
     ],
   },
   {
-    week: 7,
-    name: "Phase 3",
-    start: "2026-11-13",
-    end: "2026-11-22",
-    focus: "Practice and gap-fill",
-    objectiveIds: ["1.5"],
-    review: "Timed practice exams, then the weak spots they turn up. Domain 1’s soft spot is 1.5.",
-    days: [
-      { date: "2026-11-13", task: "Practice Exam 1" },
-      { date: "2026-11-14", task: "Review Exam 1 misses" },
-      { date: "2026-11-15", task: "Domain 1 weak spots, especially 1.5" },
-      { date: "2026-11-16", task: "Practice Exam 2" },
-      { date: "2026-11-17", task: "Review misses" },
-      { date: "2026-11-18", task: "Domain 2 weak spots" },
-      { date: "2026-11-19", task: "Practice Exam 3" },
-      { date: "2026-11-20", task: "Review misses" },
-      { date: "2026-11-21", task: "Practice Exam 4" },
-      { date: "2026-11-22", task: "Review misses plus Domains 3–4 weak spots" },
-    ],
-  },
-  {
-    week: 8,
-    name: "Phase 4",
-    start: "2026-11-23",
+    week: 12,
+    name: "Phase D",
+    start: "2026-11-26",
     end: "2026-11-28",
-    focus: "Final week",
+    focus: "Final stretch",
     objectiveIds: [],
-    review: "Thanksgiving is a rest day. Friday is light review and the OnVUE system test.",
+    review: "Thursday is rest. Friday is a light skim and the system test. Saturday is the exam.",
     days: [
-      { date: "2026-11-23", task: "Practice Exam 5" },
-      { date: "2026-11-24", task: "Review misses" },
-      { date: "2026-11-25", task: "Practice Exam 6 (or flex)" },
-      { date: "2026-11-26", task: "Thanksgiving, rest" },
-      { date: "2026-11-27", task: "Light review and the OnVUE system test" },
-      { date: "2026-11-28", task: "Exam — 1:00 PM PT online, Pearson OnVUE (210 minutes). Check-in opens 12:30 PM PT" },
+      { date: "2026-11-26", task: "Thanksgiving, rest." },
+      { date: "2026-11-27", task: "Light review. Skim the exam essentials (about 30 min) and run the OnVUE system test." },
+      { date: "2026-11-28", task: "Exam — 1:00 PM PT. Check-in opens 12:30 PM PT." },
     ],
   },
 ];
@@ -659,10 +654,10 @@ async function saveWatchedVideos(watched) {
 }
 
 // Still cysa-tracker-plan-v4. completedWeeks is a list of week numbers.
-// 1–4 belong to the October 23 plan and are listed in PREVIOUS_PLAN_CHECKS.
-// The November 28 phases are 5–8, so those saved checks stay attached to
-// the old phases instead of marking this schedule done. Question history
-// and watched videos stay on their existing keys.
+// 1–4 are the October 23 plan and 5–8 are the November 1 plan. The Nov 11
+// phases are 9–12, so those saved checks stay on the earlier card instead
+// of marking this schedule done. Question history and watched videos stay
+// on their existing keys.
 const PLAN_STORAGE_KEY = "cysa-tracker-plan-v4";
 
 async function loadPlanProgress() {
@@ -992,6 +987,13 @@ export default function CySATracker() {
 
   const jumpToObjective = (objectiveId) => { setHighlightTarget(objectiveId); setTab("videos"); };
   const jumpToDomain = (domain) => { setHighlightTarget(`domain:${domain}`); setTab("videos"); };
+  const jumpToAssessment = () => {
+    setQuestionSource("assessment");
+    setFilterDomain("Any Domain");
+    setFilterObjective("Any Objective");
+    setCurrentQ(null); setSelected(null); setRevealed(false); setApiError(null);
+    setTab("practice");
+  };
   const jumpToPractice = (domain) => {
     setFilterDomain(domain); setFilterObjective("Any Objective");
     setCurrentQ(null); setSelected(null); setRevealed(false);
@@ -1067,7 +1069,7 @@ export default function CySATracker() {
   const todayISO = pacificDateISO(now);
   const daysUntilExam = daysBetweenISO(todayISO, EXAM_DATE);
   let currentWeekIndex = STUDY_PLAN.findIndex((w) => todayISO >= w.start && todayISO <= w.end);
-  if (currentWeekIndex === -1) currentWeekIndex = todayISO < STUDY_PLAN[0].start ? 0 : STUDY_PLAN.length;
+  if (currentWeekIndex === -1 && todayISO > STUDY_PLAN[STUDY_PLAN.length - 1].end) currentWeekIndex = STUDY_PLAN.length;
   const currentPlanWeek = STUDY_PLAN[currentWeekIndex];
   const todayPlanDay = currentPlanWeek?.days?.find((d) => isSameCalendarDay(now, d.date)) || null;
   const todayPlanTask = todayPlanDay?.task || null;
@@ -1115,6 +1117,7 @@ export default function CySATracker() {
     const pool = SEED_QUESTIONS.filter((q) => {
       if (seenIds.includes(q.id)) return false;
       if (q.confidence === "low" && !includeLowConfidence) return false;
+      if (questionSource === "assessment") return q.id?.startsWith("sybex-at-q");
       if (questionSource === "recommended") {
         if (!recommendedTarget) return true;
         if (recommendedTarget.objectiveId) return q.objectiveId === recommendedTarget.objectiveId;
@@ -1528,13 +1531,13 @@ Return ONLY valid JSON, no markdown:
             </div>
 
             <div style={{ fontSize: "8px", color: "#ff9ebb", marginTop: "-8px", marginBottom: "14px" }}>
-              Schedule from {new Date(STUDY_PLAN[0].start + "T00:00:00").toLocaleDateString("en-US", { weekday: "long", month: "long", day: "numeric", year: "numeric" })} through exam day {new Date(EXAM_DATE + "T00:00:00").toLocaleDateString("en-US", { weekday: "long", month: "long", day: "numeric", year: "numeric" })} — {EXAM_START_LABEL}, online, {EXAM_FORMAT_LABEL}. Check-in opens {EXAM_CHECKIN_LABEL} (America/Los_Angeles). CS0-003 retires Dec 22, 2026, so there is still room for a retake if you want one.
+              A fresh schedule from {new Date(STUDY_PLAN[0].start + "T00:00:00").toLocaleDateString("en-US", { weekday: "long", month: "long", day: "numeric", year: "numeric" })} through exam day {new Date(EXAM_DATE + "T00:00:00").toLocaleDateString("en-US", { weekday: "long", month: "long", day: "numeric", year: "numeric" })} — {EXAM_START_LABEL}, online, {EXAM_FORMAT_LABEL}. Check-in opens {EXAM_CHECKIN_LABEL} (America/Los_Angeles). Domain 1 comes first, then Domain 2, then practice exams with Domains 3 and 4. A steady pace is enough. CS0-003 retires Dec 22, 2026, so there is still room for a retake if you want one.
               {!isLoggedIn && " Sign in to save which phases you've completed."}
             </div>
 
             <div style={{ ...c.card, opacity: 0.85 }}>
               <div style={{ fontSize: "8px", color: "#b9375e", letterSpacing: "0.1em", textTransform: "uppercase", fontWeight: "700", marginBottom: "4px" }}>Earlier — behind this restart</div>
-              <div style={{ fontSize: "10px", color: "#522e38", lineHeight: "1.5", marginBottom: "6px" }}>Domain 1 (Oct 23–28) and 2.1–2.3 (Oct 29–31) already passed. They are not part of the phases below.</div>
+              <div style={{ fontSize: "10px", color: "#522e38", lineHeight: "1.5", marginBottom: "6px" }}>These dates stay listed here so the phases below can start on November 11.</div>
               <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", gap: "8px", padding: "3px 0" }}>
                 <span style={{ fontSize: "10px", color: "#522e38" }}><strong style={{ color: "#b9375e" }}>Oct 23–28</strong> · Domain 1 (1.1–1.5), then the Domain 1 quiz</span>
                 <label style={{ display: "flex", alignItems: "center", gap: "5px", cursor: isLoggedIn ? "pointer" : "default", flexShrink: 0 }}>
@@ -1544,6 +1547,8 @@ Return ONLY valid JSON, no markdown:
                 </label>
               </div>
               <div style={{ fontSize: "10px", color: "#522e38", lineHeight: "1.5" }}><strong style={{ color: "#b9375e" }}>Oct 29–31</strong> · 2.1, 2.2, 2.3</div>
+              <div style={{ fontSize: "10px", color: "#522e38", lineHeight: "1.5" }}><strong style={{ color: "#b9375e" }}>Nov 1–5</strong> · 2.4 and 2.5</div>
+              <div style={{ fontSize: "10px", color: "#522e38", lineHeight: "1.5" }}><strong style={{ color: "#b9375e" }}>Nov 6–10</strong> · 3.1, 3.2, 3.3, 4.1, and 4.2</div>
               {savedPreviousChecks.filter((p) => p.week !== 1).length > 0 && (
                 <div style={{ marginTop: "8px" }}>
                   {savedPreviousChecks.filter((p) => p.week !== 1).map((p) => (
@@ -1594,6 +1599,11 @@ Return ONLY valid JSON, no markdown:
                             <div style={{ display: "flex", gap: "8px", alignItems: "baseline", fontSize: "10px", lineHeight: "1.45" }}>
                               <span style={{ color: "#b9375e", fontWeight: "700", minWidth: "88px", flexShrink: 0 }}>{formatPlanDay(d.date)}</span>
                               <span style={{ color: "#522e38", flex: 1 }}>{d.task}</span>
+                              {d.practiceSet === "assessment" && (
+                                <button type="button" onClick={jumpToAssessment} style={{ fontSize: "8px", padding: "2px 8px", borderRadius: "20px", background: "#fff", border: "1px solid #ffc2d4", color: "#b9375e", cursor: "pointer", fontFamily: "'Poppins', sans-serif", fontWeight: "700", flexShrink: 0 }}>
+                                  Open questions
+                                </button>
+                              )}
                               {isToday && <span style={{ fontSize: "8px", background: "#b9375e", color: "#fff", padding: "1px 6px", borderRadius: "20px", fontWeight: "700", letterSpacing: "0.06em" }}>TODAY</span>}
                             </div>
                             <PlanDayReadings date={d.date} indent />
@@ -1649,6 +1659,12 @@ Return ONLY valid JSON, no markdown:
                   <div style={{ fontSize: "10px", color: "#ff9ebb" }}>No weak spots or stale domains detected yet — answer a few questions first. Pulling from all domains for now.</div>
                 )}
               </div>
+            ) : questionSource === "assessment" ? (
+              <div style={{ ...c.card, marginBottom: "10px" }}>
+                <div style={{ fontSize: "8px", color: "#b9375e", letterSpacing: "0.1em", textTransform: "uppercase", fontWeight: "700", marginBottom: "4px" }}>Baseline set</div>
+                <div style={{ fontSize: "12px", color: "#522e38", fontWeight: "600" }}>20 assessment questions</div>
+                <div style={{ fontSize: "9px", color: "#8a2846" }}>sybex-at-q1–q20 · about 30–45 min, no score to chase</div>
+              </div>
             ) : (
               <>
                 <select style={c.sel} value={filterDomain} onChange={(e) => { setFilterDomain(e.target.value); setFilterObjective("Any Objective"); setCurrentQ(null); setSelected(null); setRevealed(false); }}>
@@ -1675,6 +1691,7 @@ Return ONLY valid JSON, no markdown:
               {[
                 { key: "recommended", label: "🎯 Recommended" },
                 { key: "book", label: "📚 Question Bank" },
+                { key: "assessment", label: "📝 Baseline (20)" },
               ].map((opt) => (
                 <button
                   key={opt.key}
@@ -1702,6 +1719,8 @@ Return ONLY valid JSON, no markdown:
                 <div style={{ color: "#ff9ebb", fontSize: "10px", marginBottom: "16px" }}>
                   {questionSource === "recommended"
                     ? (recommendedTarget ? (recommendedTarget.objectiveId ? ALL_OBJECTIVES_FLAT.find((o) => o.id === recommendedTarget.objectiveId)?.label : recommendedTarget.domain) : "All domains & objectives")
+                    : questionSource === "assessment"
+                    ? "20 assessment questions"
                     : filterObjective !== "Any Objective" ? filterObjective : filterDomain !== "Any Domain" ? filterDomain : "All domains & objectives"}
                 </div>
                 <button style={c.btn("#b9375e")} onClick={loadQuestion}>Start Question →</button>
