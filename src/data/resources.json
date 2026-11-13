@@ -1,0 +1,2104 @@
+[
+  {
+    "title": "CertMike",
+    "url": "https://certmike.com/",
+    "original_url": "http://certmike.com",
+    "description": "Author Mike Chapple’s site for security-certification study resources.",
+    "category": "Exam info",
+    "objectives": [],
+    "chapter": "Introduction",
+    "pages": [
+      "vii"
+    ],
+    "status": "ok"
+  },
+  {
+    "title": "CompTIA Cybersecurity Analyst (CySA+) certification",
+    "url": "https://www.comptia.org/en-us/certifications/cybersecurity-analyst/",
+    "original_url": "http://www.comptia.org/certifications/cybersecurity-analyst",
+    "description": "Official CompTIA CySA+ certification page, including exam overview and objectives.",
+    "category": "Exam info",
+    "objectives": [],
+    "chapter": "Introduction",
+    "pages": [
+      "xxii"
+    ],
+    "status": "ok"
+  },
+  {
+    "title": "CompTIA certifications and exam vouchers",
+    "url": "https://www.comptia.org/en-us/certifications/",
+    "original_url": "http://store.comptia.org",
+    "description": "CompTIA’s current certifications hub, where exam vouchers are now purchased (the old store.comptia.org storefront redirects here).",
+    "category": "Exam info",
+    "objectives": [],
+    "chapter": "Introduction",
+    "pages": [
+      "xxiii"
+    ],
+    "status": "ok"
+  },
+  {
+    "title": "Exploit Education",
+    "url": "https://exploit.education/",
+    "original_url": "http://exploit-exercises.com",
+    "description": "Free vulnerable VMs and challenges for learning exploit development; this is the official successor to exploit-exercises.com, which is no longer the real project site.",
+    "category": "Practice labs",
+    "objectives": [],
+    "chapter": "Introduction",
+    "pages": [
+      "xxiii"
+    ],
+    "status": "ok"
+  },
+  {
+    "title": "Hacking-Lab",
+    "url": "https://hacking-lab.com/",
+    "original_url": "http://hacking-lab.com",
+    "description": "Hands-on cyber security training platform with CTF-style exercises.",
+    "category": "Practice labs",
+    "objectives": [],
+    "chapter": "Introduction",
+    "pages": [
+      "xxiii"
+    ],
+    "status": "ok"
+  },
+  {
+    "title": "Pearson VUE CompTIA exam scheduling",
+    "url": "https://www.pearsonvue.com/us/en/comptia.html",
+    "original_url": "https://home.pearsonvue.com/comptia",
+    "description": "Pearson VUE’s CompTIA testing page for scheduling in-person or online exams.",
+    "category": "Exam info",
+    "objectives": [],
+    "chapter": "Introduction",
+    "pages": [
+      "xxiii"
+    ],
+    "status": "ok"
+  },
+  {
+    "title": "PentesterLab exercises",
+    "url": "https://pentesterlab.com/exercises",
+    "original_url": "http://pentesterlab.com/exercises",
+    "description": "Web-app and pentest exercise catalog, including a subscription-based lab path.",
+    "category": "Practice labs",
+    "objectives": [],
+    "chapter": "Introduction",
+    "pages": [
+      "xxiii"
+    ],
+    "status": "ok"
+  },
+  {
+    "title": "CompTIA Continuing Education",
+    "url": "https://www.comptia.org/en-us/resources/ce/",
+    "original_url": "http://www.comptia.org/continuing-education",
+    "description": "How to keep a CompTIA certification current through the Continuing Education program.",
+    "category": "Exam info",
+    "objectives": [],
+    "chapter": "Introduction",
+    "pages": [
+      "xxiv"
+    ],
+    "status": "ok"
+  },
+  {
+    "title": "CompTIA online (at-home) exam",
+    "url": "https://www.comptia.org/en-us/blog/comptia-online-exam-experience/",
+    "original_url": "https://www.comptia.org/testing/testing-options/take-online-exam",
+    "description": "CompTIA’s current write-up of the remotely proctored, at-home exam experience (the older testing-options URL now lands here).",
+    "category": "Exam info",
+    "objectives": [],
+    "chapter": "Introduction",
+    "pages": [
+      "xxiv"
+    ],
+    "status": "ok"
+  },
+  {
+    "title": "Renew a CompTIA certification with a higher-level cert",
+    "url": "https://www.comptia.org/en-us/resources/ce/choose/renew-with-a-single-activity/earn-a-higher-level-comptia-certification/",
+    "original_url": "http://www.comptia.org/continuing-education/choose/renew-with-a-single-activity/earn-a-higher-level-comptia-certification",
+    "description": "CompTIA CE option for renewing a certification by earning a higher-level CompTIA cert.",
+    "category": "Exam info",
+    "objectives": [],
+    "chapter": "Introduction",
+    "pages": [
+      "xxiv"
+    ],
+    "status": "ok"
+  },
+  {
+    "title": "Wiley Sybex online test bank",
+    "url": "https://study.learning.wiley.com/",
+    "original_url": "http://www.wiley.com/go/sybextestprep",
+    "description": "Online practice questions and test bank that come with the Sybex study guide.",
+    "category": "Exam info",
+    "objectives": [],
+    "chapter": "Introduction",
+    "pages": [
+      "xxvii",
+      534
+    ],
+    "status": "ok"
+  },
+  {
+    "title": "Converting a VMware VMX file for VirtualBox",
+    "url": "https://theautomationblog.com/converting-a-vmware-vmx-file-for-use-in-virtualbox/",
+    "original_url": "https://theautomationblog.com/converting-a-vmware-vmx-file-for-use-in-virtualbox/",
+    "description": "Walk-through for converting a VMware VM so it can run in VirtualBox.",
+    "category": "Practice labs",
+    "objectives": [
+      "2.1"
+    ],
+    "chapter": "Introduction",
+    "pages": [
+      "xxx"
+    ],
+    "status": "ok"
+  },
+  {
+    "title": "Kali Linux downloads",
+    "url": "https://www.kali.org/get-kali/",
+    "original_url": "http://www.kali.org/downloads",
+    "description": "Official Kali Linux download page, including virtual-machine images for the book’s labs. The older kali.org/downloads path now redirects here.",
+    "category": "Practice labs",
+    "objectives": [
+      "1.1",
+      "2.1"
+    ],
+    "chapter": "Introduction",
+    "pages": [
+      "xxx",
+      71
+    ],
+    "status": "ok"
+  },
+  {
+    "title": "Metasploitable (SourceForge)",
+    "url": "https://sourceforge.net/projects/metasploitable",
+    "original_url": "http://sourceforge.net/projects/metasploitable",
+    "description": "Intentionally vulnerable Metasploitable VM image, used in the book’s lab setup.",
+    "category": "Practice labs",
+    "objectives": [
+      "2.1"
+    ],
+    "chapter": "Introduction",
+    "pages": [
+      "xxx"
+    ],
+    "status": "unverified"
+  },
+  {
+    "title": "VMware OVF Tool",
+    "url": "https://developer.broadcom.com/tools/open-virtualization-format-ovf-tool/latest/",
+    "original_url": "https://developer.vmware.com/web/tool/4.4.0/ovf",
+    "description": "Official OVF Tool download (now on Broadcom’s developer site) for converting VM images, such as Metasploitable, for VirtualBox.",
+    "category": "Practice labs",
+    "objectives": [
+      "2.1"
+    ],
+    "chapter": "Introduction",
+    "pages": [
+      "xxx"
+    ],
+    "status": "ok"
+  },
+  {
+    "title": "VirtualBox downloads",
+    "url": "https://www.virtualbox.org/wiki/Downloads",
+    "original_url": "http://www.virtualbox.org/wiki/Downloads",
+    "description": "Free Type-2 hypervisor used in the book’s lab setup, with builds for Windows, macOS, and Linux.",
+    "category": "Practice labs",
+    "objectives": [
+      "1.1",
+      "2.1"
+    ],
+    "chapter": "Introduction",
+    "pages": [
+      "xxx"
+    ],
+    "status": "ok"
+  },
+  {
+    "title": "NIST SP 800-30 Rev. 1, Guide for Conducting Risk Assessments",
+    "url": "https://csrc.nist.gov/pubs/sp/800/30/r1/final",
+    "original_url": "https://csrc.nist.gov/publications/detail/sp/800-30/rev-1/final",
+    "description": "NIST’s current publication page for the risk-assessment guide used in qualitative and quantitative risk discussions.",
+    "category": "Standards & frameworks",
+    "objectives": [
+      "2.5"
+    ],
+    "chapter": "1",
+    "pages": [
+      10
+    ],
+    "status": "ok"
+  },
+  {
+    "title": "Docker",
+    "url": "https://www.docker.com/",
+    "original_url": "http://www.docker.com",
+    "description": "Official Docker site for container runtime and tooling used in containerized infrastructure.",
+    "category": "Tools",
+    "objectives": [
+      "1.1"
+    ],
+    "chapter": "2",
+    "pages": [
+      40
+    ],
+    "status": "ok"
+  },
+  {
+    "title": "Microsoft Azure: What is a container?",
+    "url": "https://azure.microsoft.com/en-us/resources/cloud-computing-dictionary/what-is-a-container/",
+    "original_url": "https://azure.microsoft.com/en-us/resources/cloud-computing-dictionary/what-is-a-container/",
+    "description": "Microsoft overview of containerization concepts, complementary to the Docker discussion.",
+    "category": "Technical references",
+    "objectives": [
+      "1.1"
+    ],
+    "chapter": "2",
+    "pages": [
+      40
+    ],
+    "status": "ok"
+  },
+  {
+    "title": "CIS Benchmarks",
+    "url": "https://www.cisecurity.org/cis-benchmarks",
+    "original_url": "http://www.cisecurity.org/cis-benchmarks",
+    "description": "Center for Internet Security configuration benchmarks used as system-hardening baselines (the book also cited cisecurity.org/benchmark, which leads here).",
+    "category": "Standards & frameworks",
+    "objectives": [
+      "1.1"
+    ],
+    "chapter": "2",
+    "pages": [
+      41,
+      72
+    ],
+    "status": "ok"
+  },
+  {
+    "title": "CIS Microsoft Windows Desktop Benchmark",
+    "url": "https://www.cisecurity.org/benchmark/microsoft_windows_desktop",
+    "original_url": "http://www.cisecurity.org/benchmark/microsoft_windows_desktop",
+    "description": "CIS hardening benchmark for Windows desktop releases, including the Windows 11 stand-alone guide used in a chapter 2 lab.",
+    "category": "Standards & frameworks",
+    "objectives": [
+      "1.1"
+    ],
+    "chapter": "2",
+    "pages": [
+      41
+    ],
+    "status": "ok"
+  },
+  {
+    "title": "Protecting Linux configuration files",
+    "url": "https://itnext.io/linux-protecting-configuration-files-7b0e53b49a4",
+    "original_url": "https://itnext.io/linux-protecting-configuration-files-7b0e53b49a4",
+    "description": "Article on practices for protecting Linux configuration files (encryption, access control, and related controls).",
+    "category": "Technical references",
+    "objectives": [
+      "1.1"
+    ],
+    "chapter": "2",
+    "pages": [
+      43
+    ],
+    "status": "unverified"
+  },
+  {
+    "title": "The Defender's Guide to the Windows Registry",
+    "url": "https://securityboulevard.com/2022/10/the-defenders-guide-to-the-windows-registry",
+    "original_url": "https://securityboulevard.com/2022/10/the-defenders-guide-to-the-windows-registry",
+    "description": "Defender-oriented walkthrough of how the Windows Registry is structured and how to monitor it for abuse.",
+    "category": "Technical references",
+    "objectives": [
+      "1.1"
+    ],
+    "chapter": "2",
+    "pages": [
+      43
+    ],
+    "status": "unverified"
+  },
+  {
+    "title": "Windows system processes: an overview for blue teams",
+    "url": "https://nasbench.medium.com/windows-system-processes-an-overview-for-blue-teams-42fa7a617920",
+    "original_url": "https://nasbench.medium.com/windows-system-processes-an-overview-for-blue-teams-42fa7a617920",
+    "description": "Blue-team reference listing legitimate Windows system processes, paths, and parent/child relationships.",
+    "category": "Technical references",
+    "objectives": [
+      "1.1",
+      "1.2"
+    ],
+    "chapter": "2",
+    "pages": [
+      44
+    ],
+    "status": "unverified"
+  },
+  {
+    "title": "How to install and configure NTP on Linux",
+    "url": "https://timetoolsltd.com/ntp/how-to-install-and-configure-ntp-on-linux/",
+    "original_url": "https://timetoolsltd.com/ntp/how-to-install-and-configure-ntp-on-linux",
+    "description": "Distribution-agnostic guide to installing and configuring NTP on Linux systems.",
+    "category": "Technical references",
+    "objectives": [
+      "1.1",
+      "1.3"
+    ],
+    "chapter": "2",
+    "pages": [
+      46
+    ],
+    "status": "ok"
+  },
+  {
+    "title": "Windows Time Service tools and settings",
+    "url": "https://learn.microsoft.com/en-us/windows-server/networking/windows-time-service/windows-time-service-tools-and-settings",
+    "original_url": "https://learn.microsoft.com/en-us/windows-server/networking/windows-time-service/windows-time-service-tools-and-settings",
+    "description": "Microsoft documentation for configuring and troubleshooting Windows time synchronization, which is critical for log correlation.",
+    "category": "Tools",
+    "objectives": [
+      "1.1",
+      "1.3"
+    ],
+    "chapter": "2",
+    "pages": [
+      46
+    ],
+    "status": "ok"
+  },
+  {
+    "title": "Shared Assessments",
+    "url": "https://sharedassessments.org/",
+    "original_url": "http://www.sharedassessments.org",
+    "description": "Industry tools and questionnaires for assessing the security of cloud and other third-party providers. The public site presented a sign-in interstitial when checked.",
+    "category": "Standards & frameworks",
+    "objectives": [
+      "1.1"
+    ],
+    "chapter": "2",
+    "pages": [
+      48
+    ],
+    "status": "unverified"
+  },
+  {
+    "title": "FBI Major Case 216 (NCDIR) case study",
+    "url": "https://www.ideals.illinois.edu/items/105968/bitstreams/335178/data.pdf",
+    "original_url": "http://publish.illinois.edu/kericker/files/2013/09/NCDIR-TR-2008-01.pdf",
+    "description": "FBI/NCSA case study of a long-running intrusion set, used in the book to illustrate federated-identity and access-monitoring issues. The original Illinois blog PDF is gone; this is the same report in the university’s IDEALS repository.",
+    "category": "Technical references",
+    "objectives": [
+      "1.1"
+    ],
+    "chapter": "2",
+    "pages": [
+      58
+    ],
+    "status": "ok"
+  },
+  {
+    "title": "OWASP SAML Security Cheat Sheet",
+    "url": "https://cheatsheetseries.owasp.org/cheatsheets/SAML_Security_Cheat_Sheet.html",
+    "original_url": "http://cheatsheetseries.owasp.org/cheatsheets/SAML_Security_Cheat_Sheet.html",
+    "description": "OWASP guidance on common SAML implementation flaws and how to harden federated single sign-on.",
+    "category": "Standards & frameworks",
+    "objectives": [
+      "1.1"
+    ],
+    "chapter": "2",
+    "pages": [
+      62
+    ],
+    "status": "ok"
+  },
+  {
+    "title": "Microsoft AD FS overview (legacy)",
+    "url": "https://learn.microsoft.com/en-us/previous-versions/windows/server-2008/bb897402(v=msdn.10)?redirectedfrom=MSDN",
+    "original_url": "http://msdn.microsoft.com/en-us/library/bb897402.aspx",
+    "description": "Archived Microsoft overview of Active Directory Federation Services, now hosted on Microsoft Learn.",
+    "category": "Technical references",
+    "objectives": [
+      "1.1"
+    ],
+    "chapter": "2",
+    "pages": [
+      63
+    ],
+    "status": "ok"
+  },
+  {
+    "title": "BeyondTrust: Privileged Access Management (PAM)",
+    "url": "https://www.beyondtrust.com/resources/glossary/privileged-access-management-pam",
+    "original_url": "http://www.beyondtrust.com/resources/glossary/privileged-access-management-pam",
+    "description": "Vendor glossary article explaining privileged access management concepts and life-cycle control of privileged accounts.",
+    "category": "Technical references",
+    "objectives": [
+      "1.1"
+    ],
+    "chapter": "2",
+    "pages": [
+      65
+    ],
+    "status": "unverified"
+  },
+  {
+    "title": "Symmetric vs. asymmetric encryption (video)",
+    "url": "https://www.youtube.com/watch?v=pbPJIgdR3-8",
+    "original_url": "http://www.youtube.com/watch?v=pbPJIgdR3-8",
+    "description": "Short video explainer of symmetric and asymmetric encryption, used as a PKI primer in the book.",
+    "category": "Technical references",
+    "objectives": [
+      "1.1"
+    ],
+    "chapter": "2",
+    "pages": [
+      66
+    ],
+    "status": "ok"
+  },
+  {
+    "title": "Metasploitable (Rapid7)",
+    "url": "https://www.rapid7.com/products/metasploit/metasploitable/",
+    "original_url": "https://information.rapid7.com/download-metasploitable-2017.html",
+    "description": "Rapid7’s current Metasploitable information and download page for the intentionally vulnerable lab VM.",
+    "category": "Practice labs",
+    "objectives": [
+      "1.1",
+      "2.1"
+    ],
+    "chapter": "2",
+    "pages": [
+      71
+    ],
+    "status": "ok"
+  },
+  {
+    "title": "VMware Workstation and Fusion",
+    "url": "https://www.vmware.com/products/desktop-hypervisor/workstation-and-fusion",
+    "original_url": "http://www.vmware.com/products/workstation-player.html",
+    "description": "Current VMware desktop hypervisor page (Workstation/Fusion replaced the old Workstation Player product page).",
+    "category": "Practice labs",
+    "objectives": [
+      "1.1"
+    ],
+    "chapter": "2",
+    "pages": [
+      71
+    ],
+    "status": "ok"
+  },
+  {
+    "title": "Simulating a beacon",
+    "url": "https://www.activecountermeasures.com/simulating-a-beacon",
+    "original_url": "http://www.activecountermeasures.com/simulating-a-beacon",
+    "description": "Active Countermeasures techniques for generating beacon-like traffic so you can test whether your network defenses would catch it.",
+    "category": "Tools",
+    "objectives": [
+      "1.2",
+      "1.3"
+    ],
+    "chapter": "3",
+    "pages": [
+      84
+    ],
+    "status": "ok"
+  },
+  {
+    "title": "MAC Vendor Lookup",
+    "url": "https://www.macvendorlookup.com/",
+    "original_url": "http://www.macvendorlookup.com",
+    "description": "Lookup tool that maps a MAC address prefix to a hardware vendor during network investigations.",
+    "category": "Tools",
+    "objectives": [
+      "1.2",
+      "1.3"
+    ],
+    "chapter": "3",
+    "pages": [
+      89
+    ],
+    "status": "ok"
+  },
+  {
+    "title": "MAC Vendors",
+    "url": "https://macvendors.com/",
+    "original_url": "http://www.macvendors.com",
+    "description": "Another MAC-address OUI lookup service for identifying device manufacturers.",
+    "category": "Tools",
+    "objectives": [
+      "1.2",
+      "1.3"
+    ],
+    "chapter": "3",
+    "pages": [
+      89
+    ],
+    "status": "ok"
+  },
+  {
+    "title": "NIST National Software Reference Library (NSRL)",
+    "url": "https://www.nist.gov/itl/csd/secure-systems-and-applications/national-software-reference-library-nsrl",
+    "original_url": "http://www.nist.gov/itl/ssd/software-quality-group/national-software-reference-library-nsrl",
+    "description": "NIST library of known software hashes used to filter known-good files during investigations and forensic triage.",
+    "category": "Forensics",
+    "objectives": [
+      "1.2",
+      "1.3",
+      "3.2"
+    ],
+    "chapter": "3, 13",
+    "pages": [
+      92,
+      455
+    ],
+    "status": "ok"
+  },
+  {
+    "title": "Wazuh",
+    "url": "https://wazuh.com/",
+    "original_url": "http://wazuh.com",
+    "description": "Open-source security platform with file-integrity monitoring, log analysis, and host detection capabilities.",
+    "category": "Tools",
+    "objectives": [
+      "1.2",
+      "1.3"
+    ],
+    "chapter": "3",
+    "pages": [
+      92
+    ],
+    "status": "ok"
+  },
+  {
+    "title": "Microsoft Sysinternals",
+    "url": "https://learn.microsoft.com/en-us/sysinternals/",
+    "original_url": "http://technet.microsoft.com/en-us/sysinternals",
+    "description": "Microsoft Sysinternals suite and documentation. The book also mentions running individual tools live from https://live.sysinternals.com/.",
+    "category": "Tools",
+    "objectives": [
+      "1.2",
+      "1.3"
+    ],
+    "chapter": "3",
+    "pages": [
+      93
+    ],
+    "status": "ok"
+  },
+  {
+    "title": "SANS Hunt Evil poster",
+    "url": "https://www.sans.org/posters/hunt-evil",
+    "original_url": "http://digital-forensics.sans.org/media/dfir_poster_2014.pdf",
+    "description": "Current SANS DFIR “Hunt Evil” poster (successor to the 2014 “Know Normal… Find Evil” PDF) summarizing normal vs. suspicious Windows artifacts.",
+    "category": "Forensics",
+    "objectives": [
+      "1.2",
+      "1.3"
+    ],
+    "chapter": "3",
+    "pages": [
+      96
+    ],
+    "status": "ok"
+  },
+  {
+    "title": "Getting started with Windows debugging",
+    "url": "https://learn.microsoft.com/en-us/windows-hardware/drivers/debugger/getting-started-with-windows-debugging?redirectedfrom=MSDN",
+    "original_url": "http://msdn.microsoft.com/en-us/library/windows/hardware/mt219729(v=vs.85).aspx",
+    "description": "Microsoft Learn guide to WinDbg and Windows debugging, which the book points to for crash-dump analysis (the old MSDN article redirects here).",
+    "category": "Tools",
+    "objectives": [
+      "1.2"
+    ],
+    "chapter": "3",
+    "pages": [
+      102
+    ],
+    "status": "ok"
+  },
+  {
+    "title": "OWASP Top 10",
+    "url": "https://owasp.org/projects/top-ten",
+    "original_url": "http://owasp.org/www-project-top-ten",
+    "description": "OWASP’s flagship list of the most critical web application security risks, often used as a default WAF ruleset baseline.",
+    "category": "Standards & frameworks",
+    "objectives": [
+      "1.2",
+      "2.4"
+    ],
+    "chapter": "3",
+    "pages": [
+      108
+    ],
+    "status": "ok"
+  },
+  {
+    "title": "Daniel Miessler: tcpdump walkthrough",
+    "url": "https://danielmiessler.com/blog/tcpdump",
+    "original_url": "https://danielmiessler.com/study/tcpdump/",
+    "description": "Practical introduction to capturing and filtering packets with tcpdump.",
+    "category": "Technical references",
+    "objectives": [
+      "1.3"
+    ],
+    "chapter": "3",
+    "pages": [
+      112
+    ],
+    "status": "ok"
+  },
+  {
+    "title": "HackerTarget: tcpdump examples",
+    "url": "https://hackertarget.com/tcpdump-examples/",
+    "original_url": "https://hackertarget.com/tcpdump-examples",
+    "description": "Collection of ready-to-use tcpdump command examples for common investigation tasks.",
+    "category": "Technical references",
+    "objectives": [
+      "1.3"
+    ],
+    "chapter": "3",
+    "pages": [
+      112
+    ],
+    "status": "ok"
+  },
+  {
+    "title": "Whois.com",
+    "url": "https://www.whois.com/",
+    "original_url": "http://whois.com",
+    "description": "Web WHOIS lookup service; the book notes that “whois” is a general technique as well as this specific site.",
+    "category": "Tools",
+    "objectives": [
+      "1.2",
+      "1.3",
+      "2.1"
+    ],
+    "chapter": "3",
+    "pages": [
+      112
+    ],
+    "status": "ok"
+  },
+  {
+    "title": "DNSChecker email header analyzer",
+    "url": "https://dnschecker.org/email-header-analyzer.php",
+    "original_url": "https://dnschecker.org/email-header-analyzer.php",
+    "description": "Online analyzer that breaks down received-from chains, authentication results, and other header details.",
+    "category": "Email analysis",
+    "objectives": [
+      "1.3"
+    ],
+    "chapter": "3",
+    "pages": [
+      116
+    ],
+    "status": "ok"
+  },
+  {
+    "title": "Mailfence: email header guide",
+    "url": "https://blog.mailfence.com/email-header/",
+    "original_url": "https://blog.mailfence.com/email-header",
+    "description": "Plain-language explanation of email header fields and how to read them during phishing analysis.",
+    "category": "Email analysis",
+    "objectives": [
+      "1.3"
+    ],
+    "chapter": "3",
+    "pages": [
+      116
+    ],
+    "status": "ok"
+  },
+  {
+    "title": "Understanding an email header (Media Temple)",
+    "url": "https://mediatemple.net/community/products/dv/204643950/understanding-an-email-header",
+    "original_url": "http://mediatemple.net/community/products/dv/204643950/understanding-an-email-header",
+    "description": "The book’s email-header primer; the old Media Temple article now redirects to a generic GoDaddy offer page, so use the Mailfence or MXToolbox links instead.",
+    "category": "Email analysis",
+    "objectives": [
+      "1.3"
+    ],
+    "chapter": "3",
+    "pages": [
+      116
+    ],
+    "status": "dead"
+  },
+  {
+    "title": "WhatIsMyIP email header analyzer",
+    "url": "https://www.whatismyip.com/email-header-analyzer",
+    "original_url": "http://www.whatismyip.com/email-header-analyzer",
+    "description": "Web tool that parses raw email headers into a more readable investigation view.",
+    "category": "Email analysis",
+    "objectives": [
+      "1.3"
+    ],
+    "chapter": "3",
+    "pages": [
+      116,
+      130
+    ],
+    "status": "unverified"
+  },
+  {
+    "title": "DMARC overview",
+    "url": "https://dmarc.org/overview/",
+    "original_url": "https://dmarc.org/overview",
+    "description": "Official overview of DMARC and how it builds on SPF and DKIM to authenticate mail.",
+    "category": "Email analysis",
+    "objectives": [
+      "1.3"
+    ],
+    "chapter": "3",
+    "pages": [
+      118
+    ],
+    "status": "ok"
+  },
+  {
+    "title": "Sender Policy Framework (SPF) explained",
+    "url": "https://www.mimecast.com/content/sender-policy-framework/",
+    "original_url": "http://www.dmarcanalyzer.com/spf",
+    "description": "Current Mimecast explainer for SPF (the book’s dmarcanalyzer.com/spf page now redirects here after the Mimecast acquisition).",
+    "category": "Email analysis",
+    "objectives": [
+      "1.3"
+    ],
+    "chapter": "3",
+    "pages": [
+      118
+    ],
+    "status": "ok"
+  },
+  {
+    "title": "Cuckoo Sandbox",
+    "url": "https://cuckoo.cert.ee/",
+    "original_url": "http://cuckoosandbox.org/",
+    "description": "Open-source malware sandbox; cuckoosandbox.org failed a connectivity check, so this points at the widely used CERT-EE public Cuckoo instance. The project code is also at https://github.com/cuckoosandbox/cuckoo.",
+    "category": "Tools",
+    "objectives": [
+      "1.3"
+    ],
+    "chapter": "3",
+    "pages": [
+      120
+    ],
+    "status": "ok"
+  },
+  {
+    "title": "Joe Sandbox",
+    "url": "https://www.joesandbox.com/",
+    "original_url": "http://www.joesandbox.com",
+    "description": "Commercial (with a free tier) multi-OS malware sandbox named in the exam outline.",
+    "category": "Tools",
+    "objectives": [
+      "1.3"
+    ],
+    "chapter": "3",
+    "pages": [
+      120
+    ],
+    "status": "unverified"
+  },
+  {
+    "title": "VirusTotal",
+    "url": "https://www.virustotal.com/",
+    "original_url": "http://www.virustotal.com",
+    "description": "Multi-engine malware and URL scanning service, useful for checking suspicious files and hashes.",
+    "category": "Tools",
+    "objectives": [
+      "1.3"
+    ],
+    "chapter": "3",
+    "pages": [
+      120
+    ],
+    "status": "ok"
+  },
+  {
+    "title": "Regular-Expressions.info quick start",
+    "url": "https://www.regular-expressions.info/quickstart.html",
+    "original_url": "http://www.regular-expressions.info/quickstart.html",
+    "description": "Short regex primer; enough background for the exam’s pattern-matching expectations without becoming a regex expert.",
+    "category": "Technical references",
+    "objectives": [
+      "1.3"
+    ],
+    "chapter": "3",
+    "pages": [
+      125
+    ],
+    "status": "ok"
+  },
+  {
+    "title": "MXToolbox Email Headers",
+    "url": "https://mxtoolbox.com/EmailHeaders.aspx",
+    "original_url": "http://mxtoolbox.com/EmailHeaders.aspx",
+    "description": "Email-header analysis tool used in the chapter 3 lab to decode phishing-message headers.",
+    "category": "Email analysis",
+    "objectives": [
+      "1.3"
+    ],
+    "chapter": "3",
+    "pages": [
+      130
+    ],
+    "status": "ok"
+  },
+  {
+    "title": "Zeltser: looking up malicious websites",
+    "url": "https://zeltser.com/lookup-malicious-websites",
+    "original_url": "http://zeltser.com/lookup-malicious-websites",
+    "description": "Lenny Zeltser’s list of reputation and lookup tools for checking suspicious URLs and domains from phishing emails.",
+    "category": "Tools",
+    "objectives": [
+      "1.3"
+    ],
+    "chapter": "3",
+    "pages": [
+      130
+    ],
+    "status": "ok"
+  },
+  {
+    "title": "AlienVault Open Threat Exchange (OTX)",
+    "url": "https://otx.alienvault.com/",
+    "original_url": "https://otx.alienvault.com",
+    "description": "Community threat-intelligence platform (also cited via cybersecurity.att.com/open-threat-exchange) for browsing pulses, IoCs, and reputation data; used in a chapter 4 lab.",
+    "category": "Threat intel feeds",
+    "objectives": [
+      "1.4",
+      "3.2"
+    ],
+    "chapter": "4, 10",
+    "pages": [
+      137,
+      153,
+      379,
+      391
+    ],
+    "status": "ok"
+  },
+  {
+    "title": "CISA Automated Indicator Sharing (AIS)",
+    "url": "https://www.cisa.gov/topics/cyber-threats-and-advisories/information-sharing/automated-indicator-sharing-ais",
+    "original_url": "http://www.cisa.gov/ais",
+    "description": "CISA program for automated, machine-to-machine sharing of cyber threat indicators.",
+    "category": "Threat intel feeds",
+    "objectives": [
+      "1.4"
+    ],
+    "chapter": "4",
+    "pages": [
+      137
+    ],
+    "status": "ok"
+  },
+  {
+    "title": "CISA Information Sharing and Analysis Organizations (ISAOs)",
+    "url": "https://www.cisa.gov/topics/cyber-threats-and-advisories/information-sharing/isaos",
+    "original_url": "http://www.cisa.gov/information-sharing-and-analysis-organizations-isaos",
+    "description": "CISA page on ISAOs, the broader information-sharing communities beyond formal ISACs.",
+    "category": "Threat intel feeds",
+    "objectives": [
+      "1.4"
+    ],
+    "chapter": "4",
+    "pages": [
+      137
+    ],
+    "status": "ok"
+  },
+  {
+    "title": "CISA cybersecurity alerts and advisories",
+    "url": "https://www.cisa.gov/news-events/cybersecurity-advisories",
+    "original_url": "http://www.cisa.gov/uscert",
+    "description": "Current CISA alerts and advisories feed; the former US-CERT site now redirects to the CISA homepage, so this is the useful replacement.",
+    "category": "Threat intel feeds",
+    "objectives": [
+      "1.4"
+    ],
+    "chapter": "4",
+    "pages": [
+      137
+    ],
+    "status": "ok"
+  },
+  {
+    "title": "Cisco Security Center",
+    "url": "https://sec.cloudapps.cisco.com/security/center/home.x",
+    "original_url": "https://tools.cisco.com/security/center/home.x",
+    "description": "Cisco’s security research and advisory portal (the older tools.cisco.com URL now lands here).",
+    "category": "Threat intel feeds",
+    "objectives": [
+      "1.4"
+    ],
+    "chapter": "4",
+    "pages": [
+      137
+    ],
+    "status": "ok"
+  },
+  {
+    "title": "Cisco Talos Intelligence",
+    "url": "https://talosintelligence.com/",
+    "original_url": "https://talosintelligence.com",
+    "description": "Cisco Talos threat research site and reputation-lookup tools.",
+    "category": "Threat intel feeds",
+    "objectives": [
+      "1.4"
+    ],
+    "chapter": "4",
+    "pages": [
+      137
+    ],
+    "status": "ok"
+  },
+  {
+    "title": "Department of Defense Cyber Crime Center (DC3)",
+    "url": "https://www.dc3.mil/",
+    "original_url": "http://www.dc3.mil",
+    "description": "U.S. DoD Cyber Crime Center, a government source of cybercrime and threat information.",
+    "category": "Threat intel feeds",
+    "objectives": [
+      "1.4"
+    ],
+    "chapter": "4",
+    "pages": [
+      137
+    ],
+    "status": "unverified"
+  },
+  {
+    "title": "MISP threat-sharing feeds",
+    "url": "https://www.misp-project.org/feeds",
+    "original_url": "http://www.misp-project.org/feeds",
+    "description": "MISP project feed listings for community-shared, standardized threat intelligence.",
+    "category": "Threat intel feeds",
+    "objectives": [
+      "1.4"
+    ],
+    "chapter": "4",
+    "pages": [
+      137
+    ],
+    "status": "ok"
+  },
+  {
+    "title": "Microsoft threat intelligence blog",
+    "url": "https://www.microsoft.com/en-us/security/blog/topic/threat-intelligence/",
+    "original_url": "http://www.microsoft.com/security/blog/tag/threat-intelligence",
+    "description": "Microsoft Security blog posts tagged for threat intelligence and actor research.",
+    "category": "Threat intel feeds",
+    "objectives": [
+      "1.4"
+    ],
+    "chapter": "4",
+    "pages": [
+      137
+    ],
+    "status": "ok"
+  },
+  {
+    "title": "Senki open-source threat intelligence feeds",
+    "url": "https://www.senki.org/operators-security-toolkit/open-source-threat-intelligence-feeds",
+    "original_url": "http://www.senki.org/operators-security-toolkit/open-source-threat-intelligence-feeds",
+    "description": "Curated list of open-source threat-intelligence feeds and related operator tooling.",
+    "category": "Threat intel feeds",
+    "objectives": [
+      "1.4"
+    ],
+    "chapter": "4",
+    "pages": [
+      137
+    ],
+    "status": "unverified"
+  },
+  {
+    "title": "ThreatFeeds.io",
+    "url": "https://threatfeeds.io/",
+    "original_url": "https://threatfeeds.io",
+    "description": "Directory of open-source threat-intelligence feeds with metadata about maintainers and update cadence.",
+    "category": "Threat intel feeds",
+    "objectives": [
+      "1.4"
+    ],
+    "chapter": "4",
+    "pages": [
+      137
+    ],
+    "status": "ok"
+  },
+  {
+    "title": "Australian Cyber Security Centre",
+    "url": "https://www.cyber.gov.au/",
+    "original_url": "http://www.cyber.gov.au",
+    "description": "Australian Signals Directorate Cyber Security Centre, an example of a national government cyber-threat site.",
+    "category": "Threat intel feeds",
+    "objectives": [
+      "1.4"
+    ],
+    "chapter": "4",
+    "pages": [
+      138
+    ],
+    "status": "unverified"
+  },
+  {
+    "title": "SANS Internet Storm Center",
+    "url": "https://isc.sans.edu/",
+    "original_url": "https://isc.sans.org",
+    "description": "SANS ISC daily threat diaries, handler notes, and community observations of emerging internet attacks.",
+    "category": "Threat intel feeds",
+    "objectives": [
+      "1.4"
+    ],
+    "chapter": "4",
+    "pages": [
+      138
+    ],
+    "status": "ok"
+  },
+  {
+    "title": "Spamhaus",
+    "url": "https://www.spamhaus.org/",
+    "original_url": "http://www.spamhaus.org",
+    "description": "Block lists and reputation data for spam, hijacked networks, and networks you may not want to peer with (SBL, XBL, PBL, DROP).",
+    "category": "Threat intel feeds",
+    "objectives": [
+      "1.4"
+    ],
+    "chapter": "4",
+    "pages": [
+      138
+    ],
+    "status": "ok"
+  },
+  {
+    "title": "VirusShare",
+    "url": "https://virusshare.com/",
+    "original_url": "https://virusshare.com",
+    "description": "Large malware-sample repository used by researchers (access is typically request-based).",
+    "category": "Threat intel feeds",
+    "objectives": [
+      "1.4"
+    ],
+    "chapter": "4",
+    "pages": [
+      138
+    ],
+    "status": "ok"
+  },
+  {
+    "title": "Tor Browser download",
+    "url": "https://www.torproject.org/download/",
+    "original_url": "https://www.torproject.org/download/",
+    "description": "Official Tor Browser download, needed if you are exploring dark-web sites that are only reachable over Tor.",
+    "category": "Tools",
+    "objectives": [
+      "1.4"
+    ],
+    "chapter": "4",
+    "pages": [
+      139
+    ],
+    "status": "ok"
+  },
+  {
+    "title": "ThreatConnect confidence / “skulls” scale",
+    "url": "https://threatconnect.com/resource/evilness-rating-skulls-scale-for-cyber-threats-4",
+    "original_url": "https://threatconnect.com/resource/evilness-rating-skulls-scale-for-cyber-threats-4",
+    "description": "The book’s example of a six-level threat-confidence scale. ThreatConnect was acquired by Dataminr and this specific article no longer resolves to the original resource.",
+    "category": "Threat intel feeds",
+    "objectives": [
+      "1.4"
+    ],
+    "chapter": "4",
+    "pages": [
+      141
+    ],
+    "status": "dead"
+  },
+  {
+    "title": "OASIS CTI documentation (STIX and TAXII)",
+    "url": "https://oasis-open.github.io/cti-documentation/",
+    "original_url": "https://oasis-open.github.io/cti-documentation",
+    "description": "Official documentation for STIX (Structured Threat Information Expression) and the TAXII transport protocol.",
+    "category": "Standards & frameworks",
+    "objectives": [
+      "1.4"
+    ],
+    "chapter": "4",
+    "pages": [
+      143
+    ],
+    "status": "ok"
+  },
+  {
+    "title": "National Council of ISACs",
+    "url": "https://www.nationalisacs.org/",
+    "original_url": "http://www.nationalisacs.org",
+    "description": "Umbrella organization for U.S. sector-based Information Sharing and Analysis Centers.",
+    "category": "Threat intel feeds",
+    "objectives": [
+      "1.4"
+    ],
+    "chapter": "4",
+    "pages": [
+      145
+    ],
+    "status": "ok"
+  },
+  {
+    "title": "CISA critical infrastructure sectors",
+    "url": "https://www.cisa.gov/topics/critical-infrastructure-security-and-resilience/critical-infrastructure-sectors",
+    "original_url": "http://www.dhs.gov/cisa/critical-infrastructure-sectors",
+    "description": "Official list and descriptions of U.S. critical-infrastructure sectors and their sector-specific partners.",
+    "category": "Standards & frameworks",
+    "objectives": [
+      "1.4"
+    ],
+    "chapter": "4",
+    "pages": [
+      146
+    ],
+    "status": "ok"
+  },
+  {
+    "title": "UK National Protective Security Authority (NPSA)",
+    "url": "https://www.npsa.gov.uk/",
+    "original_url": "http://www.cpni.gov.uk",
+    "description": "UK national protective-security authority; this is the successor to the Centre for the Protection of National Infrastructure (CPNI). The site returned a block/unavailable page from this checker.",
+    "category": "Threat intel feeds",
+    "objectives": [
+      "1.4"
+    ],
+    "chapter": "4",
+    "pages": [
+      146
+    ],
+    "status": "unverified"
+  },
+  {
+    "title": "The Honeynet Project",
+    "url": "https://www.honeynet.org/projects/",
+    "original_url": "https://www.honeynet.org/projects/",
+    "description": "Open-source honeypot and honeynet projects used to collect attacker techniques for active defense and research.",
+    "category": "Tools",
+    "objectives": [
+      "1.4"
+    ],
+    "chapter": "4",
+    "pages": [
+      151
+    ],
+    "status": "ok"
+  },
+  {
+    "title": "Anomali STAXX",
+    "url": "https://www.anomali.com/resources/staxx",
+    "original_url": "http://www.anomali.com/community/staxx",
+    "description": "Anomali’s STAXX community threat-intelligence platform, which the chapter 4 lab asks you to install. The current product page still advertises a download; confirm availability before relying on it for a lab, and consider OTX or MISP as alternatives.",
+    "category": "Threat intel feeds",
+    "objectives": [
+      "1.4"
+    ],
+    "chapter": "4",
+    "pages": [
+      154
+    ],
+    "status": "ok"
+  },
+  {
+    "title": "Anomali STAXX installation guide (PDF)",
+    "url": "https://update.anomali.com/staxx/docs/Anomali_STAXX_Installation_&_Administration_Guide.pdf",
+    "original_url": "https://update.anomali.com/staxx/docs/Anomali_STAXX_Installation_&_Administration_Guide.pdf",
+    "description": "STAXX installation and administration PDF cited in the book’s lab. The host failed a TLS handshake from this checker, so the guide may no longer be published at this URL.",
+    "category": "Threat intel feeds",
+    "objectives": [
+      "1.4"
+    ],
+    "chapter": "4",
+    "pages": [
+      154
+    ],
+    "status": "dead"
+  },
+  {
+    "title": "ISECOM research (OSSTMM)",
+    "url": "https://www.isecom.org/research.html",
+    "original_url": "http://www.isecom.org/research.html",
+    "description": "Institute for Security and Open Methodologies research page, home of the Open Source Security Testing Methodology Manual.",
+    "category": "Standards & frameworks",
+    "objectives": [
+      "2.1",
+      "3.1"
+    ],
+    "chapter": "5",
+    "pages": [
+      161
+    ],
+    "status": "ok"
+  },
+  {
+    "title": "NIST SP 800-115, Technical Guide to Information Security Testing and Assessment",
+    "url": "https://csrc.nist.gov/pubs/sp/800/115/final",
+    "original_url": "http://csrc.nist.gov/publications/nistpubs/800-115/SP800-115.pdf",
+    "description": "NIST’s official page (and PDF) for security testing and assessment methodology, including reconnaissance and evaluation techniques.",
+    "category": "Standards & frameworks",
+    "objectives": [
+      "2.1"
+    ],
+    "chapter": "5",
+    "pages": [
+      161
+    ],
+    "status": "ok"
+  },
+  {
+    "title": "Penetration Testing Execution Standard (PTES)",
+    "url": "https://www.pentest-standard.org/index.php/Main_Page",
+    "original_url": "http://www.pentest-standard.org/index.php/Main_Page",
+    "description": "Community pentest methodology standard cited alongside OSSTMM and NIST SP 800-115. The site did not complete a TLS handshake from this checker and may be offline.",
+    "category": "Standards & frameworks",
+    "objectives": [
+      "2.1",
+      "3.1"
+    ],
+    "chapter": "5",
+    "pages": [
+      161
+    ],
+    "status": "dead"
+  },
+  {
+    "title": "hping source and documentation",
+    "url": "https://github.com/antirez/hping",
+    "original_url": "http://wiki.hping.org",
+    "description": "Source and docs for the hping packet-crafting tool. The old wiki.hping.org site no longer presents a working TLS service; this GitHub repo is the project’s current home.",
+    "category": "Tools",
+    "objectives": [
+      "2.1",
+      "2.2"
+    ],
+    "chapter": "5",
+    "pages": [
+      165
+    ],
+    "status": "ok"
+  },
+  {
+    "title": "Metasploit Unleashed",
+    "url": "https://www.offsec.com/metasploit-unleashed/",
+    "original_url": "http://www.offensive-security.com/metasploit-unleashed",
+    "description": "OffSec’s free Metasploit Unleashed course, covering modules, scanning, and exploitation workflows.",
+    "category": "Tools",
+    "objectives": [
+      "2.1",
+      "2.2"
+    ],
+    "chapter": "5",
+    "pages": [
+      173,
+      194
+    ],
+    "status": "ok"
+  },
+  {
+    "title": "Metasploit documentation",
+    "url": "https://docs.metasploit.com/",
+    "original_url": "https://docs.metasploit.com",
+    "description": "Official Metasploit Framework documentation, including scanning and auxiliary modules mentioned in the book.",
+    "category": "Tools",
+    "objectives": [
+      "2.1",
+      "2.2"
+    ],
+    "chapter": "5",
+    "pages": [
+      173
+    ],
+    "status": "ok"
+  },
+  {
+    "title": "Identifying incidents via syslog (Cisco)",
+    "url": "https://www.cisco.com/c/en/us/about/security-center/identify-incidents-via-syslog.html",
+    "original_url": "http://www.cisco.com/c/en/us/about/security-center/identify-incidents-via-syslog.html",
+    "description": "Cisco guidance on using syslog from network devices to spot security incidents.",
+    "category": "Technical references",
+    "objectives": [
+      "2.1",
+      "1.3"
+    ],
+    "chapter": "5",
+    "pages": [
+      182
+    ],
+    "status": "unverified"
+  },
+  {
+    "title": "BGP looking glasses",
+    "url": "https://www.bgp4.as/looking-glasses",
+    "original_url": "http://www.bgp4.as/looking-glasses",
+    "description": "List of public BGP looking-glass servers for inspecting how a target’s networks are routed on the internet.",
+    "category": "Tools",
+    "objectives": [
+      "2.1",
+      "2.2"
+    ],
+    "chapter": "5",
+    "pages": [
+      185
+    ],
+    "status": "unverified"
+  },
+  {
+    "title": "Sanmay Ved: I purchased the domain Google.com",
+    "url": "https://www.linkedin.com/pulse/i-purchased-domain-googlecom-via-google-domains-sanmay-ved",
+    "original_url": "http://www.linkedin.com/pulse/i-purchased-domain-googlecom-via-google-domains-sanmay-ved",
+    "description": "First-person account of a Google Domains registration glitch, used in the book to illustrate domain-ownership and reconnaissance surprises.",
+    "category": "Technical references",
+    "objectives": [
+      "2.1"
+    ],
+    "chapter": "5",
+    "pages": [
+      186
+    ],
+    "status": "ok"
+  },
+  {
+    "title": "DigiNinja Zone Transfer Me",
+    "url": "https://digi.ninja/projects/zonetransferme",
+    "original_url": "http://digi.ninja/projects/zonetransferme.php",
+    "description": "Practice DNS zone you are allowed to AXFR against, for learning zone-transfer reconnaissance.",
+    "category": "Practice labs",
+    "objectives": [
+      "2.1",
+      "2.2"
+    ],
+    "chapter": "5",
+    "pages": [
+      188
+    ],
+    "status": "ok"
+  },
+  {
+    "title": "DomainTools WHOIS history",
+    "url": "https://research.domaintools.com/research/whois-history/",
+    "original_url": "https://research.domaintools.com/research/whois-history",
+    "description": "Historical WHOIS research service for seeing how a domain’s registration has changed over time.",
+    "category": "Tools",
+    "objectives": [
+      "2.1",
+      "2.2"
+    ],
+    "chapter": "5",
+    "pages": [
+      190
+    ],
+    "status": "ok"
+  },
+  {
+    "title": "NIST Security Content Automation Protocol (SCAP)",
+    "url": "https://csrc.nist.gov/projects/security-content-automation-protocol",
+    "original_url": "http://csrc.nist.gov/projects/security-content-automation-protocol",
+    "description": "NIST project page for SCAP, including related standards such as OVAL used in automated vulnerability assessment.",
+    "category": "Standards & frameworks",
+    "objectives": [
+      "2.5",
+      "2.1"
+    ],
+    "chapter": "6",
+    "pages": [
+      221
+    ],
+    "status": "ok"
+  },
+  {
+    "title": "Nessus Essentials",
+    "url": "https://www.tenable.com/products/nessus/nessus-essentials",
+    "original_url": "http://www.tenable.com/products/nessus/nessus-essentials",
+    "description": "Free Nessus Essentials activation and product page for lab and small-scale scanning.",
+    "category": "Vulnerability mgmt",
+    "objectives": [
+      "2.1",
+      "2.2"
+    ],
+    "chapter": "6",
+    "pages": [
+      240
+    ],
+    "status": "ok"
+  },
+  {
+    "title": "Nessus downloads",
+    "url": "https://www.tenable.com/downloads/nessus",
+    "original_url": "http://www.tenable.com/downloads/nessus",
+    "description": "Tenable’s Nessus scanner download page, used in the chapter 6 lab.",
+    "category": "Vulnerability mgmt",
+    "objectives": [
+      "2.1",
+      "2.2"
+    ],
+    "chapter": "6",
+    "pages": [
+      240
+    ],
+    "status": "ok"
+  },
+  {
+    "title": "Tenable Nessus documentation",
+    "url": "https://docs.tenable.com/Nessus.htm",
+    "original_url": "https://docs.tenable.com/Nessus.htm",
+    "description": "Official Nessus documentation for installation, scanning, and report review.",
+    "category": "Vulnerability mgmt",
+    "objectives": [
+      "2.1",
+      "2.2"
+    ],
+    "chapter": "6",
+    "pages": [
+      240
+    ],
+    "status": "ok"
+  },
+  {
+    "title": "NVD CVSS v3 calculator",
+    "url": "https://nvd.nist.gov/vuln-metrics/cvss/v3-calculator",
+    "original_url": "http://nvd.nist.gov/vuln-metrics/cvss/v3-calculator",
+    "description": "NIST’s interactive CVSS v3 calculator for scoring vulnerabilities the way the book and many scan reports still present them.",
+    "category": "Vulnerability mgmt",
+    "objectives": [
+      "2.3",
+      "4.1"
+    ],
+    "chapter": "7, 12",
+    "pages": [
+      255,
+      429
+    ],
+    "status": "ok"
+  },
+  {
+    "title": "FIRST CVSS specification",
+    "url": "https://www.first.org/cvss/specification-document",
+    "original_url": "http://www.first.org/cvss/specification-document",
+    "description": "Official CVSS specification. The same URL now serves CVSS v4.0; the book’s examples are CVSS v3, which FIRST still documents alongside the current version.",
+    "category": "Standards & frameworks",
+    "objectives": [
+      "2.3",
+      "4.1"
+    ],
+    "chapter": "7",
+    "pages": [
+      256
+    ],
+    "status": "ok"
+  },
+  {
+    "title": "Verizon Data Breach Investigations Report (DBIR)",
+    "url": "https://www.verizon.com/business/resources/reports/dbir",
+    "original_url": "http://www.verizon.com/business/resources/reports/dbir",
+    "description": "Annual Verizon DBIR, cited for real-world breach and vulnerability-exploitation trends.",
+    "category": "Vulnerability mgmt",
+    "objectives": [
+      "2.4",
+      "2.5"
+    ],
+    "chapter": "7",
+    "pages": [
+      261
+    ],
+    "status": "ok"
+  },
+  {
+    "title": "Microsoft product life-cycle information",
+    "url": "https://learn.microsoft.com/en-us/lifecycle/products/",
+    "original_url": "https://learn.microsoft.com/en-us/lifecycle/products",
+    "description": "Microsoft product life-cycle search, for tracking end-of-support dates that drive patch and upgrade decisions.",
+    "category": "Vulnerability mgmt",
+    "objectives": [
+      "2.5"
+    ],
+    "chapter": "7",
+    "pages": [
+      264
+    ],
+    "status": "ok"
+  },
+  {
+    "title": "Dirty COW (CVE-2016-5195)",
+    "url": "https://dirtycow.ninja/",
+    "original_url": "DirtyCOW.ninja",
+    "description": "Researchers’ site for the Dirty COW Linux privilege-escalation vulnerability, with background and patching guidance.",
+    "category": "Technical references",
+    "objectives": [
+      "2.5",
+      "2.4"
+    ],
+    "chapter": "7",
+    "pages": [
+      265
+    ],
+    "status": "ok"
+  },
+  {
+    "title": "OWASP Session Management Cheat Sheet",
+    "url": "https://cheatsheetseries.owasp.org/cheatsheets/Session_Management_Cheat_Sheet.html",
+    "original_url": "http://cheatsheetseries.owasp.org/cheatsheets/Session_Management_Cheat_Sheet.html",
+    "description": "OWASP recommendations for robust session handling to reduce impersonation and session-attack risk.",
+    "category": "Standards & frameworks",
+    "objectives": [
+      "2.4"
+    ],
+    "chapter": "7",
+    "pages": [
+      282
+    ],
+    "status": "ok"
+  },
+  {
+    "title": "Cisco Talos Reputation Center",
+    "url": "https://talosintelligence.com/reputation_center",
+    "original_url": "https://talosintelligence.com/reputation_center",
+    "description": "Talos reputation-lookup console for IPs, domains, and related threat-reputation research.",
+    "category": "Threat intel feeds",
+    "objectives": [
+      "2.5",
+      "1.4"
+    ],
+    "chapter": "8",
+    "pages": [
+      306
+    ],
+    "status": "ok"
+  },
+  {
+    "title": "OWASP static code analysis",
+    "url": "https://wiki.owasp.org/index.php/Static_Code_Analysis",
+    "original_url": "http://www.owasp.org/index.php/Static_Code_Analysis",
+    "description": "OWASP wiki page listing static-analysis concepts and tools (including OWASP’s own analyzers).",
+    "category": "Standards & frameworks",
+    "objectives": [
+      "2.1",
+      "2.2",
+      "2.5"
+    ],
+    "chapter": "8",
+    "pages": [
+      322
+    ],
+    "status": "ok"
+  },
+  {
+    "title": "UC Berkeley Minimum Security Standards for Electronic Information",
+    "url": "https://security.berkeley.edu/mssei-home",
+    "original_url": "https://security.berkeley.edu/minimum-security-standards-electronic-information",
+    "description": "Example of a university security standard that maps required controls to data-protection levels.",
+    "category": "Standards & frameworks",
+    "objectives": [
+      "2.5"
+    ],
+    "chapter": "8",
+    "pages": [
+      327
+    ],
+    "status": "ok"
+  },
+  {
+    "title": "Visa: What to Do If Compromised",
+    "url": "https://usa.visa.com/dam/VCOM/download/merchants/cisp-what-to-do-if-compromised.pdf",
+    "original_url": "https://usa.visa.com/dam/VCOM/download/merchants/cisp-what-to-do-if-compromised.pdf",
+    "description": "Visa’s mandatory merchant procedure for responding to a suspected payment-card compromise, used as an example of a required procedure.",
+    "category": "Incident response",
+    "objectives": [
+      "2.5",
+      "3.3"
+    ],
+    "chapter": "8",
+    "pages": [
+      329
+    ],
+    "status": "ok"
+  },
+  {
+    "title": "Washington state electronic signature guidelines",
+    "url": "https://watech.wa.gov/policies/electronic-signature-guidelines",
+    "original_url": "https://ocio.wa.gov/policy/electronic-signature-guidelines",
+    "description": "State of Washington guidelines on electronic signatures, used in the book as an example of non-mandatory guidance (now hosted by WaTech).",
+    "category": "Standards & frameworks",
+    "objectives": [
+      "2.5"
+    ],
+    "chapter": "8",
+    "pages": [
+      331
+    ],
+    "status": "ok"
+  },
+  {
+    "title": "National Archives General Records Schedule 3.2",
+    "url": "https://www.archives.gov/files/records-mgmt/grs/grs03-2.pdf",
+    "original_url": "http://www.archives.gov/files/records-mgmt/grs/grs03-2.pdf",
+    "description": "U.S. federal records schedule that, among other things, requires incident-handling records to be retained for at least three years (Item 20).",
+    "category": "Standards & frameworks",
+    "objectives": [
+      "3.3"
+    ],
+    "chapter": "9",
+    "pages": [
+      351
+    ],
+    "status": "ok"
+  },
+  {
+    "title": "Cortex XSOAR ransomware playbook",
+    "url": "https://xsoar.pan.dev/docs/reference/playbooks/playbook3",
+    "original_url": "http://xsoar.pan.dev/docs/reference/playbooks/playbook3",
+    "description": "Public Cortex XSOAR ransomware-response playbook, cited as an example of a structured incident playbook.",
+    "category": "Incident response",
+    "objectives": [
+      "3.3",
+      "3.2"
+    ],
+    "chapter": "9",
+    "pages": [
+      353
+    ],
+    "status": "ok"
+  },
+  {
+    "title": "NIST SP 800-61 Rev. 2, Computer Security Incident Handling Guide",
+    "url": "https://csrc.nist.gov/pubs/sp/800/61/r2/final",
+    "original_url": "http://nvlpubs.nist.gov/nistpubs/SpecialPublications/NIST.SP.800-61r2.pdf",
+    "description": "NIST’s official page for the incident-handling guide used throughout the book (PDF still available). Rev. 3 is in draft at https://csrc.nist.gov/pubs/sp/800/61/r3/ipd as a CSF 2.0 community profile.",
+    "category": "Standards & frameworks",
+    "objectives": [
+      "3.2",
+      "3.3",
+      "4.2"
+    ],
+    "chapter": "9, 12",
+    "pages": [
+      353,
+      433
+    ],
+    "status": "ok"
+  },
+  {
+    "title": "UCF Windows incident response playbook",
+    "url": "https://infosec.ucf.edu/wp-content/uploads/sites/2/2019/07/Procedure_for_Windows_Incident_Response.pdf",
+    "original_url": "http://infosec.ucf.edu/wp-content/uploads/sites/2/2019/07/Procedure_for_Windows_Incident_Response.pdf",
+    "description": "University of Central Florida procedure for Windows incident response, cited as a real-world playbook example.",
+    "category": "Incident response",
+    "objectives": [
+      "3.3",
+      "3.2"
+    ],
+    "chapter": "9",
+    "pages": [
+      353
+    ],
+    "status": "ok"
+  },
+  {
+    "title": "MITRE ATT&CK",
+    "url": "https://attack.mitre.org/",
+    "original_url": "http://attack.mitre.org",
+    "description": "MITRE ATT&CK knowledge base of adversary tactics, techniques, and procedures used for threat modeling and detection engineering.",
+    "category": "Standards & frameworks",
+    "objectives": [
+      "3.1"
+    ],
+    "chapter": "9",
+    "pages": [
+      362
+    ],
+    "status": "ok"
+  },
+  {
+    "title": "The Diamond Model of Intrusion Analysis",
+    "url": "https://www.activeresponse.org/wp-content/uploads/2013/07/diamond.pdf",
+    "original_url": "https://apps.dtic.mil/sti/pdfs/ADA586960.pdf",
+    "description": "Caltagirone, Pendergast, and Betz’s Diamond Model paper (adversary, infrastructure, capability, victim). The original DTIC PDF URL now lands on a maintenance page; this is a widely used public copy of the same report.",
+    "category": "Standards & frameworks",
+    "objectives": [
+      "3.1"
+    ],
+    "chapter": "9",
+    "pages": [
+      362
+    ],
+    "status": "ok"
+  },
+  {
+    "title": "Lockheed Martin Cyber Kill Chain",
+    "url": "https://www.lockheedmartin.com/content/dam/lockheed-martin/rms/documents/cyber/Gaining_the_Advantage_Cyber_Kill_Chain.pdf",
+    "original_url": "http://www.lockheedmartin.com/content/dam/lockheed-martin/rms/documents/cyber/Gaining_the_Advantage_Cyber_Kill_Chain.pdf",
+    "description": "Lockheed Martin’s Cyber Kill Chain paper, covering the reconnaissance-through-actions-on-objectives sequence used in the exam.",
+    "category": "Standards & frameworks",
+    "objectives": [
+      "3.1"
+    ],
+    "chapter": "9",
+    "pages": [
+      366
+    ],
+    "status": "ok"
+  },
+  {
+    "title": "The Unified Kill Chain",
+    "url": "https://www.unifiedkillchain.com/assets/The-Unified-Kill-Chain.pdf",
+    "original_url": "http://www.unifiedkillchain.com/assets/The-Unified-Kill-Chain.pdf",
+    "description": "Unified Kill Chain paper that combines the Cyber Kill Chain, ATT&CK, and other models into a single end-to-end sequence (useful background, not a named exam objective).",
+    "category": "Standards & frameworks",
+    "objectives": [
+      "3.1"
+    ],
+    "chapter": "9",
+    "pages": [
+      366
+    ],
+    "status": "ok"
+  },
+  {
+    "title": "OSSTMM (Open Source Security Testing Methodology Manual)",
+    "url": "https://www.isecom.org/OSSTMM.3.pdf",
+    "original_url": "https://www.isecom.org/OSSTMM.3.pdf",
+    "description": "Direct PDF of OSSTMM version 3, a testing methodology the exam expects you to recognize.",
+    "category": "Standards & frameworks",
+    "objectives": [
+      "3.1",
+      "2.1"
+    ],
+    "chapter": "9",
+    "pages": [
+      367
+    ],
+    "status": "ok"
+  },
+  {
+    "title": "OWASP Web Security Testing Guide",
+    "url": "https://owasp.org/projects/web-security-testing-guide",
+    "original_url": "https://owasp.org/www-project-web-security-testing-guide/",
+    "description": "OWASP’s testing guide for web application security assessments, listed among exam-relevant testing resources.",
+    "category": "Standards & frameworks",
+    "objectives": [
+      "3.1",
+      "2.1"
+    ],
+    "chapter": "9",
+    "pages": [
+      367
+    ],
+    "status": "ok"
+  },
+  {
+    "title": "SANS Holiday Hack Challenges",
+    "url": "https://holidayhackchallenge.com/past-challenges/",
+    "original_url": "https://holidayhackchallenge.com/past-challenges",
+    "description": "Free annual SANS holiday CTF challenges, useful practice for IoCs and incident-response puzzles.",
+    "category": "Practice labs",
+    "objectives": [
+      "3.2",
+      "1.2"
+    ],
+    "chapter": "10",
+    "pages": [
+      381
+    ],
+    "status": "ok"
+  },
+  {
+    "title": "PostgreSQL monitoring wiki",
+    "url": "https://wiki.postgresql.org/wiki/Monitoring",
+    "original_url": "https://wiki.postgresql.org/wiki/Monitoring",
+    "description": "PostgreSQL wiki page listing monitoring tools and approaches, used when discussing database resource-usage IoCs.",
+    "category": "Tools",
+    "objectives": [
+      "3.2",
+      "1.2"
+    ],
+    "chapter": "10",
+    "pages": [
+      383
+    ],
+    "status": "ok"
+  },
+  {
+    "title": "OSSEC downloads",
+    "url": "https://www.ossec.net/ossec-downloads/",
+    "original_url": "https://www.ossec.net/ossec-downloads",
+    "description": "Open Source HIDS (OSSEC) download page; a host-based integrity and log-monitoring tool cited for file-change IoCs.",
+    "category": "Tools",
+    "objectives": [
+      "3.2",
+      "1.2"
+    ],
+    "chapter": "10",
+    "pages": [
+      384
+    ],
+    "status": "ok"
+  },
+  {
+    "title": "Cloudflare: DNS amplification DDoS",
+    "url": "https://www.cloudflare.com/learning/ddos/dns-amplification-ddos-attack",
+    "original_url": "http://www.cloudflare.com/learning/ddos/dns-amplification-ddos-attack",
+    "description": "Explainer of DNS amplification attacks, in which small queries to open resolvers generate large responses toward a victim.",
+    "category": "Technical references",
+    "objectives": [
+      "3.2",
+      "1.2"
+    ],
+    "chapter": "10",
+    "pages": [
+      386
+    ],
+    "status": "unverified"
+  },
+  {
+    "title": "Cloudflare: fast-flux DNS",
+    "url": "https://www.cloudflare.com/learning/dns/dns-fast-flux",
+    "original_url": "http://www.cloudflare.com/learning/dns/dns-fast-flux",
+    "description": "Explainer of fast-flux (and double fast-flux) DNS, a technique malware operators use to rapidly rotate infrastructure.",
+    "category": "Technical references",
+    "objectives": [
+      "3.2",
+      "1.2"
+    ],
+    "chapter": "10",
+    "pages": [
+      387
+    ],
+    "status": "unverified"
+  },
+  {
+    "title": "Elastic Security Analytics Recipes",
+    "url": "https://github.com/elastic/examples/tree/master/Machine%20Learning/Security%20Analytics%20Recipes",
+    "original_url": "https://github.com/elastic/examples/tree/master/Machine Learning/Security Analytics Recipes",
+    "description": "Example Elasticsearch machine-learning recipes, including one for spotting suspicious login activity.",
+    "category": "Practice labs",
+    "objectives": [
+      "3.2",
+      "1.2"
+    ],
+    "chapter": "10",
+    "pages": [
+      391
+    ],
+    "status": "ok"
+  },
+  {
+    "title": "PwC summary of U.S. cyber breach-reporting legislation",
+    "url": "https://www.pwc.com/us/en/services/consulting/cybersecurity-risk-regulatory/library/cyber-breach-reporting-legislation.html",
+    "original_url": "http://www.pwc.com/us/en/services/consulting/cybersecurity-risk-regulatory/library/cyber-breach-reporting-legislation.html",
+    "description": "PwC overview of cyber breach-reporting requirements, including CIRCIA’s incident and ransomware-payment reporting timelines.",
+    "category": "Incident response",
+    "objectives": [
+      "4.2"
+    ],
+    "chapter": "12",
+    "pages": [
+      434
+    ],
+    "status": "unverified"
+  },
+  {
+    "title": "CISA CRR Resource Guide: Incident Management",
+    "url": "https://www.cisa.gov/sites/default/files/c3vp/crr_resources_guides/CRR_Resource_Guide-IM.pdf",
+    "original_url": "http://www.cisa.gov/uscert/sites/default/files/c3vp/crr_resources_guides/CRR_Resource_Guide-IM.pdf",
+    "description": "CISA Cyber Resilience Review resource guide for incident management, including an example incident-report template.",
+    "category": "Incident response",
+    "objectives": [
+      "4.2",
+      "3.3"
+    ],
+    "chapter": "12",
+    "pages": [
+      437,
+      442
+    ],
+    "status": "ok"
+  },
+  {
+    "title": "LastPass notice of 2022 security incident",
+    "url": "https://blog.lastpass.com/posts/notice-of-security-incident",
+    "original_url": "https://blog.lastpass.com/2022/12/notice-of-recent-security-incident",
+    "description": "LastPass public notification of its 2022 security incident, used as a sample incident report. The post was updated to this canonical path; the blog blocked automated requests from this checker.",
+    "category": "Incident response",
+    "objectives": [
+      "4.2"
+    ],
+    "chapter": "12",
+    "pages": [
+      441
+    ],
+    "status": "unverified"
+  },
+  {
+    "title": "Microsoft DEV-0537 (LAPSUS$) intrusion report",
+    "url": "https://www.microsoft.com/en-us/security/blog/2022/03/22/dev-0537-criminal-actor-targeting-organizations-for-data-exfiltration-and-destruction/",
+    "original_url": "http://www.microsoft.com/en-us/security/blog/2022/03/22/dev-0537-criminal-actor-targeting-organizations-for-data-exfiltration-and-destruction",
+    "description": "Public Microsoft incident write-up on the DEV-0537/LAPSUS$ actor, used as a chapter 12 reporting-and-communication example.",
+    "category": "Incident response",
+    "objectives": [
+      "4.2"
+    ],
+    "chapter": "12",
+    "pages": [
+      441
+    ],
+    "status": "ok"
+  },
+  {
+    "title": "NISTIR 8006, Cloud Computing Forensic Science Challenges",
+    "url": "https://csrc.nist.gov/pubs/ir/8006/final",
+    "original_url": "http://csrc.nist.gov/publications/drafts/nistir-8006/draft_nistir_8006.pdf",
+    "description": "Final (2020) NIST report on cloud-forensics challenges; the book cited an earlier draft PDF.",
+    "category": "Forensics",
+    "objectives": [
+      "3.2"
+    ],
+    "chapter": "13",
+    "pages": [
+      461
+    ],
+    "status": "ok"
+  },
+  {
+    "title": "NIST Computer Forensics Tool Testing (CFTT)",
+    "url": "https://www.nist.gov/itl/csd/secure-systems-and-applications/computer-forensics-tool-testing-program-cftt/cftt-6",
+    "original_url": "http://www.cftt.nist.gov/hardware_write_block.htm",
+    "description": "NIST CFTT program page, including hardware write-blocker testing that the book referenced for evidence preservation.",
+    "category": "Forensics",
+    "objectives": [
+      "3.2",
+      "3.3"
+    ],
+    "chapter": "13",
+    "pages": [
+      468
+    ],
+    "status": "ok"
+  },
+  {
+    "title": "NIST CFReDS Data Leakage Case",
+    "url": "https://cfreds-archive.nist.gov/data_leakage_case/data-leakage-case.html",
+    "original_url": "https://cfreds-archive.nist.gov/data_leakage_case/data-leakage-case.html",
+    "description": "NIST forensic practice image of an intellectual-property-theft scenario, used for the chapter 13 worked example.",
+    "category": "Forensics",
+    "objectives": [
+      "3.2"
+    ],
+    "chapter": "13",
+    "pages": [
+      473
+    ],
+    "status": "ok"
+  },
+  {
+    "title": "Forensics Wiki",
+    "url": "https://forensics.wiki/",
+    "original_url": "http://forensicswiki.org",
+    "description": "Community digital-forensics wiki (the book notes that forensicswiki.org moved here). Content is also maintained on GitHub at https://github.com/forensicswiki/wiki.",
+    "category": "Forensics",
+    "objectives": [
+      "3.2"
+    ],
+    "chapter": "13",
+    "pages": [
+      475
+    ],
+    "status": "ok"
+  },
+  {
+    "title": "Forensics Wiki source (GitHub)",
+    "url": "https://github.com/forensicswiki/wiki",
+    "original_url": "https://github.com/forensicswiki/wiki",
+    "description": "GitHub source repository for the Forensics Wiki, useful if the public wiki is down or you want to browse the raw pages.",
+    "category": "Forensics",
+    "objectives": [
+      "3.2"
+    ],
+    "chapter": "13",
+    "pages": [
+      475
+    ],
+    "status": "ok"
+  },
+  {
+    "title": "Stroz Friedberg forensic report (Ceglia / Facebook case)",
+    "url": "https://cdn.arstechnica.net/wp-content/uploads/2014/08/strozreport.pdf",
+    "original_url": "http://www.wired.com/images_blogs/threatlevel/2012/03/celiginvestigation.pdf",
+    "description": "Public forensic report from the Ceglia v. Facebook case, used to discuss lessons learned and older forensic artifacts. The original Wired PDF is gone; this is a widely mirrored copy of the same Stroz Friedberg report (also in the court record).",
+    "category": "Forensics",
+    "objectives": [
+      "3.3",
+      "4.2"
+    ],
+    "chapter": "13",
+    "pages": [
+      479
+    ],
+    "status": "ok"
+  },
+  {
+    "title": "NIST CFReDS forensic images",
+    "url": "https://cfreds-archive.nist.gov/",
+    "original_url": "http://www.cfreds.nist.gov",
+    "description": "Archive of NIST Computer Forensic Reference Data Sets, including the Rhino Hunt practice image used in the chapter 13 lab. A newer CFReDS portal is advertised at cfreds.nist.gov, but that host failed a TLS check from here.",
+    "category": "Practice labs",
+    "objectives": [
+      "3.2",
+      "3.3"
+    ],
+    "chapter": "13",
+    "pages": [
+      482
+    ],
+    "status": "ok"
+  },
+  {
+    "title": "SANS SIFT Workstation",
+    "url": "https://www.sans.org/tools/sift-workstation",
+    "original_url": "http://digital-forensics.sans.org/community/downloads",
+    "description": "Free SANS forensic and incident-response VM (SIFT), which the book uses with the NIST Rhino Hunt exercise.",
+    "category": "Practice labs",
+    "objectives": [
+      "3.2",
+      "3.3"
+    ],
+    "chapter": "13",
+    "pages": [
+      482
+    ],
+    "status": "ok"
+  },
+  {
+    "title": "Nmap OS detection methods",
+    "url": "https://nmap.org/book/osdetect-methods.html#osdetect-probes",
+    "original_url": "https://nmap.org/book/osdetect-methods.html#osdetect-probes",
+    "description": "Nmap reference on the probes and tests used for operating-system fingerprinting, cited in the chapter 6 answer key.",
+    "category": "Tools",
+    "objectives": [
+      "2.1",
+      "2.2"
+    ],
+    "chapter": "Appendix",
+    "pages": [
+      497
+    ],
+    "status": "ok"
+  }
+]
