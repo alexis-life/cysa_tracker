@@ -1314,26 +1314,21 @@ export const BOOK_NOTES = [
 export const BOOK_NOTES_BY_ID = Object.fromEntries(BOOK_NOTES.map((n) => [n.objectiveId, n]));
 
 export const PLAN_READINGS = {
-  "2026-11-11": {
-    "minutes": 0,
-    "readings": [],
-    "note": "The 20 assessment questions on this site (sybex-at-q1–q20). About 30–45 min. A starting picture, not a grade."
-  },
-  "2026-11-12": {
+  "2026-11-13": {
     "minutes": 60,
     "readings": [
       { "chapter": "2", "section": "1.1", "pages": "38–52" }
     ],
-    "note": "Then Ch 2 review questions 1–10."
+    "note": "Baseline first: the 20 assessment questions (sybex-at-q1–q20), about 30 min. Then this chapter, about 30 min."
   },
-  "2026-11-13": {
-    "minutes": 60,
+  "2026-11-14": {
+    "minutes": 90,
     "readings": [
       { "chapter": "3", "section": "1.2", "pages": "78–103" }
     ],
-    "note": "Then 10 questions."
+    "note": "Then Ch 2 review questions 1–10."
   },
-  "2026-11-14": {
+  "2026-11-15": {
     "minutes": 90,
     "readings": [
       { "chapter": "3", "section": "1.3", "pages": "104–125" },
@@ -1341,14 +1336,14 @@ export const PLAN_READINGS = {
     ],
     "note": "Then Ch 3 review questions."
   },
-  "2026-11-15": {
-    "minutes": 90,
+  "2026-11-16": {
+    "minutes": 60,
     "readings": [
       { "chapter": "4", "section": "1.4", "pages": "136–151" }
     ],
     "note": "Then Ch 4 review questions."
   },
-  "2026-11-16": {
+  "2026-11-17": {
     "minutes": 60,
     "readings": [
       { "chapter": "7", "section": "2.3", "pages": "247–259" },
@@ -1356,14 +1351,14 @@ export const PLAN_READINGS = {
     ],
     "note": "Then Ch 7 review questions."
   },
-  "2026-11-17": {
+  "2026-11-18": {
     "minutes": 60,
     "readings": [
       { "chapter": "7", "section": "2.4 — web app vulns, SSRF, data poisoning", "pages": "260–283" }
     ],
     "note": "Then 10 questions."
   },
-  "2026-11-18": {
+  "2026-11-19": {
     "minutes": 60,
     "readings": [
       { "chapter": "6", "section": "2.1", "pages": "221–226" },
@@ -1371,48 +1366,43 @@ export const PLAN_READINGS = {
     ],
     "note": "Then Ch 8 review questions."
   },
-  "2026-11-19": {
-    "minutes": 0,
-    "readings": [],
-    "note": "Timed Dion Practice Exam 1. No new chapter reading."
-  },
   "2026-11-20": {
     "minutes": 60,
     "readings": [
       { "chapter": "12", "section": "4.1 vulnerability management reporting and 4.2 incident response reporting", "pages": "424–438" }
     ],
-    "note": "After reviewing Exam 1 misses."
+    "note": "Then Ch 12 review questions."
   },
   "2026-11-21": {
+    "minutes": 0,
+    "readings": [],
+    "note": "Timed Dion Practice Exam 1. Start early. No new chapter reading."
+  },
+  "2026-11-22": {
     "minutes": 90,
     "readings": [
       { "chapter": "9", "section": "3.1", "pages": "361–367" },
-      { "chapter": "10", "section": "Domain 3", "pages": "378–389" },
-      { "chapter": "11", "section": "Domain 3", "pages": "398–412" }
+      { "chapter": "10", "section": "Domain 3", "pages": "378–389" }
     ],
-    "note": "Then Ch 11 review questions."
-  },
-  "2026-11-22": {
-    "minutes": 0,
-    "readings": [],
-    "note": "Timed Dion Practice Exam 2. No new chapter reading."
+    "note": "After reviewing Exam 1 misses."
   },
   "2026-11-23": {
-    "minutes": 60,
+    "minutes": 0,
     "readings": [
+      { "chapter": "11", "section": "3.2 and 3.3", "pages": "398–412" },
       { "chapter": "13", "section": "3.3", "pages": "462–471" }
     ],
-    "note": "After reviewing Exam 2 misses."
+    "note": "Then Ch 11 review questions. About 60–75 min."
   },
   "2026-11-24": {
     "minutes": 0,
     "readings": [],
-    "note": "Timed Dion Practice Exam 3. No new chapter reading."
+    "note": "Timed Dion Practice Exam 2. Start early. No new chapter reading."
   },
   "2026-11-25": {
     "minutes": 60,
     "readings": [],
-    "note": "Review Exam 3 misses, then redo review questions from the weakest domain. Practice Exams 4–6 are optional extras."
+    "note": "Review Exam 2 misses, then redo review questions from the weakest domain. Practice Exam 3 is an optional swap if you're feeling good."
   },
   "2026-11-26": {
     "minutes": 0,
