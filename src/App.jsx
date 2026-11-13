@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import { supabase } from "./supabaseClient";
 import { DOMAINS, c } from "./theme";
 import { BOOK_NOTES_BY_ID, PLAN_READINGS } from "./bookContent";
+import ResourcesPage, { BookResourceLinks } from "./ResourcesPage";
 import examTips from "./examTips.json";
 import { ASSESSMENT_QUESTIONS } from "./assessmentQuestions";
 
@@ -1324,7 +1325,7 @@ Return ONLY valid JSON, no markdown:
         )}
 
         <nav className="nav-tabs">
-          {["dashboard", "plan", "practice", "log", "videos", "history"].map((t) => (
+          {["dashboard", "plan", "practice", "log", "videos", "resources", "history"].map((t) => (
             <button key={t} className={`nav-tab ${tab === t ? 'is-active' : ''}`} onClick={() => setTab(t)}>{t}</button>
           ))}
         </nav>
@@ -1969,6 +1970,7 @@ Return ONLY valid JSON, no markdown:
                           return null;
                         })()}
                         <BookNotesPanel objectiveId={obj.id} />
+                        <BookResourceLinks objectiveId={obj.id} />
                         <ExamTipsPanel objectiveId={obj.id} />
                         {vids.map((v) => (
                           <VideoRow key={`${obj.id}-${v.id}`} video={v} checked={watchedVideos.includes(v.id)} onToggle={toggleWatched} disabled={!isLoggedIn} />
@@ -1989,6 +1991,9 @@ Return ONLY valid JSON, no markdown:
             </div>
           </>
         )}
+
+        {/* ── RESOURCES ── */}
+        {tab === "resources" && <ResourcesPage />}
 
         {/* ── HISTORY ── */}
         {tab === "history" && (
