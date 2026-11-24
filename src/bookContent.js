@@ -1395,30 +1395,70 @@ export const PLAN_READINGS = {
     "note": "Then Ch 11 review questions. About 60–75 min."
   },
   "2026-11-24": {
-    "minutes": 0,
-    "readings": [],
-    "note": "Timed Dion Practice Exam 2. Start early. No new chapter reading."
+    "minutes": 60,
+    "readings": [
+      { "chapter": "9", "section": "3.1 Detection and analysis", "pages": "361–367" },
+      { "chapter": "10", "section": "3.1 Detection and analysis", "pages": "378–389" }
+    ],
+    "note": "Then Ch 9 review questions."
   },
   "2026-11-25": {
     "minutes": 60,
     "readings": [],
-    "note": "Review Exam 2 misses, then redo review questions from the weakest domain. Practice Exam 3 is an optional swap if you're feeling good."
+    "note": "Ch 10 and Ch 13 review questions, then revisit anything fuzzy from 3.1–3.3."
   },
   "2026-11-26": {
     "minutes": 0,
     "readings": [],
-    "note": ""
+    "note": "Thanksgiving. Rest day, no studying."
   },
   "2026-11-27": {
-    "minutes": 30,
+    "minutes": 0,
     "readings": [
-      { "chapter": "—", "section": "Skim the exam essentials.", "pages": "—" }
+      { "chapter": "—", "section": "Skim Ch 2–4 essentials.", "pages": "—" }
     ],
-    "note": "Then run the OnVUE system test."
+    "note": "Then redo the 20 assessment questions (sybex-at-q1–q20)."
   },
   "2026-11-28": {
     "minutes": 0,
     "readings": [],
-    "note": ""
+    "note": "Dion Practice Exam 1, Exam mode, timed. No new chapter reading."
+  },
+  "2026-11-29": {
+    "minutes": 60,
+    "readings": [],
+    "note": "Review Practice Exam 1 misses."
+  },
+  "2026-11-30": {
+    "minutes": 60,
+    "readings": [],
+    "note": "Weakest-domain day, from Exam 1 results."
+  },
+  "2026-12-01": {
+    "minutes": 0,
+    "readings": [],
+    "note": "Dion Practice Exam 2, Exam mode, timed. No new chapter reading."
+  },
+  "2026-12-02": {
+    "minutes": 60,
+    "readings": [],
+    "note": "Review Practice Exam 2 misses."
+  },
+  "2026-12-03": {
+    "minutes": 60,
+    "readings": [],
+    "note": "Practice Exam 3 (optional), or targeted review of weak spots."
+  },
+  "2026-12-04": {
+    "minutes": 30,
+    "readings": [
+      { "chapter": "—", "section": "Light skim.", "pages": "—" }
+    ],
+    "note": "Run the OnVUE system test, then rest early."
+  },
+  "2026-12-05": {
+    "minutes": 0,
+    "readings": [],
+    "note": "Exam day, 12:30 PM PT. Check-in opens at 12:00 PM PT."
   }
 };
