@@ -1403,9 +1403,12 @@ export const PLAN_READINGS = {
     "note": "Then Ch 9 review questions."
   },
   "2026-11-25": {
-    "minutes": 60,
-    "readings": [],
-    "note": "Ch 10 and Ch 13 review questions, then revisit anything fuzzy from 3.1–3.3."
+    "minutes": 75,
+    "readings": [
+      { "chapter": "11", "section": "3.2 and 3.3", "pages": "398–412" },
+      { "chapter": "13", "section": "3.2 and 3.3", "pages": "462–471" }
+    ],
+    "note": "Then Ch 10 and Ch 13 review questions. Revisit 3.1 (Ch 9 pp. 361–367, Ch 10 pp. 378–389) if fuzzy."
   },
   "2026-11-26": {
     "minutes": 0,
@@ -1414,25 +1417,30 @@ export const PLAN_READINGS = {
   },
   "2026-11-27": {
     "minutes": 0,
-    "readings": [
-      { "chapter": "—", "section": "Skim Ch 2–4 essentials.", "pages": "—" }
-    ],
-    "note": "Then redo the 20 assessment questions (sybex-at-q1–q20)."
+    "readings": [],
+    "note": "Dion Practice Exam 1, Exam mode, timed, about 2.5–3.5 hours. No new chapter reading."
   },
   "2026-11-28": {
     "minutes": 0,
     "readings": [],
-    "note": "Dion Practice Exam 1, Exam mode, timed. No new chapter reading."
+    "note": "Friendsgiving. Day off."
   },
   "2026-11-29": {
-    "minutes": 60,
-    "readings": [],
-    "note": "Review Practice Exam 1 misses."
+    "minutes": 90,
+    "readings": [
+      { "chapter": "2", "section": "1.1", "pages": "38–52" },
+      { "chapter": "3", "section": "1.2", "pages": "78–103" }
+    ],
+    "note": "After reviewing Practice Exam 1 misses."
   },
   "2026-11-30": {
-    "minutes": 60,
-    "readings": [],
-    "note": "Weakest-domain day, from Exam 1 results."
+    "minutes": 90,
+    "readings": [
+      { "chapter": "3", "section": "1.3", "pages": "104–125" },
+      { "chapter": "4", "section": "1.4", "pages": "136–151" },
+      { "chapter": "1", "section": "1.5", "pages": "27–31" }
+    ],
+    "note": ""
   },
   "2026-12-01": {
     "minutes": 0,
@@ -1440,14 +1448,21 @@ export const PLAN_READINGS = {
     "note": "Dion Practice Exam 2, Exam mode, timed. No new chapter reading."
   },
   "2026-12-02": {
-    "minutes": 60,
-    "readings": [],
-    "note": "Review Practice Exam 2 misses."
+    "minutes": 90,
+    "readings": [
+      { "chapter": "6", "section": "2.1 and 2.2", "pages": "221–237" },
+      { "chapter": "7", "section": "2.3", "pages": "247–259" }
+    ],
+    "note": "After reviewing Practice Exam 2 misses."
   },
   "2026-12-03": {
-    "minutes": 60,
-    "readings": [],
-    "note": "Practice Exam 3 (optional), or targeted review of weak spots."
+    "minutes": 90,
+    "readings": [
+      { "chapter": "7", "section": "2.4", "pages": "260–283" },
+      { "chapter": "8", "section": "2.5", "pages": "300–304 and 321–332" },
+      { "chapter": "12", "section": "4.1 and 4.2", "pages": "424–438" }
+    ],
+    "note": "Then Ch 12 review questions."
   },
   "2026-12-04": {
     "minutes": 30,
